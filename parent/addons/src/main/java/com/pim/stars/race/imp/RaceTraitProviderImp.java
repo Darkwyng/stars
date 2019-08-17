@@ -1,6 +1,7 @@
 package com.pim.stars.race.imp;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -63,7 +64,9 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 				// TODO: add better test for this:
 				// Autowire beans of the usual context into the childrens' effects:
 				bean.getEffectCollection().stream().forEach(parentBeanFactory::autowireBean);
-			}).map(Entry<String, T>::getValue).collect(Collectors.toList());
+			}) //
+					.sorted(Comparator.comparing(Entry::getKey)) // sort so that result will always be the same
+					.map(Entry<String, T>::getValue).collect(Collectors.toList());
 		}
 	}
 

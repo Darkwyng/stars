@@ -13,8 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.race.RaceTestConfiguration;
-import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceInitializer;
+import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = RaceTestConfiguration.class)
@@ -30,6 +30,6 @@ public class RaceInitializerImpTest {
 	public void testThatRaceIsInitialized() {
 		final Race race = raceInitializer.initializeRace();
 		assertThat(race, not(nullValue()));
-		verify(dataExtender).extendData(race, Race.class);
+		verify(dataExtender).extendData(race);
 	}
 }

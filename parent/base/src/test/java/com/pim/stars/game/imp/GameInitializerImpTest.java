@@ -62,7 +62,7 @@ public class GameInitializerImpTest {
 		assertThat(gameInitializationPolicyCallCounter, is(1));
 
 		// Check dataExtender was called:
-		verify(dataExtender).extendData(eq(game), eq(Game.class));
+		verify(dataExtender).extendData(eq(game));
 
 	}
 

@@ -56,7 +56,7 @@ public class PlanetIntegrationTest {
 				.collect(Collectors.toSet());
 		assertThat(planetCollection.size(), is(usedNames.size()));
 
-		// Check that each planet has cargo:
+		// Check that each planet has a cargo-object (even though it may be empty):
 		final Set<Cargo> cargoInstances = planetCollection.stream().map(planetCargo::getValue) //
 				.peek(cargo -> assertThat(cargo, not(nullValue()))) //
 				.collect(Collectors.toSet());

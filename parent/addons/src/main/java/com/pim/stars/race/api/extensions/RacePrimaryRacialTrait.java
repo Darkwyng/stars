@@ -2,15 +2,14 @@ package com.pim.stars.race.api.extensions;
 
 import java.util.Optional;
 
-import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
+import com.pim.stars.turn.api.Race;
 
-public class RacePrimaryRacialTrait implements DataExtensionPolicy<PrimaryRacialTrait> {
+public class RacePrimaryRacialTrait implements DataExtensionPolicy<Race, PrimaryRacialTrait> {
 
 	@Override
-	public Class<? extends Entity> getEntityClass() {
+	public Class<Race> getEntityClass() {
 		return Race.class;
 	}
 

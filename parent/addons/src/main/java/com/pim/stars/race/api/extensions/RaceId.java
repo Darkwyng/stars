@@ -1,13 +1,12 @@
 package com.pim.stars.race.api.extensions;
 
-import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.id.api.extensions.IdDataExtensionPolicy;
-import com.pim.stars.race.api.Race;
+import com.pim.stars.turn.api.Race;
 
-public class RaceId extends IdDataExtensionPolicy {
+public class RaceId extends IdDataExtensionPolicy<Race> {
 
 	@Override
-	public Class<? extends Entity> getEntityClass() {
+	public Class<Race> getEntityClass() {
 		return Race.class;
 	}
 }

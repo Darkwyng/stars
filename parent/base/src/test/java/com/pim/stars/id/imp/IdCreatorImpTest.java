@@ -21,7 +21,7 @@ import com.pim.stars.id.api.extensions.IdDataExtensionPolicy;
 public class IdCreatorImpTest {
 
 	@Autowired
-	private IdDataExtensionPolicy idDataExtensionPolicy;
+	private IdDataExtensionPolicy<?> idDataExtensionPolicy;
 
 	@Test
 	public void testThatIdsAreCreated() {
@@ -32,12 +32,13 @@ public class IdCreatorImpTest {
 	@Configuration
 	protected static class TestConfiguration extends IdTestConfiguration {
 
+		@SuppressWarnings("rawtypes")
 		@Bean
-		public IdDataExtensionPolicy idDataExtensionPolicy() {
+		public IdDataExtensionPolicy<?> idDataExtensionPolicy() {
 			return new IdDataExtensionPolicy() {
 
 				@Override
-				public Class<? extends Entity> getEntityClass() {
+				public Class<? extends Entity<?>> getEntityClass() {
 					return null;
 				}
 			};

@@ -1,6 +1,8 @@
 package com.pim.stars.dataextension.api;
 
-public interface Entity {
+public interface Entity<T extends Entity<?>> {
+
+	public Class<T> getEntityClass();
 
 	public Object get(String key);
 

@@ -36,7 +36,7 @@ public class CargoTransferTest {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private CargoDataExtensionPolicy cargoDataExtensionPolicy;
+	private CargoDataExtensionPolicy<EntityForTest> cargoDataExtensionPolicy;
 	@Autowired
 	private CargoType cargoType;
 
@@ -113,11 +113,11 @@ public class CargoTransferTest {
 	protected static class TestConfiguration extends CargoTestConfiguration {
 
 		@Bean
-		public CargoDataExtensionPolicy cargoDataExtensionPolicy() {
-			return new CargoDataExtensionPolicy() {
+		public CargoDataExtensionPolicy<?> cargoDataExtensionPolicy() {
+			return new CargoDataExtensionPolicy<EntityForTest>() {
 
 				@Override
-				public Class<? extends Entity> getEntityClass() {
+				public Class<EntityForTest> getEntityClass() {
 					return EntityForTest.class;
 				}
 			};
@@ -135,9 +135,14 @@ public class CargoTransferTest {
 		}
 	}
 
-	private static final class EntityForTest implements Entity {
+	private static final class EntityForTest implements Entity<EntityForTest> {
 
 		private final Map<String, Object> extensions = new HashMap<>();
+
+		@Override
+		public Class<EntityForTest> getEntityClass() {
+			return EntityForTest.class;
+		}
 
 		@Override
 		public Object get(final String key) {

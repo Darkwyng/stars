@@ -46,7 +46,7 @@ public class DataExtenderImpTest {
 				() -> assertThat(emptyPolicy.getValue(entity), nullValue()),
 				() -> assertThat(listPolicy.getValue(entity), nullValue()));
 
-		dataExtender.extendData(entity, EntityForTest.class);
+		dataExtender.extendData(entity);
 
 		assertAll(
 				() -> assertThat(entity.extensions.keySet(),
@@ -59,9 +59,14 @@ public class DataExtenderImpTest {
 		assertThat(simplePolicy.getValue(entity), is("Hello, again!"));
 	}
 
-	private static final class EntityForTest implements Entity {
+	private static final class EntityForTest implements Entity<EntityForTest> {
 
 		private final Map<String, Object> extensions = new HashMap<>();
+
+		@Override
+		public Class<EntityForTest> getEntityClass() {
+			return EntityForTest.class;
+		}
 
 		@Override
 		public Object get(final String key) {
@@ -74,10 +79,11 @@ public class DataExtenderImpTest {
 		}
 	}
 
-	private static final class SimpleDataTypeDataExtensionPolicyForTest implements DataExtensionPolicy<String> {
+	private static final class SimpleDataTypeDataExtensionPolicyForTest
+			implements DataExtensionPolicy<EntityForTest, String> {
 
 		@Override
-		public Class<? extends Entity> getEntityClass() {
+		public Class<EntityForTest> getEntityClass() {
 			return EntityForTest.class;
 		}
 
@@ -88,10 +94,10 @@ public class DataExtenderImpTest {
 
 	}
 
-	private static final class EmptyDataExtensionPolicyForTest implements DataExtensionPolicy<Long> {
+	private static final class EmptyDataExtensionPolicyForTest implements DataExtensionPolicy<EntityForTest, Long> {
 
 		@Override
-		public Class<? extends Entity> getEntityClass() {
+		public Class<EntityForTest> getEntityClass() {
 			return EntityForTest.class;
 		}
 
@@ -101,10 +107,11 @@ public class DataExtenderImpTest {
 		}
 	}
 
-	private static final class ListForTestDataExtensionPolicy implements DataExtensionPolicy<List<Integer>> {
+	private static final class ListForTestDataExtensionPolicy
+			implements DataExtensionPolicy<EntityForTest, List<Integer>> {
 
 		@Override
-		public Class<? extends Entity> getEntityClass() {
+		public Class<EntityForTest> getEntityClass() {
 			return EntityForTest.class;
 		}
 
@@ -118,26 +125,27 @@ public class DataExtenderImpTest {
 	protected static class TestConfiguration extends DataExtensionTestConfiguration {
 
 		@Bean
-		public DataExtensionPolicy<?> simpleDataType() {
+		public DataExtensionPolicy<?, ?> simpleDataType() {
 			return new SimpleDataTypeDataExtensionPolicyForTest();
 		}
 
 		@Bean
-		public DataExtensionPolicy<?> empty() {
+		public DataExtensionPolicy<?, ?> empty() {
 			return new EmptyDataExtensionPolicyForTest();
 		}
 
 		@Bean
-		public DataExtensionPolicy<?> list() {
+		public DataExtensionPolicy<?, ?> list() {
 			return new ListForTestDataExtensionPolicy();
 		}
 
+		@SuppressWarnings("rawtypes")
 		@Bean
-		public DataExtensionPolicy<?> notUsedPolcy() {
-			return new DataExtensionPolicy<Object>() {
+		public DataExtensionPolicy notUsedPolcy() {
+			return new DataExtensionPolicy() {
 
 				@Override
-				public Class<? extends Entity> getEntityClass() {
+				public Class<Entity> getEntityClass() {
 					return Entity.class;
 				}
 

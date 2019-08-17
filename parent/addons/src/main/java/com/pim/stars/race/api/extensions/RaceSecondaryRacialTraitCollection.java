@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.traits.SecondaryRacialTrait;
+import com.pim.stars.turn.api.Race;
 
-public class RaceSecondaryRacialTraitCollection implements DataExtensionPolicy<Collection<SecondaryRacialTrait>> {
+public class RaceSecondaryRacialTraitCollection implements DataExtensionPolicy<Race, Collection<SecondaryRacialTrait>> {
 
 	@Override
-	public Class<? extends Entity> getEntityClass() {
+	public Class<Race> getEntityClass() {
 		return Race.class;
 	}
 

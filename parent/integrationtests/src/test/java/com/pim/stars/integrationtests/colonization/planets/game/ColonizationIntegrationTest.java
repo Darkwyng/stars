@@ -31,18 +31,15 @@ import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwner;
-import com.pim.stars.race.api.Race;
-import com.pim.stars.race.api.RaceInitializer;
-import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
-import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
-import com.pim.stars.race.api.traits.PrimaryRacialTrait;
-import com.pim.stars.race.api.traits.SecondaryRacialTrait;
+import com.pim.stars.race.testapi.RaceTestApiConfiguration;
+import com.pim.stars.race.testapi.RaceTestDataProvider;
+import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { ColonizationConfiguration.Complete.class, GameConfiguration.Complete.class })
+@ContextConfiguration(classes = { ColonizationConfiguration.Complete.class, GameConfiguration.Complete.class,
+		RaceTestApiConfiguration.class })
 public class ColonizationIntegrationTest {
 
 	@Autowired
@@ -53,15 +50,10 @@ public class ColonizationIntegrationTest {
 	private ColonistCalculator colonistCalculator;
 	@Autowired
 	private ColonizationProperties colonizationProperties;
-	@Autowired
-	private RaceInitializer raceInitializer;
-	@Autowired
-	private RaceTraitProvider raceTraitProvider;
 
 	@Autowired
-	private RacePrimaryRacialTrait racePrimaryRacialTrait;
-	@Autowired
-	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
+	private RaceTestDataProvider raceTestDataProvider;
+
 	@Autowired
 	private GameInitializationDataRaceCollection dataRaceCollection;
 	@Autowired
@@ -73,7 +65,7 @@ public class ColonizationIntegrationTest {
 
 	@Test
 	public void testThatHomeworldsAreInitializedWithColonistsAndThatColonistsGrow() {
-		final Race newRace = prepareRace();
+		final Race newRace = raceTestDataProvider.createRace("HyperExpander");
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);
@@ -92,10 +84,7 @@ public class ColonizationIntegrationTest {
 
 	@Test
 	public void testThatLowStartinPopulationTraitLowersPopulation() {
-		final Race newRace = prepareRace();
-		final SecondaryRacialTrait secondaryRacialTrait = raceTraitProvider
-				.getSecondaryRacialTraitById("LowStartingPopulation").get();
-		raceSecondaryRacialTraitCollection.getValue(newRace).add(secondaryRacialTrait);
+		final Race newRace = raceTestDataProvider.createRace("HyperExpander", "LowStartingPopulation");
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);
@@ -103,14 +92,6 @@ public class ColonizationIntegrationTest {
 		final Game game = gameInitializer.initializeGame(initializationData);
 		final Integer initialPopulation = getHomeworldPopulation(game);
 		assertThat(initialPopulation, lessThan(colonizationProperties.getDefaultInitialPopulation()));
-	}
-
-	private Race prepareRace() {
-		final Race newRace = raceInitializer.initializeRace();
-		final PrimaryRacialTrait primaryRacialTrait = raceTraitProvider.getPrimaryRacialTraitCollection().iterator()
-				.next();
-		racePrimaryRacialTrait.setValue(newRace, primaryRacialTrait);
-		return newRace;
 	}
 
 	private Integer getHomeworldPopulation(final Game game) {

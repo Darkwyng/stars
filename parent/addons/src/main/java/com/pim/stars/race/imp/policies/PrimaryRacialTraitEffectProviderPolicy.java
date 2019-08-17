@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectProviderPolicy;
-import com.pim.stars.race.api.Race;
+import com.pim.stars.turn.api.Race;
 import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
 
 public class PrimaryRacialTraitEffectProviderPolicy implements EffectProviderPolicy<Race> {

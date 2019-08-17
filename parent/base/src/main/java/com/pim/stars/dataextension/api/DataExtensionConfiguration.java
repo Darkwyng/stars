@@ -5,11 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.imp.DataExtenderImp;
+import com.pim.stars.dataextension.imp.DataExtensionPolicyProviderImp;
 
 public interface DataExtensionConfiguration {
 
 	@Configuration
 	public static class Provided {
+
+		@Bean
+		public DataExtensionPolicyProvider dataExtensionPolicyProvider() {
+			return new DataExtensionPolicyProviderImp();
+		}
 
 		@Bean
 		public DataExtender dataExtender() {

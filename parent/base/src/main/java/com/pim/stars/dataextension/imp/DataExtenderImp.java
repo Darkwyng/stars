@@ -1,29 +1,25 @@
 package com.pim.stars.dataextension.imp;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import com.pim.stars.dataextension.api.DataExtender;
+import com.pim.stars.dataextension.api.DataExtensionPolicyProvider;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
-@SuppressWarnings("rawtypes") // Generics have been removed here. Maven will not compile with them even though Eclipse will.
 public class DataExtenderImp implements DataExtender {
 
 	@Autowired
-	private ApplicationContext applicationContext;
-
-	private Map<Class<?>, List<DataExtensionPolicy>> policyMap = null;
+	private DataExtensionPolicyProvider dataExtensionPolicyProvider;
 
 	@Override
-	public <T extends Entity, S extends T> void extendData(final S entity, final Class<T> entityClass) {
+	public void extendData(final Entity<?> entity) {
 
-		final List<DataExtensionPolicy> policiesToUse = getPoliciesForEntityClass(entityClass);
+		final Collection<DataExtensionPolicy<?, ?>> policiesToUse = dataExtensionPolicyProvider
+				.getDataExtensionPoliciesForEntity(entity);
 
 		policiesToUse.stream().forEach(policy -> {
 
@@ -33,17 +29,5 @@ public class DataExtenderImp implements DataExtender {
 				entity.set(policy.getKey(), defaultValue.get());
 			}
 		});
-	}
-
-	private List<DataExtensionPolicy> getPoliciesForEntityClass(final Class<?> entityClass) {
-		if (policyMap == null) {
-			synchronized (this) {
-				if (policyMap == null) {
-					policyMap = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
-							.collect(Collectors.groupingBy(DataExtensionPolicy::getEntityClass));
-				}
-			}
-		}
-		return policyMap.get(entityClass);
 	}
 }

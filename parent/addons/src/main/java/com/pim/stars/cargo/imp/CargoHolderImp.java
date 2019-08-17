@@ -8,25 +8,31 @@ import java.util.function.Supplier;
 
 import org.springframework.util.Assert;
 
+import com.pim.stars.cargo.api.Cargo;
 import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.dataextension.api.Entity;
+import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
 public class CargoHolderImp implements CargoHolder {
 
-	private final Entity entity;
-	private final Supplier<CargoDataExtensionPolicy> policySupplier;
+	private final Entity<?> entity;
+	private final Supplier<CargoDataExtensionPolicy<?>> policySupplier;
 
-	public CargoHolderImp(final Entity entity, final Supplier<CargoDataExtensionPolicy> cargoDataExtensionPolicy) {
+	public CargoHolderImp(final Entity<?> entity,
+			final Supplier<CargoDataExtensionPolicy<?>> cargoDataExtensionPolicy) {
 		this.entity = entity;
 		this.policySupplier = cargoDataExtensionPolicy;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Collection<CargoItem> getItems() {
-		return policySupplier.get().getValue(entity).getItems();
+		final DataExtensionPolicy policy = policySupplier.get();
+		final Cargo cargo = (Cargo) policy.getValue(entity);
+		return cargo.getItems();
 	}
 
 	@Override

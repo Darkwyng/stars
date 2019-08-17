@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 import com.pim.stars.game.api.GameInitializationData;
-import com.pim.stars.race.api.Race;
+import com.pim.stars.turn.api.Race;
 
-public class GameInitializationDataRaceCollection implements DataExtensionPolicy<Collection<Race>> {
+public class GameInitializationDataRaceCollection
+		implements DataExtensionPolicy<GameInitializationData, Collection<Race>> {
 
 	@Override
-	public Class<? extends Entity> getEntityClass() {
+	public Class<GameInitializationData> getEntityClass() {
 		return GameInitializationData.class;
 	}
 

@@ -22,11 +22,11 @@ import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.race.RaceTestConfiguration;
-import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceInitializer;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
 import com.pim.stars.race.api.traits.SecondaryRacialTrait;
+import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SecondaryRacialTraitEffectProviderPolicyTest.TestConfiguration.class)

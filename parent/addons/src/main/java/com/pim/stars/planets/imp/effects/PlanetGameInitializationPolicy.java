@@ -57,7 +57,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	protected Planet initializeNewPlanet(final Game game, final GameInitializationData data) {
 		final PlanetImp newPlanet = new PlanetImp();
 
-		dataExtender.extendData(newPlanet, Planet.class);
+		dataExtender.extendData(newPlanet);
 
 		planetInitializationPolicyList.forEach(policy -> policy.initializePlanet(game, newPlanet, data));
 

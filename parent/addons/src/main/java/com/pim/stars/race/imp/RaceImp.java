@@ -3,7 +3,7 @@ package com.pim.stars.race.imp;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pim.stars.race.api.Race;
+import com.pim.stars.turn.api.Race;
 
 public class RaceImp implements Race {
 

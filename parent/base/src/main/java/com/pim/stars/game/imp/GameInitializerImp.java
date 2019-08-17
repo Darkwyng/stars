@@ -23,7 +23,7 @@ public class GameInitializerImp implements GameInitializer {
 	public GameInitializationData createNewGameInitializationData() {
 		final GameInitializationDataImp data = new GameInitializationDataImp();
 
-		dataExtender.extendData(data, GameInitializationData.class);
+		dataExtender.extendData(data);
 
 		return data;
 	}
@@ -32,7 +32,7 @@ public class GameInitializerImp implements GameInitializer {
 	public Game initializeGame(final GameInitializationData data) {
 		final Game game = new GameImp();
 
-		dataExtender.extendData(game, Game.class);
+		dataExtender.extendData(game);
 
 		gameInitializationPolicyList.stream().forEach(policy -> policy.initializeGame(game, data));
 

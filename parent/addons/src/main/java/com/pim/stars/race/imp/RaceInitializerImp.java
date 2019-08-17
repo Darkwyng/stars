@@ -3,8 +3,8 @@ package com.pim.stars.race.imp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceInitializer;
+import com.pim.stars.turn.api.Race;
 
 public class RaceInitializerImp implements RaceInitializer {
 
@@ -15,7 +15,7 @@ public class RaceInitializerImp implements RaceInitializer {
 	public Race initializeRace() {
 		final Race race = new RaceImp();
 
-		dataExtender.extendData(race, Race.class);
+		dataExtender.extendData(race);
 
 		return race;
 	}
