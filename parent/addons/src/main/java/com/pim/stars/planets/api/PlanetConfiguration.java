@@ -13,15 +13,13 @@ import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwner;
+import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
 import com.pim.stars.planets.imp.effects.PlanetGameInitializationPolicy;
-import com.pim.stars.planets.imp.policies.transformers.PlanetCollectionGameEntityTransformer;
-import com.pim.stars.planets.imp.policies.transformers.PlanetNameEntityTransformer;
-import com.pim.stars.planets.imp.policies.transformers.PlanetTurnEntityCreator;
 import com.pim.stars.turn.api.TurnConfiguration;
-import com.pim.stars.turn.api.TurnCreator;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
+import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 public interface PlanetConfiguration {
 
@@ -65,18 +63,19 @@ public interface PlanetConfiguration {
 		}
 
 		@Bean
-		public GameEntityTransformer<?, ?> planetCollectionGameEntityTransformer() {
-			return new PlanetCollectionGameEntityTransformer();
+		public GameEntityTransformer<?, ?> planetCollectionGameEntityTransformer(
+				final GameToTurnTransformerBuilder builder) {
+			return builder.transformEntityCollectionExtension(GamePlanetCollection.class).build();
 		}
 
 		@Bean
-		public GameEntityTransformer<?, ?> planetNameEntityTransformer() {
-			return new PlanetNameEntityTransformer();
+		public GameEntityTransformer<?, ?> planetNameEntityTransformer(final GameToTurnTransformerBuilder builder) {
+			return builder.transformExtension(PlanetName.class).copyAll().build();
 		}
 
 		@Bean
-		public TurnEntityCreator<?> planetTurnEntityCreator() {
-			return new PlanetTurnEntityCreator();
+		public TurnEntityCreator<?> planetTurnEntityCreator(final GameToTurnTransformerBuilder builder) {
+			return builder.transformEntity(Planet.class).build((Planet, Race) -> new PlanetImp()); // TODO: test, remove other implementations; implement this for PlanetOwner and GameRaceCollection too
 		}
 	}
 
@@ -90,6 +89,6 @@ public interface PlanetConfiguration {
 
 		public DataExtender dataExtender();
 
-		public TurnCreator turnCreator();
+		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 	}
 }

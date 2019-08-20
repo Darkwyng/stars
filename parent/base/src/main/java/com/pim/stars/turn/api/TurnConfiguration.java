@@ -5,8 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
+import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 import com.pim.stars.turn.imp.TurnCreatorImp;
 import com.pim.stars.turn.imp.policies.GameTurnEntityCreator;
+import com.pim.stars.turn.imp.policies.builder.DataExtensionPolicyLoader;
+import com.pim.stars.turn.imp.policies.builder.GameToTurnTransformerBuilderImp;
 import com.pim.stars.turn.imp.policies.utilities.GameEntityTransformerMapper;
 import com.pim.stars.turn.imp.policies.utilities.TurnEntityCreatorMapper;
 
@@ -33,6 +36,16 @@ public interface TurnConfiguration {
 		@Bean
 		public TurnEntityCreatorMapper turnEntityCreatorMapper() {
 			return new TurnEntityCreatorMapper();
+		}
+
+		@Bean
+		public DataExtensionPolicyLoader dataExtensionPolicyLoader() {
+			return new DataExtensionPolicyLoader();
+		}
+
+		@Bean
+		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder() {
+			return new GameToTurnTransformerBuilderImp();
 		}
 	}
 
