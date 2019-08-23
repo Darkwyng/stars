@@ -12,21 +12,22 @@ import com.pim.stars.dataextension.api.DataExtensionPolicyProvider;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
-// TODO: this can be fixed
-@SuppressWarnings({ "rawtypes", "unchecked" }) // Generics have been removed here. Maven will not compile with them even though Eclipse will.
 public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvider {
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	private Map<Class<?>, List<DataExtensionPolicy>> policyMap = null;
+	private Map<Class<?>, List<DataExtensionPolicy<?, ?>>> policyMap = null;
 
 	@Override
-	public Collection<DataExtensionPolicy<?, ?>> getDataExtensionPoliciesForEntity(final Entity<?> entity) {
-		return (Collection) getPoliciesForEntityClass(entity.getEntityClass());
+	public <E extends Entity<?>> Collection<DataExtensionPolicy<E, ?>> getDataExtensionPoliciesForEntity(
+			final E entity) {
+		return getPoliciesForEntityClass(entity.getEntityClass());
 	}
 
-	private Collection<DataExtensionPolicy> getPoliciesForEntityClass(final Class<?> entityClass) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private <E extends Entity<?>> Collection<DataExtensionPolicy<E, ?>> getPoliciesForEntityClass(
+			final Class<?> entityClass) {
 		if (policyMap == null) {
 			synchronized (this) {
 				if (policyMap == null) {
@@ -35,6 +36,6 @@ public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvid
 				}
 			}
 		}
-		return policyMap.get(entityClass);
+		return (Collection) policyMap.get(entityClass);
 	}
 }

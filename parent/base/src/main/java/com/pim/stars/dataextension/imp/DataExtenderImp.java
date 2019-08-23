@@ -18,7 +18,7 @@ public class DataExtenderImp implements DataExtender {
 	@Override
 	public void extendData(final Entity<?> entity) {
 
-		final Collection<DataExtensionPolicy<?, ?>> policiesToUse = dataExtensionPolicyProvider
+		final Collection<DataExtensionPolicy<Entity<?>, ?>> policiesToUse = dataExtensionPolicyProvider
 				.getDataExtensionPoliciesForEntity(entity);
 
 		policiesToUse.stream().forEach(policy -> {
