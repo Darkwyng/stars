@@ -6,11 +6,11 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.effect.api.Effect;
-import com.pim.stars.effect.api.policies.EffectProviderPolicy;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
+import com.pim.stars.turn.api.Race;
 
-public class SecondaryRacialTraitEffectProviderPolicy implements EffectProviderPolicy<Race> {
+public class SecondaryRacialTraitEffectProviderPolicy implements EffectCollectionProviderPolicy<Race> {
 
 	@Autowired
 	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
@@ -20,15 +20,11 @@ public class SecondaryRacialTraitEffectProviderPolicy implements EffectProviderP
 		return (effectHolder instanceof Race);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <E extends Effect> Collection<E> getEffectCollectionFromEffectHolder(final Race effectHolder,
-			final Class<E> effectClass) {
-		// TODO: this class should not filter.
-		final Collection<E> result = new ArrayList<>();
+	public Collection<Effect> getEffectCollectionFromEffectHolder(final Race effectHolder) {
+		final Collection<Effect> result = new ArrayList<>();
 		raceSecondaryRacialTraitCollection.getValue(effectHolder).stream().forEach(trait -> {
-			trait.getEffectCollection().stream().filter(effect -> effectClass.isAssignableFrom(effect.getClass()))
-					.forEach(effect -> result.add((E) effect));
+			trait.getEffectCollection().stream().forEach(effect -> result.add(effect));
 		});
 		return result;
 	}
