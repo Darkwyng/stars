@@ -55,6 +55,11 @@ public class EffectExecutorImpTest {
 	protected static class SecondTestEffect implements TestEffect {
 
 		@Override
+		public int getSequence() {
+			return 2;
+		}
+
+		@Override
 		public void execute(final Object input, final EffectContext context) {
 			assertThat(context.get("myKey"), is(17));
 		}

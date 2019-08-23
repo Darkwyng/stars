@@ -61,6 +61,11 @@ public class EffectCalculatorImpTest {
 	protected static class SecondTestEffect implements TestEffect {
 
 		@Override
+		public int getSequence() {
+			return 2;
+		}
+
+		@Override
 		public double calculate(final Object input, final EffectContext context, final double currentValue) {
 			assertThat(context.get("myKey"), is(17));
 			return Math.pow(currentValue + 1, 2);

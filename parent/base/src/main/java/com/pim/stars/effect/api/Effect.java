@@ -6,7 +6,7 @@ import java.util.Collections;
 public interface Effect {
 
 	public default int getSequence() {
-		return 1000; // TODO: use sequences
+		return 0;
 	}
 
 	public default Collection<Class<? extends Effect>> getDeactivatedEffects() {

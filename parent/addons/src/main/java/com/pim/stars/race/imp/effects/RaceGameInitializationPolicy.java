@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
-import com.pim.stars.turn.api.Race;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.turn.api.Race;
 
 public class RaceGameInitializationPolicy implements GameInitializationPolicy {
 
@@ -17,6 +17,11 @@ public class RaceGameInitializationPolicy implements GameInitializationPolicy {
 	private GameInitializationDataRaceCollection gameInitializationDataRaceCollection;
 	@Autowired
 	private GameRaceCollection gameRaceCollection;
+
+	@Override
+	public int getSequence() {
+		return 1000;
+	}
 
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {

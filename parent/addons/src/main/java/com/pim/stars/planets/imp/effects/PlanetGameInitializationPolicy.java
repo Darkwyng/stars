@@ -40,6 +40,11 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	final Random random = new Random();
 
 	@Override
+	public int getSequence() {
+		return 2000;
+	}
+
+	@Override
 	public void initializeGame(final Game game, final GameInitializationData data) {
 		final List<String> availableNames = getAvailablePlanetNames(data);
 

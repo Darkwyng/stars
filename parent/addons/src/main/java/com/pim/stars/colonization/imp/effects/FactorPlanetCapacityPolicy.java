@@ -8,6 +8,11 @@ public class FactorPlanetCapacityPolicy implements PlanetCapacityPolicy {
 	private double factor;
 
 	@Override
+	public int getSequence() {
+		return 1000;
+	}
+
+	@Override
 	public int getPlanetCapacity(final Planet planet, final int capacity) {
 		return (int) Math.round(factor * capacity);
 	}

@@ -35,12 +35,17 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 	final Random random = new Random();
 
 	@Override
+	public int getSequence() {
+		return 3000;
+	}
+
+	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
 		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
 		final Collection<Planet> homeworlds = new ArrayList<>();
 		gameRaceCollection.getValue(game).forEach(race -> {
 			final Planet planet = selectNewHomeworld(planetCollection, homeworlds);
-			String ownerId = raceId.getValue(race);
+			final String ownerId = raceId.getValue(race);
 			planetOwnerId.setValue(planet, ownerId);
 
 			effectExecutor.executeEffect(HomeworldInitializationPolicy.class, race,
