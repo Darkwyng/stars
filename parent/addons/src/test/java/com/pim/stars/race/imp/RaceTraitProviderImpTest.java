@@ -4,10 +4,14 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.mock;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -37,6 +41,13 @@ public class RaceTraitProviderImpTest {
 	@Autowired
 	private RaceTraitProvider raceTraitProvider;
 
+	@Autowired
+	private CargoProcessor cargoProcessor;
+	@Autowired
+	private ColonistCargoType colonistCargoType;
+	@Autowired
+	private ColonizationProperties colonizationProperties;
+
 	@Test
 	public void testThatPrimaryRacialTraitCollectionIsLoaded() {
 		final Collection<PrimaryRacialTrait> traitCollection = raceTraitProvider.getPrimaryRacialTraitCollection();
@@ -51,7 +62,7 @@ public class RaceTraitProviderImpTest {
 	}
 
 	@Test
-	public void testThatSecondaryRacialTraitCollectionIsLoaded() {
+	public void testThatSecondaryRacialTraitCollectionIsLoaded() throws Exception {
 		final Collection<SecondaryRacialTrait> traitCollection = raceTraitProvider.getSecondaryRacialTraitCollection();
 		assertThat(traitCollection, allOf(not(empty()), not(nullValue())));
 
@@ -66,6 +77,22 @@ public class RaceTraitProviderImpTest {
 		final LowStartingPopulationHomeworldInitializationPolicy policy = (LowStartingPopulationHomeworldInitializationPolicy) expectedPolicy
 				.get();
 		assertThat(policy.getInitialPopulation(), is(175));
+
+		// This will fail when the implementation changes, unfortunately:
+		assertAll(() -> assertThat(getFieldValue(policy, "cargoProcessor"), sameInstance(cargoProcessor)), //
+				() -> assertThat(getFieldValue(policy, "colonistCargoType"), sameInstance(colonistCargoType)), //
+				() -> assertThat(getFieldValue(policy, "colonizationProperties"),
+						sameInstance(colonizationProperties)));
+	}
+
+	private Object getFieldValue(final LowStartingPopulationHomeworldInitializationPolicy policy,
+			final String fieldName) throws IllegalAccessException, NoSuchFieldException {
+		final Optional<Field> optionalField = Arrays
+				.stream(LowStartingPopulationHomeworldInitializationPolicy.class.getSuperclass().getDeclaredFields())
+				.filter(candidate -> candidate.getName().equals(fieldName)).findAny();
+		assertThat("Field " + fieldName + " should exist", optionalField.isPresent(), is(true));
+		optionalField.get().setAccessible(true);
+		return optionalField.get().get(policy);
 	}
 
 	/**
