@@ -52,7 +52,7 @@ public class TurnCreatorImp implements TurnCreator {
 			return Optional.empty();
 
 		} else if (creatorList.size() > 1) {
-			// TODO: or can/should we support more than one?
+			// If this becomes an issue, support for multiple creators could be implemented:
 			throw new IllegalStateException("Only one " + TurnEntityCreator.class.getSimpleName()
 					+ " is supported for one " + Entity.class.getSimpleName() + ", but " + creatorList.size()
 					+ " were found: " + creatorList.stream().map(Object::getClass).map(Class::getName).sorted()
@@ -60,10 +60,12 @@ public class TurnCreatorImp implements TurnCreator {
 
 		} else {
 			// Normal case:
+			final TurnEntityCreator<Entity<?>> turnEntityCreator = creatorList.iterator().next();
+
 			try {
 				context.getGameEntityStack().add(gameEntity);
 
-				return createAndTransformEntity(gameEntity, context, creatorList);
+				return createAndTransformEntity(gameEntity, context, turnEntityCreator);
 			} finally {
 				context.getGameEntityStack().pop();
 			}
@@ -71,9 +73,8 @@ public class TurnCreatorImp implements TurnCreator {
 	}
 
 	private Optional<Entity<?>> createAndTransformEntity(final Entity<?> gameEntity,
-			final TurnTransformationContext context, final List<TurnEntityCreator<Entity<?>>> creatorList) {
+			final TurnTransformationContext context, final TurnEntityCreator<Entity<?>> turnEntityCreator) {
 		// Create the target entity, ...
-		final TurnEntityCreator<Entity<?>> turnEntityCreator = creatorList.iterator().next();
 		final Entity<?> turnEntity = turnEntityCreator.createTurnEntity(gameEntity, context.getRace());
 
 		// ... transform its extensions...
