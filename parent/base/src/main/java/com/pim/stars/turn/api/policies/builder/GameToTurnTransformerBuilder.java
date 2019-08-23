@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 import com.pim.stars.turn.api.Race;
+import com.pim.stars.turn.api.TurnCreator.TurnTransformationContext;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
 
@@ -27,7 +28,7 @@ public interface GameToTurnTransformerBuilder {
 	public interface GameEntityTransformerBuilder<E extends Entity<?>, I> {
 
 		public <O> DataExtensionTransformerBuilder<E, I, O> transform(
-				BiFunction<I, Race, O> extensionTransformerFunction);
+				ExtensionToTurnTransformer<I, O> extensionTransformerFunction);
 
 		public DataExtensionTransformerBuilder<E, I, I> copyAll();
 
@@ -42,5 +43,11 @@ public interface GameToTurnTransformerBuilder {
 		public GameEntityTransformerBuilder<E, I> and();
 
 		public GameEntityTransformer<E, I> build();
+	}
+
+	@FunctionalInterface
+	public interface ExtensionToTurnTransformer<I, O> {
+
+		public O transform(I input, TurnTransformationContext context);
 	}
 }

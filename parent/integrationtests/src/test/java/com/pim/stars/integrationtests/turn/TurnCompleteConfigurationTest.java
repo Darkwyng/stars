@@ -1,4 +1,4 @@
-package com.pim.stars.integrationtests.turn.api;
+package com.pim.stars.integrationtests.turn;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;

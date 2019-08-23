@@ -4,9 +4,8 @@ import java.util.Optional;
 
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.turn.api.Race;
 
-public class PlanetOwner implements DataExtensionPolicy<Planet, Race> {
+public class PlanetOwnerId implements DataExtensionPolicy<Planet, String> {
 
 	@Override
 	public Class<Planet> getEntityClass() {
@@ -14,7 +13,7 @@ public class PlanetOwner implements DataExtensionPolicy<Planet, Race> {
 	}
 
 	@Override
-	public Optional<? extends Race> getDefaultValue() {
+	public Optional<? extends String> getDefaultValue() {
 		return Optional.empty();
 	}
 }

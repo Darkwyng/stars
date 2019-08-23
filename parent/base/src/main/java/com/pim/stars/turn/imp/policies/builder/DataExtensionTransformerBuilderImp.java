@@ -1,12 +1,10 @@
 package com.pim.stars.turn.imp.policies.builder;
 
-import java.util.function.BiFunction;
-
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.turn.api.Race;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.DataExtensionTransformerBuilder;
+import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.ExtensionToTurnTransformer;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.GameEntityTransformerBuilder;
 
 public class DataExtensionTransformerBuilderImp<E extends Entity<?>, I, O>
@@ -15,12 +13,12 @@ public class DataExtensionTransformerBuilderImp<E extends Entity<?>, I, O>
 	private final GameToTurnTransformerBuilderImp baseBuilder;
 	private final GameEntityTransformerBuilderImp<E, I> parentBuilder;
 
-	private final BiFunction<I, Race, O> extensionTransformerFunction;
+	private final ExtensionToTurnTransformer<I, O> extensionTransformerFunction;
 	private DataExtensionPolicy<?, ?> extensionToStoreTo;
 
 	public DataExtensionTransformerBuilderImp(final GameToTurnTransformerBuilderImp baseBuilder,
 			final GameEntityTransformerBuilderImp<E, I> parentBuilder,
-			final BiFunction<I, Race, O> extensionTransformerFunction,
+			final ExtensionToTurnTransformer<I, O> extensionTransformerFunction,
 			final DataExtensionPolicy<E, I> extensionToStoreTo) {
 		this.baseBuilder = baseBuilder;
 		this.parentBuilder = parentBuilder;

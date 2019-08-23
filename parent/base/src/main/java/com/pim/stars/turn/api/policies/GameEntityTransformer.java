@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.turn.api.TurnCreator.TurnTransformationContext;
 
 /**
  * This interface determines for a given input entity,
@@ -25,7 +25,7 @@ public interface GameEntityTransformer<E extends Entity<?>, I> {
 
 	public interface DataExtensionTransformer<I, O> {
 
-		public O transform(I input, Race race);
+		public O transform(I input, TurnTransformationContext context);
 
 		public DataExtensionPolicy<?, O> getExtensionToStoreTo();
 	}

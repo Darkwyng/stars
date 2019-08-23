@@ -3,15 +3,14 @@ package com.pim.stars.turn.imp.policies.builder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.turn.api.Race;
 import com.pim.stars.turn.api.TurnCreator;
+import com.pim.stars.turn.api.TurnCreator.TurnTransformationContext;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 public class GameToTurnTransformerBuilderImp implements GameToTurnTransformerBuilder {
@@ -46,9 +45,9 @@ public class GameToTurnTransformerBuilderImp implements GameToTurnTransformerBui
 		return builder;
 	}
 
-	private <E extends Entity<?>> BiFunction<Collection<E>, Race, ?> getCollectionTransformerFunction() {
-		return (final Collection<E> input, final Race race) -> input.stream()
-				.map(gameEntity -> turnCreator.transformGameEntity(gameEntity, race)) //
+	private <E extends Entity<?>> ExtensionToTurnTransformer<Collection<E>, ?> getCollectionTransformerFunction() {
+		return (final Collection<E> input, final TurnTransformationContext context) -> input.stream()
+				.map(gameEntity -> turnCreator.transformGameEntity(gameEntity, context)) //
 				.filter(Optional::isPresent) //
 				.map(optional -> (Entity<?>) optional.get()) //
 				.collect(Collectors.toCollection(ArrayList::new));

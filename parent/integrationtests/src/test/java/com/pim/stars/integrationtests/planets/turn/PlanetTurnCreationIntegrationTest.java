@@ -7,9 +7,12 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.colonization.api.ColonistCalculator;
+import com.pim.stars.colonization.api.ColonizationConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameConfiguration;
 import com.pim.stars.game.api.GameInitializationData;
@@ -27,22 +32,22 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
+import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
+import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
 import com.pim.stars.turn.api.Race;
 import com.pim.stars.turn.api.Turn;
-import com.pim.stars.turn.api.TurnConfiguration;
 import com.pim.stars.turn.api.TurnCreator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PlanetConfiguration.Complete.class, GameConfiguration.Complete.class,
-		TurnConfiguration.Complete.class, RaceTestApiConfiguration.class })
+		RaceTestApiConfiguration.class, ColonizationConfiguration.Complete.class })
 public class PlanetTurnCreationIntegrationTest {
 
 	@Autowired
 	private RaceTestDataProvider raceTestDataProvider;
-
 	@Autowired
 	private GameInitializationDataRaceCollection dataRaceCollection;
 
@@ -53,14 +58,23 @@ public class PlanetTurnCreationIntegrationTest {
 	@Autowired
 	private PlanetName planetName;
 	@Autowired
+	private PlanetOwnerId planetOwnerId;
+	@Autowired
+	private RaceId raceId;
+
+	@Autowired
+	private ColonistCalculator colonistCalculator;
+	@Autowired
 	private TurnCreator turnCreator;
 
 	@Test
 	public void testThatTurnGenerationTransformsPlanetsWithNames() {
-		final Race race = raceTestDataProvider.createRace("HyperExpander");
+		final Race firstRace = raceTestDataProvider.createRace();
+		final Race secondRace = raceTestDataProvider.createRace();
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
-		dataRaceCollection.getValue(initializationData).add(race);
+		dataRaceCollection.getValue(initializationData).add(firstRace);
+		dataRaceCollection.getValue(initializationData).add(secondRace);
 		final Game game = gameInitializer.initializeGame(initializationData);
 
 		// Check that planets have been initialized:
@@ -72,7 +86,7 @@ public class PlanetTurnCreationIntegrationTest {
 		assertThat(planetCollection.size(), is(planetNames.size()));
 
 		// Create a turn:
-		final Turn turn = turnCreator.createTurn(game, race);
+		final Turn turn = turnCreator.createTurn(game, firstRace);
 		assertThat(turn, not(nullValue()));
 
 		// Check that planets were transformed:
@@ -91,6 +105,19 @@ public class PlanetTurnCreationIntegrationTest {
 		final String planetNameString = getPlanetNamesString(planetCollection);
 		final String turnPlanetNameString = getPlanetNamesString(turnPlanetCollection);
 		assertThat(turnPlanetNameString, is(planetNameString));
+
+		// Check that ownership of planets is only transformed for the owner:
+		final String firstRaceId = raceId.getValue(firstRace);
+		final List<String> planetOwnerIds = turnPlanetCollection.stream().map(planet -> planetOwnerId.getValue(planet))
+				.filter(ownerId -> ownerId != null).collect(Collectors.toList());
+		assertThat("Only the owner of a planet should see who owns a planet", planetOwnerIds,
+				containsInAnyOrder(firstRaceId));
+
+		// Check that cargo of planets is only transformed for the owner:
+		turnPlanetCollection.stream().filter(planet -> planetOwnerId.getValue(planet) != null)
+				.map(colonistCalculator::getCurrentPlanetPopulation) //
+				.forEach(population -> //
+				assertThat("The population of a planet with an owner should be positive", population, greaterThan(0)));
 	}
 
 	private String getPlanetNamesString(final Collection<Planet> turnPlanetCollection) {

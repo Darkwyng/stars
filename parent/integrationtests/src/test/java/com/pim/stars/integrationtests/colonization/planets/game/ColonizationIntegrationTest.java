@@ -30,7 +30,7 @@ import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwner;
+import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -61,7 +61,7 @@ public class ColonizationIntegrationTest {
 	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
-	private PlanetOwner planetOwner;
+	private PlanetOwnerId planetOwnerId;
 
 	@Test
 	public void testThatHomeworldsAreInitializedWithColonistsAndThatColonistsGrow() {
@@ -100,9 +100,9 @@ public class ColonizationIntegrationTest {
 		assertThat("There should be planets", planetCollection, not(empty()));
 
 		// Check that a homeworld has been initialized:
-		final List<Race> homeworldOwners = planetCollection.stream().map(planet -> planetOwner.getValue(planet))
-				.filter(owner -> owner != null).collect(Collectors.toList());
-		assertThat("There should be a homeworld with an owner", homeworldOwners, hasSize(1));
+		final List<String> homeworldOwnerIds = planetCollection.stream().map(planet -> planetOwnerId.getValue(planet))
+				.filter(ownerId -> ownerId != null).collect(Collectors.toList());
+		assertThat("There should be a homeworld with an owner", homeworldOwnerIds, hasSize(1));
 
 		// Check that population has been set:
 		final List<Integer> homeworldPopulations = planetCollection.stream()

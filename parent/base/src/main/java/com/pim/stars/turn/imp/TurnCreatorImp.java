@@ -2,6 +2,7 @@ package com.pim.stars.turn.imp;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class TurnCreatorImp implements TurnCreator {
 	@Override
 	public Turn createTurn(final Game game, final Race race) {
 
-		final Optional<Entity<?>> optionalTurn = transformGameEntity(game, race);
+		final TurnTransformationContext context = new TurnTransformationContextImp(race);
+		final Optional<Entity<?>> optionalTurn = transformGameEntity(game, context);
 
 		if (optionalTurn.isPresent()) {
 			// Normal case:
@@ -41,7 +43,8 @@ public class TurnCreatorImp implements TurnCreator {
 	}
 
 	@Override
-	public Optional<Entity<?>> transformGameEntity(final Entity<?> gameEntity, final Race race) {
+	public Optional<Entity<?>> transformGameEntity(final Entity<?> gameEntity,
+			final TurnTransformationContext context) {
 
 		final List<TurnEntityCreator<Entity<?>>> creatorList = turnEntityCreatorMapper.getCreatorForEntity(gameEntity);
 		if (creatorList == null) {
@@ -50,36 +53,68 @@ public class TurnCreatorImp implements TurnCreator {
 
 		} else if (creatorList.size() > 1) {
 			// TODO: or can/should we support more than one?
-			throw new IllegalStateException("Only one " + TurnEntityCreator.class + " is supported for one "
-					+ Entity.class.getSimpleName() + ", but " + creatorList.size() + " were found: "
-					+ creatorList.stream().map(Object::getClass).map(Class::getName).sorted()
+			throw new IllegalStateException("Only one " + TurnEntityCreator.class.getSimpleName()
+					+ " is supported for one " + Entity.class.getSimpleName() + ", but " + creatorList.size()
+					+ " were found: " + creatorList.stream().map(Object::getClass).map(Class::getName).sorted()
 							.collect(Collectors.joining(", ")));
 
 		} else {
-			// Normal case: create the target entity, ...
-			final TurnEntityCreator<Entity<?>> turnEntityCreator = creatorList.iterator().next();
-			final Entity<?> turnEntity = turnEntityCreator.createTurnEntity(gameEntity, race);
+			// Normal case:
+			try {
+				context.getGameEntityStack().add(gameEntity);
 
-			// ... transform its extensions...
-			final List<GameEntityTransformer<Entity<?>, ?>> transformersForEntity = gameEntityTransformerMapper
-					.getTransformersForEntity(gameEntity);
-			for (final GameEntityTransformer<Entity<?>, ?> gameTransformer : transformersForEntity) {
-				final DataExtensionPolicy<Entity<?>, ?> inputExtension = gameTransformer.getExtensionToTransform();
-				final Object valueToTransform = inputExtension.getValue(gameEntity);
-				gameTransformer.getDataExtensionTransformers().stream().forEach(turnTransformer -> {
-					transformAndStore(race, turnEntity, valueToTransform, turnTransformer);
-				});
+				return createAndTransformEntity(gameEntity, context, creatorList);
+			} finally {
+				context.getGameEntityStack().pop();
 			}
-
-			// ... and return the new entity:
-			return Optional.of(turnEntity);
 		}
 	}
 
+	private Optional<Entity<?>> createAndTransformEntity(final Entity<?> gameEntity,
+			final TurnTransformationContext context, final List<TurnEntityCreator<Entity<?>>> creatorList) {
+		// Create the target entity, ...
+		final TurnEntityCreator<Entity<?>> turnEntityCreator = creatorList.iterator().next();
+		final Entity<?> turnEntity = turnEntityCreator.createTurnEntity(gameEntity, context.getRace());
+
+		// ... transform its extensions...
+		final List<GameEntityTransformer<Entity<?>, ?>> transformersForEntity = gameEntityTransformerMapper
+				.getTransformersForEntity(gameEntity);
+		for (final GameEntityTransformer<Entity<?>, ?> gameTransformer : transformersForEntity) {
+			final DataExtensionPolicy<Entity<?>, ?> inputExtension = gameTransformer.getExtensionToTransform();
+			final Object valueToTransform = inputExtension.getValue(gameEntity);
+			gameTransformer.getDataExtensionTransformers().stream().forEach(turnTransformer -> {
+				transformAndStore(context, turnEntity, valueToTransform, turnTransformer);
+			});
+		}
+
+		// ... and return the new entity:
+		return Optional.of(turnEntity);
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" }) // because we are storing an Object in DataExtensionTransformer<?,?>
-	private void transformAndStore(final Race race, final Entity<?> turnEntity, final Object valueToTransform,
-			final DataExtensionTransformer turnTransformer) {
-		final Object transformedValue = turnTransformer.transform(valueToTransform, race);
+	private void transformAndStore(final TurnTransformationContext context, final Entity<?> turnEntity,
+			final Object valueToTransform, final DataExtensionTransformer turnTransformer) {
+		final Object transformedValue = turnTransformer.transform(valueToTransform, context);
 		turnTransformer.getExtensionToStoreTo().setValue(turnEntity, transformedValue);
+	}
+
+	private static class TurnTransformationContextImp implements TurnTransformationContext {
+
+		private final Race race;
+		private final Stack<Entity<?>> entityStack = new Stack<>();
+
+		public TurnTransformationContextImp(final Race race) {
+			this.race = race;
+		}
+
+		@Override
+		public Race getRace() {
+			return race;
+		}
+
+		@Override
+		public Stack<Entity<?>> getGameEntityStack() {
+			return entityStack;
+		}
 	}
 }

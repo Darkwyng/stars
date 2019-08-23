@@ -2,14 +2,14 @@ package com.pim.stars.turn.imp.policies.builder;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.function.BiFunction;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.turn.api.TurnCreator.TurnTransformationContext;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.GameEntityTransformer.DataExtensionTransformer;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.DataExtensionTransformerBuilder;
+import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.ExtensionToTurnTransformer;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder.GameEntityTransformerBuilder;
 
 public class GameEntityTransformerBuilderImp<E extends Entity<?>, I> implements GameEntityTransformerBuilder<E, I> {
@@ -26,14 +26,14 @@ public class GameEntityTransformerBuilderImp<E extends Entity<?>, I> implements 
 
 	@Override
 	public <O> DataExtensionTransformerBuilder<E, I, O> transform(
-			final BiFunction<I, Race, O> extensionTransformerFunction) {
+			final ExtensionToTurnTransformer<I, O> extensionTransformerFunction) {
 		return new DataExtensionTransformerBuilderImp<E, I, O>(baseBuilder, this, extensionTransformerFunction,
 				extensionToTransform);
 	}
 
 	@Override
 	public DataExtensionTransformerBuilder<E, I, I> copyAll() {
-		return transform((input, race) -> input);
+		return transform((input, context) -> input);
 	}
 
 	@Override
@@ -53,12 +53,12 @@ public class GameEntityTransformerBuilderImp<E extends Entity<?>, I> implements 
 	}
 
 	protected void addDataExtensionTransformer(final DataExtensionPolicy<?, ?> extensionToStoreTo,
-			final BiFunction<I, Race, ?> extensionTransformerFunction) {
+			final ExtensionToTurnTransformer<I, ?> extensionTransformerFunction) {
 		extensionTransformerCollection.add(new DataExtensionTransformer<I, Object>() {
 
 			@Override
-			public Object transform(final I input, final Race race) {
-				return extensionTransformerFunction.apply(input, race);
+			public Object transform(final I input, final TurnTransformationContext context) {
+				return extensionTransformerFunction.transform(input, context);
 			}
 
 			@SuppressWarnings("unchecked") // because in the collection of transformers there may be outputs of different types
