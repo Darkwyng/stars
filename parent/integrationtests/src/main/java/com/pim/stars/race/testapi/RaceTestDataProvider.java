@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class RaceTestDataProvider {
 	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
 
 	public Race createRace() {
-		return createRace("HyperExpander");
+		return createRace(null);
 	}
 
 	public Race createRace(final String primaryTraitId, final String... secondaryTraitIds) {
@@ -44,7 +45,8 @@ public class RaceTestDataProvider {
 	private PrimaryRacialTrait getPrimaryTrait(final String primaryTraitId) {
 		final PrimaryRacialTrait primaryRacialTrait;
 		if (primaryTraitId == null) {
-			primaryRacialTrait = raceTraitProvider.getPrimaryRacialTraitCollection().iterator().next();
+			primaryRacialTrait = raceTraitProvider.getPrimaryRacialTraitCollection().stream()
+					.sorted(Comparator.comparing(PrimaryRacialTrait::getId)).findFirst().get();
 		} else {
 			final Optional<PrimaryRacialTrait> optional = raceTraitProvider.getPrimaryRacialTraitById(primaryTraitId);
 			assertThat(
