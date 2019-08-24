@@ -115,7 +115,7 @@ public class PlanetTurnCreationIntegrationTest {
 
 		// Check that cargo of planets is only transformed for the owner:
 		turnPlanetCollection.stream().filter(planet -> planetOwnerId.getValue(planet) != null)
-				.map(colonistCalculator::getCurrentPlanetPopulation) //
+				.map(planet -> colonistCalculator.getCurrentPlanetPopulation(game, planet)) //
 				.forEach(population -> //
 				assertThat("The population of a planet with an owner should be positive", population, greaterThan(0)));
 	}

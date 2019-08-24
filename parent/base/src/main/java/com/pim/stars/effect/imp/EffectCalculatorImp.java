@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.game.api.Game;
 
 public class EffectCalculatorImp implements EffectCalculator {
 
@@ -16,10 +17,10 @@ public class EffectCalculatorImp implements EffectCalculator {
 	private EffectProvider effectProvider;
 
 	@Override
-	public <E extends Effect, R> R calculateEffect(final Class<E> effectClass, final Object effectHolder,
-			final R defaultValue, final EffectFunction<E, R> function) {
+	public <E extends Effect, R> R calculateEffect(final Game game, final Class<E> effectClass,
+			final Object effectHolder, final R defaultValue, final EffectFunction<E, R> function) {
 
-		final Collection<E> effectCollection = effectProvider.getEffectCollection(effectHolder, effectClass);
+		final Collection<E> effectCollection = effectProvider.getEffectCollection(game, effectHolder, effectClass);
 		final EffectContext context = new EffectContextImp();
 
 		R currentValue = defaultValue;

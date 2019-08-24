@@ -106,7 +106,7 @@ public class ColonizationIntegrationTest {
 
 		// Check that population has been set:
 		final List<Integer> homeworldPopulations = planetCollection.stream()
-				.map(planet -> colonistCalculator.getCurrentPlanetPopulation(planet))
+				.map(planet -> colonistCalculator.getCurrentPlanetPopulation(game, planet))
 				.filter(population -> population > 0).collect(Collectors.toList());
 		assertThat("There should be a homeworld with a population", homeworldPopulations, hasSize(1));
 

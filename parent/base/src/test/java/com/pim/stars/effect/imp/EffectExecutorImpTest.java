@@ -27,7 +27,7 @@ public class EffectExecutorImpTest {
 
 	@Test
 	public void testThatEffectsCanBeExecuted() {
-		effectExecutor.executeEffect(TestEffect.class, null, (policy, context) -> {
+		effectExecutor.executeEffect(null, TestEffect.class, null, (policy, context) -> {
 			assertThat(context, not(nullValue()));
 			policy.execute(new Object(), context);
 		});

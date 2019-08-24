@@ -48,8 +48,8 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 			final String ownerId = raceId.getValue(race);
 			planetOwnerId.setValue(planet, ownerId);
 
-			effectExecutor.executeEffect(HomeworldInitializationPolicy.class, race,
-					(policy, context) -> policy.initializeHomeworld(game, planet, initializationData));
+			effectExecutor.executeEffect(game, HomeworldInitializationPolicy.class,
+					planet, (policy, context) -> policy.initializeHomeworld(game, planet, initializationData));
 		});
 	}
 

@@ -8,6 +8,7 @@ import com.pim.stars.colonization.api.ColonistCalculator;
 import com.pim.stars.colonization.api.effects.PlanetCapacityPolicy;
 import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.effect.api.EffectCalculator;
+import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 
@@ -25,7 +26,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 	private EffectCalculator effectCalculator;
 
 	@Override
-	public int getCurrentPlanetPopulation(final Planet planet) {
+	public int getCurrentPlanetPopulation(final Game game, final Planet planet) {
 		if (planetOwnerId.getValue(planet) == null) {
 			return 0;
 		} else {
@@ -34,40 +35,42 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 	}
 
 	@Override
-	public int getPlanetCapacity(final Planet planet) {
+	public int getPlanetCapacity(final Game game, final Planet planet) {
 		if (planetOwnerId.getValue(planet) == null) {
 			return 0;
 		} else {
-			return effectCalculator.calculateEffect(PlanetCapacityPolicy.class, planet, 0,
+			return effectCalculator.calculateEffect(game, PlanetCapacityPolicy.class, planet, 0,
 					(policy, context, currentValue) -> policy.getPlanetCapacity(planet, currentValue));
 		}
 	}
 
 	@Override
-	public double getMaximumGrowthRateForPlanet(final Planet planet) {
+	public double getMaximumGrowthRateForPlanet(final Game game, final Planet planet) {
+		// TODO: colonist growth: depends on race and habitability
 		if (planetOwnerId.getValue(planet) == null) {
 			return 0;
 		} else {
-			return 0.17; // TODO: depends on race and habitability
+			return 0.17;
 		}
 	}
 
 	@Override
-	public int getExpectedColonistGainForPlanet(final Planet planet) {
+	public int getExpectedColonistGainForPlanet(final Game game, final Planet planet) {
 		if (planetOwnerId.getValue(planet) == null) {
 			return 0;
 		} else {
 			final CargoHolder planetCargoHolder = cargoProcessor.createCargoHolder(planet, Planet.class);
 
 			final int currentPopulation = planetCargoHolder.getQuantity(colonistCargoType);
-			final double maximumGrowthRate = getMaximumGrowthRateForPlanet(planet);
-			final int capacity = getPlanetCapacity(planet);
+			final double maximumGrowthRate = getMaximumGrowthRateForPlanet(game, planet);
+			final int capacity = getPlanetCapacity(game, planet);
 
+			// TODO: colonist growth: this is not quite the correct algorithm for population growth (consider negative planets, overcrowding, rounding)
 			final double currentGrowthRate;
 			if (currentPopulation <= 0.25 * capacity) {
 				currentGrowthRate = maximumGrowthRate;
 			} else {
-				currentGrowthRate = maximumGrowthRate * (capacity - currentPopulation) / (0.75 * capacity); // TODO: something like that?
+				currentGrowthRate = maximumGrowthRate * (capacity - currentPopulation) / (0.75 * capacity);
 			}
 
 			return (int) Math.floor(currentPopulation * currentGrowthRate);

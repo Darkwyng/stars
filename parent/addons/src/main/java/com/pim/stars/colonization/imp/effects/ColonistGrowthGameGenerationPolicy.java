@@ -24,7 +24,7 @@ public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy 
 	@Override
 	public void generateGame(final Game game) {
 		gamePlanetCollection.getValue(game).stream().forEach(planet -> {
-			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(planet);
+			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(game, planet);
 			if (gain > 0) {
 				cargoProcessor.createCargoHolder(planet, Planet.class).transferFromNowhere()
 						.quantity(colonistCargoType, gain).execute();
