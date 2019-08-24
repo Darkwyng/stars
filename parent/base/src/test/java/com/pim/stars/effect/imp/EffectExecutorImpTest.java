@@ -27,7 +27,7 @@ public class EffectExecutorImpTest {
 
 	@Test
 	public void testThatEffectsCanBeExecuted() {
-		effectExecutor.executeEffect(TestEffect.class, null, (policy, context) -> {
+		effectExecutor.executeEffect(null, TestEffect.class, null, (policy, context) -> {
 			assertThat(context, not(nullValue()));
 			policy.execute(new Object(), context);
 		});
@@ -53,6 +53,11 @@ public class EffectExecutorImpTest {
 	}
 
 	protected static class SecondTestEffect implements TestEffect {
+
+		@Override
+		public int getSequence() {
+			return 2;
+		}
 
 		@Override
 		public void execute(final Object input, final EffectContext context) {

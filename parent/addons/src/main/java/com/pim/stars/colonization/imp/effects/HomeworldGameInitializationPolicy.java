@@ -14,8 +14,9 @@ import com.pim.stars.game.api.effects.GameInitializationPolicy;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwner;
+import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.extensions.RaceId;
 
 public class HomeworldGameInitializationPolicy implements GameInitializationPolicy {
 
@@ -27,9 +28,16 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 	private GamePlanetCollection gamePlanetCollection;
 
 	@Autowired
-	private PlanetOwner planetOwner;
+	private PlanetOwnerId planetOwnerId;
+	@Autowired
+	private RaceId raceId;
 
 	final Random random = new Random();
+
+	@Override
+	public int getSequence() {
+		return 3000;
+	}
 
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
@@ -37,10 +45,11 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 		final Collection<Planet> homeworlds = new ArrayList<>();
 		gameRaceCollection.getValue(game).forEach(race -> {
 			final Planet planet = selectNewHomeworld(planetCollection, homeworlds);
-			planetOwner.setValue(planet, race);
+			final String ownerId = raceId.getValue(race);
+			planetOwnerId.setValue(planet, ownerId);
 
-			effectExecutor.executeEffect(HomeworldInitializationPolicy.class, race,
-					(policy, context) -> policy.initializeHomeworld(game, planet, initializationData));
+			effectExecutor.executeEffect(game, HomeworldInitializationPolicy.class,
+					planet, (policy, context) -> policy.initializeHomeworld(game, planet, initializationData));
 		});
 	}
 

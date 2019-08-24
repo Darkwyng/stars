@@ -6,5 +6,5 @@ import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
 public interface DataExtensionPolicyProvider {
 
-	public Collection<DataExtensionPolicy<?, ?>> getDataExtensionPoliciesForEntity(Entity<?> entity);
+	public <E extends Entity<?>> Collection<DataExtensionPolicy<E, ?>> getDataExtensionPoliciesForEntity(E entity);
 }

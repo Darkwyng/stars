@@ -30,7 +30,7 @@ public class EffectCalculatorImpTest {
 
 	@Test
 	public void testThatEffectsCanBeCalculated() {
-		final Double result = effectCalculator.calculateEffect(TestEffect.class, null, 2.0,
+		final Double result = effectCalculator.calculateEffect(null, TestEffect.class, null, 2.0,
 				(policy, context, currentValue) -> {
 					assertThat(context, not(nullValue()));
 					return policy.calculate(new Object(), context, currentValue);
@@ -59,6 +59,11 @@ public class EffectCalculatorImpTest {
 	}
 
 	protected static class SecondTestEffect implements TestEffect {
+
+		@Override
+		public int getSequence() {
+			return 2;
+		}
 
 		@Override
 		public double calculate(final Object input, final EffectContext context, final double currentValue) {

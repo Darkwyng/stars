@@ -16,20 +16,21 @@ import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.effect.api.policies.EffectProviderPolicy;
+import com.pim.stars.game.api.Game;
 
 public class EffectProviderImp implements EffectProvider {
 
 	@Autowired(required = false)
-	private final Collection<EffectHolderProviderPolicy> effectHolderProviderPolicyCollection = new ArrayList<>();
+	private final Collection<EffectHolderProviderPolicy<?>> effectHolderProviderPolicyCollection = new ArrayList<>();
 	@Autowired(required = false)
 	private final Collection<EffectProviderPolicy<?>> effectProviderPolicyCollection = new ArrayList<>();
 
 	@Override
-	public <E extends Effect> Collection<E> getEffectCollection(final Object firstEffectHolder,
-			final Class<E> effectClass) {
+	public <E extends Effect> Collection<E> getEffectCollection(Game game,
+			final Object firstEffectHolder, final Class<E> effectClass) {
 
 		// E.g. for a fleet find the race, all fleet components, ship designs and gadgets that might provide effects:
-		final Set<Object> allEffectHolders = getAllEffectHolders(firstEffectHolder);
+		final Set<Object> allEffectHolders = getAllEffectHolders(game, firstEffectHolder);
 		// Collect the effects:
 		final Set<E> allEffects = getAllEffects(allEffectHolders, effectClass);
 		// Sort:
@@ -38,24 +39,27 @@ public class EffectProviderImp implements EffectProvider {
 		return removeDeactivatedEffects(sortedEffects);
 	}
 
-	private Set<Object> getAllEffectHolders(final Object effectHolder) {
+	private Set<Object> getAllEffectHolders(Game game, final Object effectHolder) {
 		final Set<Object> knownEffectHolders = new HashSet<>(Collections.singleton(effectHolder));
 
 		Set<Object> newEffectHolders = knownEffectHolders;
 		while (!newEffectHolders.isEmpty()) {
-			newEffectHolders = getNewEffectHolders(newEffectHolders);
+			newEffectHolders = getNewEffectHolders(game, newEffectHolders);
 			knownEffectHolders.addAll(newEffectHolders);
 		}
 		return knownEffectHolders;
 	}
 
-	private Set<Object> getNewEffectHolders(final Set<Object> knownEffectHolders) {
+	@SuppressWarnings({ "unchecked", "rawtypes" }) // because objects are passed into policies using generics
+	private Set<Object> getNewEffectHolders(Game game, final Set<Object> knownEffectHolders) {
 		final Set<Object> foundEffectHolders = new HashSet<>();
 
 		for (final Object effectHolder : knownEffectHolders) {
-			effectHolderProviderPolicyCollection.stream() //
-					.filter(policy -> policy.matchesInitialEffectHolder(effectHolder)) //
-					.map(policy -> policy.getFurtherEffectHolders(effectHolder)).forEach(foundEffectHolders::addAll);
+			for (final EffectHolderProviderPolicy policy : effectHolderProviderPolicyCollection) {
+				if (policy.matchesInitialEffectHolder(effectHolder)) {
+					foundEffectHolders.addAll(policy.getFurtherEffectHolders(game, effectHolder));
+				}
+			}
 		}
 
 		final Set<Object> newEffectHolders = foundEffectHolders.stream()
@@ -64,7 +68,7 @@ public class EffectProviderImp implements EffectProvider {
 		return newEffectHolders;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" }) // because objects are passed into policies using generics
 	private <E extends Effect> Set<E> getAllEffects(final Set<Object> allEffectHolders, final Class<E> effectClass) {
 		final Set<E> allEffects = new HashSet<>();
 		for (final Object effectHolder : allEffectHolders) {

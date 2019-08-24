@@ -7,7 +7,6 @@ import com.pim.stars.colonization.api.ColonistCalculator;
 import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
-import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 
 public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy {
@@ -24,9 +23,9 @@ public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy 
 	@Override
 	public void generateGame(final Game game) {
 		gamePlanetCollection.getValue(game).stream().forEach(planet -> {
-			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(planet);
+			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(game, planet);
 			if (gain > 0) {
-				cargoProcessor.createCargoHolder(planet, Planet.class).transferFromNowhere()
+				cargoProcessor.createCargoHolder(planet).transferFromNowhere()
 						.quantity(colonistCargoType, gain).execute();
 			}
 		});

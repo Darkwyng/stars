@@ -13,12 +13,13 @@ import org.springframework.context.ApplicationContext;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.effect.api.policies.EffectProviderPolicy;
+import com.pim.stars.game.api.Game;
 
 /**
  * This implementation will load the effects that are within the application context.
  */
 public class DefaultEffectHolderAndEffectProviderPolicy
-		implements EffectProviderPolicy<Object>, EffectHolderProviderPolicy {
+		implements EffectProviderPolicy<Object>, EffectHolderProviderPolicy<Object> {
 
 	private final Object EFFECT_HOLDER = this;
 
@@ -33,7 +34,7 @@ public class DefaultEffectHolderAndEffectProviderPolicy
 	}
 
 	@Override
-	public Collection<Object> getFurtherEffectHolders(final Object effectHolder) {
+	public Collection<Object> getFurtherEffectHolders(Game game, final Object effectHolder) {
 		return Collections.singleton(EFFECT_HOLDER); // ... this method. Its result will be then passed into...
 	}
 

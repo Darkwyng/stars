@@ -10,9 +10,11 @@ import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.colonization.api.ColonizationConfiguration;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
+import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwner;
+import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.extensions.RaceId;
 
 @Configuration
 @Import({ ColonizationConfiguration.Provided.class })
@@ -32,8 +34,8 @@ public class ColonizationTestConfiguration implements ColonizationConfiguration.
 
 	@Bean
 	@Override
-	public PlanetOwner planetOwner() {
-		return mock(PlanetOwner.class);
+	public PlanetOwnerId planetOwnerId() {
+		return mock(PlanetOwnerId.class);
 	}
 
 	@Bean
@@ -52,5 +54,17 @@ public class ColonizationTestConfiguration implements ColonizationConfiguration.
 	@Override
 	public EffectExecutor effectExecutor() {
 		return mock(EffectExecutor.class);
+	}
+
+	@Bean
+	@Override
+	public RaceId raceId() {
+		return mock(RaceId.class);
+	}
+
+	@Bean
+	@Override
+	public IdCreator idCreator() {
+		return mock(IdCreator.class);
 	}
 }

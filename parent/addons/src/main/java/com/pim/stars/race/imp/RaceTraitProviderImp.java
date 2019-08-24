@@ -61,7 +61,6 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 				final AbstractRacialTrait bean = (AbstractRacialTrait) entry.getValue();
 				bean.setId(beanName);
 
-				// TODO: add better test for this:
 				// Autowire beans of the usual context into the childrens' effects:
 				bean.getEffectCollection().stream().forEach(parentBeanFactory::autowireBean);
 			}) //

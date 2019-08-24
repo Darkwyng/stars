@@ -1,8 +1,10 @@
 package com.pim.stars.effect.api;
 
+import com.pim.stars.game.api.Game;
+
 public interface EffectExecutor {
 
-	public <E extends Effect> void executeEffect(Class<E> effectClass, final Object effectHolder,
+	public <E extends Effect> void executeEffect(Game game, Class<E> effectClass, Object effectHolder,
 			EffectFunction<E> function);
 
 	@FunctionalInterface

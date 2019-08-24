@@ -5,23 +5,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.pim.stars.cargo.api.Cargo;
 import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.dataextension.api.DataExtensionConfiguration;
+import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.planets.api.extensions.PlanetName;
-import com.pim.stars.planets.api.extensions.PlanetOwner;
+import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
 import com.pim.stars.planets.imp.effects.PlanetGameInitializationPolicy;
-import com.pim.stars.planets.imp.policies.transformers.PlanetCollectionGameEntityTransformer;
-import com.pim.stars.planets.imp.policies.transformers.PlanetNameEntityTransformer;
-import com.pim.stars.planets.imp.policies.transformers.PlanetTurnEntityCreator;
+import com.pim.stars.race.api.RaceConfiguration;
+import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.TurnConfiguration;
-import com.pim.stars.turn.api.TurnCreator;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
+import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 public interface PlanetConfiguration {
 
@@ -45,8 +47,8 @@ public interface PlanetConfiguration {
 		}
 
 		@Bean
-		public PlanetOwner planetOwner() {
-			return new PlanetOwner();
+		public PlanetOwnerId planetOwnerId() {
+			return new PlanetOwnerId();
 		}
 
 		@Bean
@@ -65,23 +67,56 @@ public interface PlanetConfiguration {
 		}
 
 		@Bean
-		public GameEntityTransformer<?, ?> planetCollectionGameEntityTransformer() {
-			return new PlanetCollectionGameEntityTransformer();
+		public GameEntityTransformer<?, ?> planetCollectionGameEntityTransformer(
+				final GameToTurnTransformerBuilder builder) {
+			return builder.transformEntityCollectionExtension(GamePlanetCollection.class).build();
 		}
 
 		@Bean
-		public GameEntityTransformer<?, ?> planetNameEntityTransformer() {
-			return new PlanetNameEntityTransformer();
+		public TurnEntityCreator<?> planetTurnEntityCreator(final GameToTurnTransformerBuilder builder) {
+			return builder.transformEntity(Planet.class).build((entity, race) -> new PlanetImp());
 		}
 
 		@Bean
-		public TurnEntityCreator<?> planetTurnEntityCreator() {
-			return new PlanetTurnEntityCreator();
+		public GameEntityTransformer<?, ?> planetNameEntityTransformer(final GameToTurnTransformerBuilder builder) {
+			return builder.transformExtension(PlanetName.class).copyAll().build();
 		}
+
+		@Bean
+		public GameEntityTransformer<?, ?> planetOwnerEntityTransformer(final GameToTurnTransformerBuilder builder,
+				final RaceId raceId) {
+			return builder.transformExtension(PlanetOwnerId.class) //
+					.transform((ownerId, context) -> {
+						// Copy, if the owner of the planet is the owner of the turn:
+						if (ownerId == null) {
+							return null;
+						} else {
+							final String turnOwnerId = raceId.getValue(context.getRace());
+							return turnOwnerId.equals(ownerId) ? ownerId : null;
+						}
+					}).build();
+		}
+
+		@Bean
+		public GameEntityTransformer<?, ?> planetCargoEntityTransformer(final GameToTurnTransformerBuilder builder,
+				final RaceId raceId, final PlanetOwnerId planetOwnerId) {
+			return builder.transformExtension(PlanetCargo.class).transform((cargo, context) -> {
+				// Copy, if the owner of the planet is the owner of the turn:
+				final String ownerId = planetOwnerId.getValue((Planet) context.getGameEntityStack().peek());
+				if (ownerId == null) {
+					return cargo;
+				} else {
+					final String turnOwnerId = raceId.getValue(context.getRace());
+					return turnOwnerId.equals(ownerId) ? cargo : new Cargo();
+				}
+			}).build();
+		}
+
 	}
 
 	@Configuration
-	@Import({ DataExtensionConfiguration.Complete.class, TurnConfiguration.Complete.class })
+	@Import({ DataExtensionConfiguration.Complete.class, TurnConfiguration.Complete.class,
+			RaceConfiguration.Complete.class })
 	public static class Complete extends Provided {
 
 	}
@@ -90,6 +125,10 @@ public interface PlanetConfiguration {
 
 		public DataExtender dataExtender();
 
-		public TurnCreator turnCreator();
+		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
+
+		public RaceId raceId();
+
+		public IdCreator idCreator();
 	}
 }

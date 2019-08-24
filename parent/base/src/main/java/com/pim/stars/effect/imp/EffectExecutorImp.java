@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.game.api.Game;
 
 public class EffectExecutorImp implements EffectExecutor {
 
@@ -31,9 +32,9 @@ public class EffectExecutorImp implements EffectExecutor {
 	}
 
 	@Override
-	public <E extends Effect> void executeEffect(final Class<E> effectClass, final Object effectHolder,
+	public <E extends Effect> void executeEffect(final Game game, final Class<E> effectClass, final Object effectHolder,
 			final EffectFunction<E> function) {
-		final Collection<E> effectCollection = effectProvider.getEffectCollection(effectHolder, effectClass);
+		final Collection<E> effectCollection = effectProvider.getEffectCollection(game, effectHolder, effectClass);
 		final EffectContext context = new EffectContextImp();
 
 		for (final E effect : effectCollection) {

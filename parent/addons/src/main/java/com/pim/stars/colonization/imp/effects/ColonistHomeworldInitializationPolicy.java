@@ -22,7 +22,7 @@ public class ColonistHomeworldInitializationPolicy implements HomeworldInitializ
 
 	@Override
 	public void initializeHomeworld(final Game game, final Planet planet, final GameInitializationData data) {
-		cargoProcessor.createCargoHolder(planet, Planet.class).transferFromNowhere()
+		cargoProcessor.createCargoHolder(planet).transferFromNowhere()
 				.quantity(colonistCargoType, getInitialPopulation()).execute();
 	}
 
