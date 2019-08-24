@@ -22,9 +22,8 @@ public class CargoProcessorImp implements CargoProcessor {
 	private Map<Class<Entity<?>>, List<CargoDataExtensionPolicy<Entity<?>>>> policyMap;
 
 	@Override
-	public <T extends Entity<?>, S extends T> CargoHolder createCargoHolder(final S entity,
-			final Class<T> entityClass) {
-		return new CargoHolderImp(entity, new CargoDataExtensionPolicySupplier(entityClass));
+	public <E extends Entity<?>> CargoHolder createCargoHolder(final E entity) {
+		return new CargoHolderImp(entity, new CargoDataExtensionPolicySupplier(entity.getEntityClass()));
 	}
 
 	/**

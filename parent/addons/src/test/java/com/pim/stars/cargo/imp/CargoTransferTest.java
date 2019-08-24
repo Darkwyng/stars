@@ -45,7 +45,7 @@ public class CargoTransferTest {
 		final EntityForTest firstEntity = new EntityForTest();
 		cargoDataExtensionPolicy.setValue(firstEntity, cargoDataExtensionPolicy.getDefaultValue().get());
 
-		final CargoHolder first = cargoProcessor.createCargoHolder(firstEntity, EntityForTest.class);
+		final CargoHolder first = cargoProcessor.createCargoHolder(firstEntity);
 		assertThat(first, not(nullValue()));
 		assertThat(first.getQuantity(cargoType), is(0));
 
@@ -60,7 +60,7 @@ public class CargoTransferTest {
 		}
 		final EntityForTest secondEntity = new EntityForTest();
 		cargoDataExtensionPolicy.setValue(secondEntity, cargoDataExtensionPolicy.getDefaultValue().get());
-		final CargoHolder second = cargoProcessor.createCargoHolder(secondEntity, EntityForTest.class);
+		final CargoHolder second = cargoProcessor.createCargoHolder(secondEntity);
 
 		// TransferTo: from first to second:
 		{

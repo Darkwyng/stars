@@ -39,7 +39,7 @@ public class CargoProcessorImpTest {
 		final EntityForTest entity = new EntityForTest();
 		cargoDataExtensionPolicy.setValue(entity, cargoDataExtensionPolicy.getDefaultValue().get());
 
-		final CargoHolder cargoHolder = cargoProcessor.createCargoHolder(entity, EntityForTest.class);
+		final CargoHolder cargoHolder = cargoProcessor.createCargoHolder(entity);
 		assertThat(cargoHolder, not(nullValue()));
 		assertThat(cargoHolder.getQuantity(cargoType), is(0));
 	}
