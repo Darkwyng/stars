@@ -17,8 +17,10 @@ import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
+import com.pim.stars.planets.imp.effects.PlanetEffectHolderProviderPolicy;
 import com.pim.stars.planets.imp.effects.PlanetGameInitializationPolicy;
 import com.pim.stars.race.api.RaceConfiguration;
+import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.TurnConfiguration;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
@@ -34,6 +36,11 @@ public interface PlanetConfiguration {
 		@Bean
 		public PlanetGameInitializationPolicy planetGameInitializationPolicy() {
 			return new PlanetGameInitializationPolicy();
+		}
+
+		@Bean
+		public PlanetEffectHolderProviderPolicy planetEffectHolderProviderPolicy() {
+			return new PlanetEffectHolderProviderPolicy();
 		}
 
 		@Bean
@@ -127,8 +134,11 @@ public interface PlanetConfiguration {
 
 		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 
+		public GameRaceCollection gameRaceCollection();
+
 		public RaceId raceId();
 
 		public IdCreator idCreator();
+
 	}
 }

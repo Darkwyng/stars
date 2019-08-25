@@ -21,12 +21,12 @@ public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy 
 	private ColonistCargoType colonistCargoType;
 
 	@Override
-	public void generateGame(final Game game) {
+	public void generateGame(final Game game, final GameGenerationContext generationContext) {
 		gamePlanetCollection.getValue(game).stream().forEach(planet -> {
 			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(game, planet);
 			if (gain > 0) {
-				cargoProcessor.createCargoHolder(planet).transferFromNowhere()
-						.quantity(colonistCargoType, gain).execute();
+				cargoProcessor.createCargoHolder(planet).transferFromNowhere().quantity(colonistCargoType, gain)
+						.execute();
 			}
 		});
 	}

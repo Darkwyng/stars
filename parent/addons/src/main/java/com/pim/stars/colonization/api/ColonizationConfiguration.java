@@ -11,6 +11,7 @@ import com.pim.stars.colonization.imp.ColonistCalculatorImp;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.colonization.imp.effects.ColonistGrowthGameGenerationPolicy;
 import com.pim.stars.colonization.imp.effects.ColonistHomeworldInitializationPolicy;
+import com.pim.stars.colonization.imp.effects.ColonistResourceCalculationPolicy;
 import com.pim.stars.colonization.imp.effects.DefaultPlanetCapacityPolicy;
 import com.pim.stars.colonization.imp.effects.HomeworldGameInitializationPolicy;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
@@ -63,6 +64,11 @@ public interface ColonizationConfiguration {
 		@Bean
 		public ColonizationProperties colonizationProperties() {
 			return new ColonizationProperties();
+		}
+
+		@Bean
+		public ColonistResourceCalculationPolicy colonistResourceCalculationPolicy() {
+			return new ColonistResourceCalculationPolicy();
 		}
 	}
 

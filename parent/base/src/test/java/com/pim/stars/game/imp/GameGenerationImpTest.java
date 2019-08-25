@@ -53,7 +53,7 @@ public class GameGenerationImpTest {
 			return new GameGenerationPolicy() {
 
 				@Override
-				public void generateGame(final Game game) {
+				public void generateGame(final Game game, final GameGenerationContext generationContext) {
 					gameGenerationPolicyCallCounter++;
 				}
 			};

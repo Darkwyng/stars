@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.PlanetConfiguration;
+import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
@@ -28,6 +29,12 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 	@Override
 	public GameToTurnTransformerBuilder gameToTurnTransformerBuilder() {
 		return mock(GameToTurnTransformerBuilder.class, withSettings().defaultAnswer(Answers.RETURNS_DEEP_STUBS));
+	}
+
+	@Bean
+	@Override
+	public GameRaceCollection gameRaceCollection() {
+		return mock(GameRaceCollection.class);
 	}
 
 	@Bean

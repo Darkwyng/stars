@@ -5,5 +5,12 @@ import com.pim.stars.game.api.Game;
 
 public interface GameGenerationPolicy extends Effect {
 
-	public void generateGame(Game game);
+	public void generateGame(Game game, GameGenerationContext context);
+
+	public interface GameGenerationContext {
+
+		public Object get(String key);
+
+		public void set(String key, Object value);
+	}
 }
