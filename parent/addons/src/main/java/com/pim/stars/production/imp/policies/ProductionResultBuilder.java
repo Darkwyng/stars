@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.pim.stars.planets.api.Planet;
+import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.policies.ProductionItemType;
 
 public class ProductionResultBuilder {
@@ -28,7 +29,7 @@ public class ProductionResultBuilder {
 
 		private final ProductionResultBuilder baseBuilder;
 		private final Planet planet;
-		private final List<ProducedItems> producedItems = new ArrayList<>();
+		private final List<ProducedItem> producedItems = new ArrayList<>();
 
 		public PlanetProductionResultBuilder(final ProductionResultBuilder baseBuilder, final Planet planet) {
 			this.baseBuilder = baseBuilder;
@@ -36,26 +37,26 @@ public class ProductionResultBuilder {
 		}
 
 		public PlanetProductionResultBuilder produce(final ProductionItemType type, final int numberOfItems) {
-			producedItems.add(new ProducedItems(type, numberOfItems));
+			producedItems.add(new ProducedItem(type, numberOfItems));
 			return this;
 		}
 
-		public ProductionResultBuilder finishPlanet(final int remainingResources) {
+		public ProductionResultBuilder finishPlanet(final ProductionCost remainingResources) {
 			return baseBuilder.finishPlanet(new PlanetProductionResult(planet, producedItems, remainingResources));
 		}
 	}
 
-	public static class ProducedItems {
+	public static class ProducedItem {
 
 		private final ProductionItemType type;
 		private final int numberOfItems;
 
-		public ProducedItems(final ProductionItemType type, final int numberOfItems) {
+		public ProducedItem(final ProductionItemType type, final int numberOfItems) {
 			this.type = type;
 			this.numberOfItems = numberOfItems;
 		}
 
-		public ProductionItemType getType() {
+		public ProductionItemType getItemType() {
 			return type;
 		}
 
@@ -67,11 +68,11 @@ public class ProductionResultBuilder {
 	public static class PlanetProductionResult {
 
 		private final Planet planet;
-		private final List<ProducedItems> producedItems;
-		private final int remainingResources;
+		private final List<ProducedItem> producedItems;
+		private final ProductionCost remainingResources;
 
-		public PlanetProductionResult(final Planet planet, final List<ProducedItems> producedItems,
-				final int remainingResources) {
+		public PlanetProductionResult(final Planet planet, final List<ProducedItem> producedItems,
+				final ProductionCost remainingResources) {
 			this.planet = planet;
 			this.producedItems = producedItems;
 			this.remainingResources = remainingResources;
@@ -81,11 +82,11 @@ public class ProductionResultBuilder {
 			return planet;
 		}
 
-		public List<ProducedItems> getProducedItems() {
+		public List<ProducedItem> getProducedItems() {
 			return producedItems;
 		}
 
-		public int getRemainingResources() {
+		public ProductionCost getRemainingResources() {
 			return remainingResources;
 		}
 	}
