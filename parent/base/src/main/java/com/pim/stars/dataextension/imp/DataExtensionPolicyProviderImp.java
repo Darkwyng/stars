@@ -43,7 +43,6 @@ public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvid
 					final Map map = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
 							.collect(Collectors.groupingBy(DataExtensionPolicy::getEntityClass));
 					policyMap = map;
-
 				}
 			}
 		}
