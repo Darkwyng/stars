@@ -6,7 +6,7 @@ Players start with one or two planets and only a few space ships. They set out b
 
 Highlights of the game are in particular
 * You can design the alien race that you play choosing advantages and disadvantages. When you play the game your strategy will depend on that race design.
-* You reasearch gadgets that you can put into ships and starbases. The longer you play, the greater the gadgets.
+* You research gadgets that you can put into ships and starbases. The longer you play, the greater the gadgets.
 * You design your space ships yourself choosing the gadgets you have available.
 * You choose yourself how to interact with the other races. You don't need to shoot anything that moves, you can cooperate and make deals.
 
