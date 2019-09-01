@@ -31,8 +31,8 @@ public class GameEntityTransformerMapper {
 					final Collection<GameEntityTransformer> gameTransformerCollection = applicationContext
 							.getBeansOfType(GameEntityTransformer.class).values();
 
-					transfomerMap = gameTransformerCollection.stream()
-							.collect(Collectors.groupingBy(GameEntityTransformer::getGameEntityClassToTransform));
+					transfomerMap = gameTransformerCollection.stream().collect(
+							Collectors.groupingBy(GameEntityTransformer<Entity<?>, ?>::getGameEntityClassToTransform));
 				}
 			}
 		}

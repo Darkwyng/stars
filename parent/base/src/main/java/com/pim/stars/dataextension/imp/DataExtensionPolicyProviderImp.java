@@ -25,14 +25,25 @@ public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvid
 		return getPoliciesForEntityClass(entity.getEntityClass());
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" }) // because getBeansOfType returns raw types and see below
 	private <E extends Entity<?>> Collection<DataExtensionPolicy<E, ?>> getPoliciesForEntityClass(
 			final Class<?> entityClass) {
 		if (policyMap == null) {
 			synchronized (this) {
 				if (policyMap == null) {
-					policyMap = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
+					// Eclipse accepts this, but maven's compiler fails in "clean install" on parent, but not in "install" or in "clean install" on base:
+					// policyMap = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
+					//			       .collect(Collectors.groupingBy(DataExtensionPolicy<?, ?>::getEntityClass));
+					// Maven says:
+					// Collector<        DataExtensionPolicy<?,?>,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
+					// cannot be converted to
+					// Collector<? super DataExtensionPolicy     ,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
+
+					// So instead we do this:
+					final Map map = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
 							.collect(Collectors.groupingBy(DataExtensionPolicy::getEntityClass));
+					policyMap = map;
+
 				}
 			}
 		}

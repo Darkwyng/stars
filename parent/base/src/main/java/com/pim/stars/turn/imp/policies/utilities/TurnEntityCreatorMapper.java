@@ -31,7 +31,7 @@ public class TurnEntityCreatorMapper {
 							.getBeansOfType(TurnEntityCreator.class).values();
 
 					creatorMap = turnEntityCreatorCollection.stream()
-							.collect(Collectors.groupingBy(TurnEntityCreator::getEntityClass));
+							.collect(Collectors.groupingBy(TurnEntityCreator<Entity<?>>::getEntityClass));
 				}
 			}
 		}
