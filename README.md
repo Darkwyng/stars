@@ -14,3 +14,5 @@ Highlights of the game are in particular
 This is a reimplementation of *Stars!* using Java and Spring. Probably NoSQL soon. So far no UI is planned, but that may change.
 
 The aim is currently to see whether the architecture I had in mind can work for this game. And to have some fun.
+
+See [this blog](https://darkwyng.github.io/) for more on this project.
