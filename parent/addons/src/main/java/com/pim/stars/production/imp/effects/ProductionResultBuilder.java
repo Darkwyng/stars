@@ -1,4 +1,4 @@
-package com.pim.stars.production.imp.policies;
+package com.pim.stars.production.imp.effects;
 
 import java.util.ArrayList;
 import java.util.Collection;

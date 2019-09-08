@@ -26,7 +26,7 @@ public class ProductionCostImp implements ProductionCost {
 
 	@Override
 	public ProductionCost add(final ProductionCost other) {
-		final ProductionInputBuilder builder = new ProductionInputBuilderImp();
+		final ProductionCostBuilder builder = new ProductionCostBuilderImp();
 		getItems().stream().forEach(item -> builder.add(item.getType(), item.getAmount()));
 		other.getItems().stream().forEach(item -> builder.add(item.getType(), item.getAmount()));
 
@@ -35,7 +35,7 @@ public class ProductionCostImp implements ProductionCost {
 
 	@Override
 	public ProductionCost subtract(final ProductionCost other) {
-		final ProductionInputBuilder builder = new ProductionInputBuilderImp();
+		final ProductionCostBuilder builder = new ProductionCostBuilderImp();
 		getItems().stream().forEach(item -> builder.add(item.getType(), item.getAmount()));
 
 		final int negativeOne = -1;
@@ -46,7 +46,7 @@ public class ProductionCostImp implements ProductionCost {
 
 	@Override
 	public ProductionCost multiply(final double factor, final Function<Double, Integer> roundingFunction) {
-		final ProductionInputBuilder builder = new ProductionInputBuilderImp();
+		final ProductionCostBuilder builder = new ProductionCostBuilderImp();
 		getItems().stream().forEach(item -> {
 			final int product = roundingFunction.apply(item.getAmount() * factor);
 			builder.add(item.getType(), product);
@@ -118,16 +118,16 @@ public class ProductionCostImp implements ProductionCost {
 
 		@Override
 		public String toString() {
-			return type.getClass().getSimpleName() + ":" + amount;
+			return type.getId() + ":" + amount;
 		}
 	}
 
-	public static class ProductionInputBuilderImp implements ProductionInputBuilder {
+	public static class ProductionCostBuilderImp implements ProductionCostBuilder {
 
 		private final Map<ProductionCostType, Integer> map = new HashMap<>();
 
 		@Override
-		public ProductionInputBuilder add(final ProductionCostType type, final int amount) {
+		public ProductionCostBuilder add(final ProductionCostType type, final int amount) {
 			final Integer oldAmount = map.get(type);
 
 			final Integer newAmount;

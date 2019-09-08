@@ -1,10 +1,13 @@
 package com.pim.stars.production.api.policies;
 
+import com.pim.stars.game.api.Game;
+import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.cost.ProductionCost;
+import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
 
 public interface ProductionItemType {
 
-	public ProductionCost getCostPerItem();
+	public ProductionCost getCostPerItem(Game game, Planet planet, ProductionCostBuilder builder);
 
-	public void produce(int numberOfItems);
+	public void produce(Game game, Planet planet, int numberOfItems);
 }

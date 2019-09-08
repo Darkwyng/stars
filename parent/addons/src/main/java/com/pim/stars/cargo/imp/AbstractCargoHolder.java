@@ -4,36 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.springframework.util.Assert;
 
-import com.pim.stars.cargo.api.Cargo;
 import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
-import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.cargo.api.policies.CargoType;
-import com.pim.stars.dataextension.api.Entity;
-import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
-public class CargoHolderImp implements CargoHolder {
+public abstract class AbstractCargoHolder implements CargoHolder {
 
-	private final Entity<?> entity;
-	private final Supplier<CargoDataExtensionPolicy<?>> policySupplier;
-
-	public CargoHolderImp(final Entity<?> entity,
-			final Supplier<CargoDataExtensionPolicy<?>> cargoDataExtensionPolicy) {
-		this.entity = entity;
-		this.policySupplier = cargoDataExtensionPolicy;
+	protected AbstractCargoHolder() {
+		super();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Collection<CargoItem> getItems() {
-		final DataExtensionPolicy policy = policySupplier.get();
-		final Cargo cargo = (Cargo) policy.getValue(entity);
-		return cargo.getItems();
-	}
+	public abstract Collection<CargoItem> getItems();
 
 	@Override
 	public int getQuantity(final CargoType cargoType) {
@@ -52,12 +37,12 @@ public class CargoHolderImp implements CargoHolder {
 
 	@Override
 	public CargoTransferBuilder transferToNowhere() {
-		return new CargoTransferBuilderImp(this, new InfinitePool());
+		return new CargoTransferBuilderImp(this, new CargoPool());
 	}
 
 	@Override
 	public CargoTransferBuilder transferFromNowhere() {
-		return new CargoTransferBuilderImp(new InfinitePool(), this);
+		return new CargoTransferBuilderImp(new CargoPool(), this);
 	}
 
 	protected void remove(final CargoItem newItem) {
@@ -97,10 +82,7 @@ public class CargoHolderImp implements CargoHolder {
 
 		@Override
 		public CargoTransferBuilder quantity(final CargoType cargoType, final int quantity) {
-			Assert.isTrue(quantity >= 0, "You cannot transfer a negative quantity " + quantity);
-			if (quantity > 0) {
-				addItem(new CargoItemImp(cargoType, quantity));
-			}
+			addItem(new CargoItemImp(cargoType, quantity));
 			return this;
 		}
 
@@ -110,18 +92,40 @@ public class CargoHolderImp implements CargoHolder {
 			return this;
 		}
 
+		@Override
+		public CargoTransferBuilder all() {
+			source.getItems().stream().forEach(this::item);
+			return this;
+		}
+
+		@Override
+		public CargoTransferBuilder allOf(final CargoHolder cargo) {
+			cargo.getItems().stream().forEach(this::item);
+			return this;
+		}
+
 		protected void addItem(final CargoItem newItem) {
 			// Remove item of same cargo type, so that only the new item will be considered:
 			itemsToTranser.stream().filter(item -> item.getType().equals(newItem.getType())).findAny()
 					.ifPresent(existingItem -> itemsToTranser.remove(existingItem));
 
-			itemsToTranser.add(newItem);
+			final int quantity = newItem.getQuantity();
+			Assert.isTrue(quantity >= 0, "You cannot transfer a negative quantity " + quantity);
+
+			if (quantity > 0) {
+				itemsToTranser.add(newItem);
+			}
+		}
+
+		@Override
+		public CargoHolder sum() {
+			return new CargoPool(itemsToTranser);
 		}
 
 		@Override
 		public CargoTransferResult execute() {
-			final CargoHolderImp sourceImp = (CargoHolderImp) source;
-			final CargoHolderImp targetImp = (CargoHolderImp) target;
+			final AbstractCargoHolder sourceImp = (AbstractCargoHolder) source;
+			final AbstractCargoHolder targetImp = (AbstractCargoHolder) target;
 
 			for (final CargoItem item : itemsToTranser) {
 				sourceImp.remove(item);

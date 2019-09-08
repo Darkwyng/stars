@@ -1,11 +1,9 @@
 package com.pim.stars.game.imp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.dataextension.api.DataExtender;
+import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
@@ -13,9 +11,8 @@ import com.pim.stars.game.api.effects.GameInitializationPolicy;
 
 public class GameInitializerImp implements GameInitializer {
 
-	@Autowired(required = false)
-	private final List<GameInitializationPolicy> gameInitializationPolicyList = new ArrayList<>();
-
+	@Autowired
+	private EffectProvider effectProvider;
 	@Autowired
 	private DataExtender dataExtender;
 
@@ -33,8 +30,8 @@ public class GameInitializerImp implements GameInitializer {
 		final Game game = new GameImp();
 
 		dataExtender.extendData(game);
-
-		gameInitializationPolicyList.stream().forEach(policy -> policy.initializeGame(game, data));
+		effectProvider.getEffectCollection(game, null, GameInitializationPolicy.class).stream()
+				.forEach(policy -> policy.initializeGame(game, data));
 
 		return game;
 	}

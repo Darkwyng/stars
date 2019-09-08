@@ -26,7 +26,7 @@ import com.pim.stars.cargo.api.CargoHolder.CargoTransferResult;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.cargo.api.policies.CargoType;
-import com.pim.stars.cargo.imp.CargoHolderImp.CargoItemImp;
+import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
 import com.pim.stars.dataextension.api.Entity;
 
 @ExtendWith(SpringExtension.class)

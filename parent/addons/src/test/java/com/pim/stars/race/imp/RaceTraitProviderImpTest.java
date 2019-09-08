@@ -29,6 +29,7 @@ import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.colonization.imp.effects.LowStartingPopulationHomeworldInitializationPolicy;
 import com.pim.stars.effect.api.Effect;
+import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.race.RaceTestConfiguration;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
@@ -114,6 +115,11 @@ public class RaceTraitProviderImpTest {
 		@Bean
 		public ColonizationProperties colonizationProperties() {
 			return mock(ColonizationProperties.class);
+		}
+
+		@Bean
+		public EffectExecutor effectExecutor() {
+			return mock(EffectExecutor.class);
 		}
 	}
 }

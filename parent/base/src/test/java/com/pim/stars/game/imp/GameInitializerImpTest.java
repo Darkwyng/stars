@@ -6,10 +6,14 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.dataextension.api.DataExtender;
+import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.GameTestConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
@@ -33,12 +38,16 @@ public class GameInitializerImpTest {
 	private GameInitializationPolicy gameInitializationPolicy;
 	@Autowired
 	private DataExtender dataExtender;
+	@Autowired
+	private EffectProvider effectProvider;
 
 	private static int gameInitializationPolicyCallCounter = 0;
 
 	@BeforeEach
 	public void setUp() {
 		gameInitializationPolicyCallCounter = 0;
+		when(effectProvider.getEffectCollection(Mockito.any(), Mockito.any(), eq(GameInitializationPolicy.class)))
+				.thenReturn(Arrays.asList(gameInitializationPolicy));
 	}
 
 	@Test

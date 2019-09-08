@@ -13,7 +13,6 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.effects.PlanetInitializationPolicy;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
@@ -21,9 +20,6 @@ import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
 
 public class PlanetGameInitializationPolicy implements GameInitializationPolicy {
-
-	@Autowired(required = false)
-	private final List<PlanetInitializationPolicy> planetInitializationPolicyList = new ArrayList<>();
 
 	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
@@ -63,8 +59,6 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 		final PlanetImp newPlanet = new PlanetImp();
 
 		dataExtender.extendData(newPlanet);
-
-		planetInitializationPolicyList.forEach(policy -> policy.initializePlanet(game, newPlanet, data));
 
 		return newPlanet;
 	}

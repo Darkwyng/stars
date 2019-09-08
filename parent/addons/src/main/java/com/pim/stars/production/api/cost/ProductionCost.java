@@ -28,9 +28,9 @@ public interface ProductionCost {
 		public int getAmount();
 	}
 
-	public interface ProductionInputBuilder {
+	public interface ProductionCostBuilder {
 
-		public ProductionInputBuilder add(ProductionCostType type, int amount);
+		public ProductionCostBuilder add(ProductionCostType type, int amount);
 
 		public ProductionCost build();
 	}

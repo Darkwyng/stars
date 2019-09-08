@@ -46,11 +46,10 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 
 	@Override
 	public double getMaximumGrowthRateForPlanet(final Game game, final Planet planet) {
-		// TODO: colonist growth: depends on race and habitability
 		if (planetOwnerId.getValue(planet) == null) {
 			return 0;
 		} else {
-			return 0.17;
+			return 0.15;
 		}
 	}
 
@@ -65,7 +64,6 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 			final double maximumGrowthRate = getMaximumGrowthRateForPlanet(game, planet);
 			final int capacity = getPlanetCapacity(game, planet);
 
-			// TODO: colonist growth: this is not quite the correct algorithm for population growth (consider negative planets, overcrowding, rounding)
 			final double currentGrowthRate;
 			if (currentPopulation <= 0.25 * capacity) {
 				currentGrowthRate = maximumGrowthRate;

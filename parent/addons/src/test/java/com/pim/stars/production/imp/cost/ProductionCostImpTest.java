@@ -13,7 +13,7 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.policies.ProductionCostType;
-import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionInputBuilderImp;
+import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionCostBuilderImp;
 
 public class ProductionCostImpTest {
 
@@ -43,16 +43,16 @@ public class ProductionCostImpTest {
 		}
 	};
 
-	private final ProductionCost zero = new ProductionInputBuilderImp().build();
-	private final ProductionCost one_0 = new ProductionInputBuilderImp().add(typeOne, 0).build();
-	private final ProductionCost one_17 = new ProductionInputBuilderImp().add(typeOne, 17).build();
-	private final ProductionCost two_15 = new ProductionInputBuilderImp().add(typeTwo, 15).build();
-	private final ProductionCost one_12_two_16 = new ProductionInputBuilderImp().add(typeOne, 12).add(typeTwo, 16)
+	private final ProductionCost zero = new ProductionCostBuilderImp().build();
+	private final ProductionCost one_0 = new ProductionCostBuilderImp().add(typeOne, 0).build();
+	private final ProductionCost one_17 = new ProductionCostBuilderImp().add(typeOne, 17).build();
+	private final ProductionCost two_15 = new ProductionCostBuilderImp().add(typeTwo, 15).build();
+	private final ProductionCost one_12_two_16 = new ProductionCostBuilderImp().add(typeOne, 12).add(typeTwo, 16)
 			.build();
 
-	private final ProductionCost one_35 = new ProductionInputBuilderImp().add(typeOne, 35).build();
-	private final ProductionCost two_29 = new ProductionInputBuilderImp().add(typeTwo, 29).build();
-	private final ProductionCost one_35_two_29 = new ProductionInputBuilderImp().add(typeOne, 35).add(typeTwo, 29)
+	private final ProductionCost one_35 = new ProductionCostBuilderImp().add(typeOne, 35).build();
+	private final ProductionCost two_29 = new ProductionCostBuilderImp().add(typeTwo, 29).build();
+	private final ProductionCost one_35_two_29 = new ProductionCostBuilderImp().add(typeOne, 35).add(typeTwo, 29)
 			.build();
 
 	@Test()

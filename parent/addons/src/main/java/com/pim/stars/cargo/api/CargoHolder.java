@@ -25,7 +25,13 @@ public interface CargoHolder {
 
 		public CargoTransferBuilder item(CargoItem item);
 
+		public CargoTransferBuilder all();
+
+		public CargoTransferBuilder allOf(CargoHolder cargo);
+
 		public CargoTransferResult execute();
+
+		public CargoHolder sum();
 	}
 
 	public interface CargoTransferResult {

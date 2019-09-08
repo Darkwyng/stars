@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.game.api.Game;
@@ -36,7 +37,7 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 
 	@Override
 	public int getSequence() {
-		return 3000;
+		return 4000;
 	}
 
 	@Override
@@ -48,24 +49,22 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 			final String ownerId = raceId.getValue(race);
 			planetOwnerId.setValue(planet, ownerId);
 
-			effectExecutor.executeEffect(game, HomeworldInitializationPolicy.class,
-					planet, (policy, context) -> policy.initializeHomeworld(game, planet, initializationData));
+			effectExecutor.executeEffect(game, HomeworldInitializationPolicy.class, planet,
+					(policy, context) -> policy.initializeHomeworld(game, planet, race, initializationData));
 		});
 	}
 
 	private Planet selectNewHomeworld(final Collection<Planet> planetCollection, final Collection<Planet> homeworlds) {
-		if (planetCollection.size() > homeworlds.size()) {
-			final List<Planet> planetList = new ArrayList<>(planetCollection);
-			while (true) {
-				final int index = random.nextInt(planetList.size());
-				final Planet newHomeworld = planetList.get(index);
-				if (!homeworlds.contains(newHomeworld)) {
-					homeworlds.add(newHomeworld);
-					return newHomeworld;
-				}
+		Assert.isTrue(planetCollection.size() > homeworlds.size(), "There must be enough planets for all races.");
+
+		final List<Planet> planetList = new ArrayList<>(planetCollection);
+		while (true) {
+			final int index = random.nextInt(planetList.size());
+			final Planet newHomeworld = planetList.get(index);
+			if (!homeworlds.contains(newHomeworld)) {
+				homeworlds.add(newHomeworld);
+				return newHomeworld;
 			}
-		} else {
-			throw new IllegalStateException("There are not enough planets for all races.");
 		}
 	}
 }

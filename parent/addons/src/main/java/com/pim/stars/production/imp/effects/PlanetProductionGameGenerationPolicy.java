@@ -1,4 +1,4 @@
-package com.pim.stars.production.imp.policies;
+package com.pim.stars.production.imp.effects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,7 +46,7 @@ public class PlanetProductionGameGenerationPolicy implements GameGenerationPolic
 			executor.execute(builder);
 		});
 
-		// TODO: create reports for planet production
+		// TODO: report for production
 		builder.finish();
-	} // TODO: integration test
+	}
 }

@@ -24,14 +24,16 @@ import org.mockito.MockitoAnnotations;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.cost.ProductionCost;
-import com.pim.stars.production.api.cost.ProductionCost.ProductionInputBuilder;
+import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
 import com.pim.stars.production.api.policies.ProductionCostType;
 import com.pim.stars.production.api.policies.ProductionItemType;
 import com.pim.stars.production.imp.ProductionQueue;
 import com.pim.stars.production.imp.ProductionQueueEntry;
-import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionInputBuilderImp;
-import com.pim.stars.production.imp.policies.ProductionResultBuilder.PlanetProductionResult;
-import com.pim.stars.production.imp.policies.ProductionResultBuilder.ProducedItem;
+import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionCostBuilderImp;
+import com.pim.stars.production.imp.effects.ProductionExecutor;
+import com.pim.stars.production.imp.effects.ProductionResultBuilder;
+import com.pim.stars.production.imp.effects.ProductionResultBuilder.PlanetProductionResult;
+import com.pim.stars.production.imp.effects.ProductionResultBuilder.ProducedItem;
 
 public class ProductionExecutorTest {
 
@@ -175,7 +177,7 @@ public class ProductionExecutorTest {
 	}
 
 	private ProductionCost createCost(final int costForOne, final int costForTwo) {
-		final ProductionInputBuilder builder = new ProductionInputBuilderImp();
+		final ProductionCostBuilder builder = new ProductionCostBuilderImp();
 		if (costForOne > 0) {
 			builder.add(ONE, costForOne);
 		}
@@ -229,12 +231,12 @@ public class ProductionExecutorTest {
 		}
 
 		@Override
-		public ProductionCost getCostPerItem() {
+		public ProductionCost getCostPerItem(Game game, Planet planet, ProductionCostBuilder builder) {
 			return cost;
 		}
 
 		@Override
-		public void produce(final int numberOfItems) {
+		public void produce(Game game, Planet planet, final int numberOfItems) {
 			producedItems.add(numberOfItems);
 		}
 

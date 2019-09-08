@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.dataextension.api.DataExtensionConfiguration;
+import com.pim.stars.effect.api.EffectConfiguration;
+import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.imp.GameGeneratorImp;
 import com.pim.stars.game.imp.GameInitializerImp;
 
@@ -26,7 +28,7 @@ public interface GameConfiguration {
 	}
 
 	@Configuration
-	@Import({ DataExtensionConfiguration.Complete.class })
+	@Import({ DataExtensionConfiguration.Complete.class, EffectConfiguration.Complete.class })
 	public static class Complete extends Provided {
 
 	}
@@ -34,5 +36,7 @@ public interface GameConfiguration {
 	public static interface Required {
 
 		public DataExtender dataExtender();
+
+		public EffectProvider effectProvider();
 	}
 }

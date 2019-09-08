@@ -1,4 +1,4 @@
-package com.pim.stars.production.imp.policies;
+package com.pim.stars.production.imp.effects;
 
 import java.util.function.Function;
 
@@ -7,7 +7,8 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.imp.ProductionQueue;
 import com.pim.stars.production.imp.ProductionQueueEntry;
-import com.pim.stars.production.imp.policies.ProductionResultBuilder.PlanetProductionResultBuilder;
+import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionCostBuilderImp;
+import com.pim.stars.production.imp.effects.ProductionResultBuilder.PlanetProductionResultBuilder;
 
 public class ProductionExecutor {
 
@@ -29,7 +30,8 @@ public class ProductionExecutor {
 		final PlanetProductionResultBuilder planetResultBuilder = builder.startPlanet(planet);
 
 		for (final ProductionQueueEntry entry : queue) {
-			final ProductionCost costPerItem = entry.getType().getCostPerItem();
+			final ProductionCost costPerItem = entry.getType().getCostPerItem(game, planet,
+					new ProductionCostBuilderImp());
 			final int numberToBuild = entry.getNumberOfItemsToBuild();
 
 			final int numberToBuildNow = getNumberToBuildNow(entry, costPerItem, numberToBuild);
@@ -88,7 +90,7 @@ public class ProductionExecutor {
 		// Report:
 		planetResultBuilder.produce(entry.getType(), numberOfItems);
 		// Do the actual building:
-		entry.getType().produce(numberOfItems);
+		entry.getType().produce(game, planet, numberOfItems);
 		// Update the entry, so the the items won't be built again:
 		final int remainingNumberToBuild = entry.getNumberOfItemsToBuild() - numberOfItems;
 		entry.setNumberOfItemsToBuild(remainingNumberToBuild);

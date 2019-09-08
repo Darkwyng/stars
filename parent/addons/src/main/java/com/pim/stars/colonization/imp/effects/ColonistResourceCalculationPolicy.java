@@ -15,7 +15,6 @@ public class ColonistResourceCalculationPolicy implements ResourceCalculationPol
 	@Override
 	public int getPlanetResources(final Game game, final Planet planet, final int resources) {
 		final int population = colonistCalculator.getCurrentPlanetPopulation(game, planet);
-		// TODO: colonist resources: depends on their efficiency defined in the race
-		return resources + population / 1000;
+		return resources + population / 10;
 	}
 }

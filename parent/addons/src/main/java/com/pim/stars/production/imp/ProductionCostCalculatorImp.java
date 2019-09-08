@@ -9,7 +9,7 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.ProductionCostCalculator;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.effects.ProductionInputCalculator;
-import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionInputBuilderImp;
+import com.pim.stars.production.imp.cost.ProductionCostImp.ProductionCostBuilderImp;
 
 @Component
 public class ProductionCostCalculatorImp implements ProductionCostCalculator {
@@ -20,10 +20,10 @@ public class ProductionCostCalculatorImp implements ProductionCostCalculator {
 	@Override
 	public ProductionCost getProductionInputForPlanet(final Game game, final Planet planet) {
 
-		final ProductionInputBuilderImp builder = new ProductionInputBuilderImp();
+		final ProductionCostBuilderImp builder = new ProductionCostBuilderImp();
 		effectExecutor.executeEffect(game, ProductionInputCalculator.class, planet,
 				(policy, context) -> policy.calculateProductionInput(game, planet, builder));
 
 		return builder.build();
-	} // TODO: integration test
+	}
 }

@@ -27,6 +27,7 @@ public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy 
 			if (gain > 0) {
 				cargoProcessor.createCargoHolder(planet).transferFromNowhere().quantity(colonistCargoType, gain)
 						.execute();
+				// TODO: report for colonist growth
 			}
 		});
 	}
