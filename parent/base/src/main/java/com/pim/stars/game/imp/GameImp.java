@@ -3,11 +3,8 @@ package com.pim.stars.game.imp;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import com.pim.stars.game.api.Game;
 
-@Document
 public class GameImp implements Game {
 
 	private final Map<String, Object> extensions = new HashMap<>();
