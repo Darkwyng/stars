@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import java.util.Collection;
 import java.util.Set;
@@ -52,7 +52,7 @@ public class PlanetIntegrationTest {
 
 		// Check that each planet has a unique name:
 		final Set<String> usedNames = planetCollection.stream().map(planetName::getValue) //
-				.peek(name -> assertThat(name, not(isEmptyOrNullString()))) //
+				.peek(name -> assertThat(name, not(emptyOrNullString()))) //
 				.collect(Collectors.toSet());
 		assertThat(planetCollection.size(), is(usedNames.size()));
 

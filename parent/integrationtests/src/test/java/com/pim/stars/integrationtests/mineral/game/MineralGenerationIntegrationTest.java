@@ -1,5 +1,7 @@
 package com.pim.stars.integrationtests.mineral.game;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -84,7 +86,9 @@ public class MineralGenerationIntegrationTest {
 
 	private Map<CargoType, Integer> collectCargo(final Planet homeworld) {
 		final Map<CargoType, Integer> result = new HashMap<>();
-		planetCargo.getValue(homeworld).getItems().stream()
+		planetCargo.getValue(homeworld).getItems().stream() //
+				.peek(entry -> assertThat(entry, not(nullValue())))
+				.peek(entry -> assertThat(entry.getType(), not(nullValue())))
 				.forEach(entry -> result.put(entry.getType(), entry.getQuantity()));
 
 		return result;

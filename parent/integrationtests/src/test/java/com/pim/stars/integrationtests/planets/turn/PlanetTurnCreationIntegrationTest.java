@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import java.util.Collection;
 import java.util.List;
@@ -126,7 +126,7 @@ public class PlanetTurnCreationIntegrationTest {
 
 	private Set<String> getPlanetNames(final Collection<Planet> planetCollection) {
 		return planetCollection.stream().map(planetName::getValue) //
-				.peek(name -> assertThat(name, not(isEmptyOrNullString()))) //
+				.peek(name -> assertThat(name, not(emptyOrNullString()))) //
 				.collect(Collectors.toSet());
 	}
 }

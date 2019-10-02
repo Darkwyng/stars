@@ -2,7 +2,7 @@ package com.pim.stars.id.imp;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class IdCreatorImpTest {
 	@Test
 	public void testThatIdsAreCreated() {
 		final String defaultId = idDataExtensionPolicy.getDefaultValue().get();
-		assertThat(defaultId, not(isEmptyOrNullString()));
+		assertThat(defaultId, not(emptyOrNullString()));
 	}
 
 	@Configuration

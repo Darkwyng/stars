@@ -2,7 +2,7 @@ package com.pim.stars.colonization.api.policies;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +21,6 @@ public class ColonistCargoTypeTest {
 
 	@Test
 	void testThatIdIsNotEmpty() {
-		assertThat(colonistCargoType.getId(), not(isEmptyOrNullString()));
+		assertThat(colonistCargoType.getId(), not(emptyOrNullString()));
 	}
 }

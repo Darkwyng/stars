@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import java.util.Collection;
 import java.util.List;
@@ -73,7 +73,7 @@ public class RaceTurnCreationIntegrationTest {
 		dataRaceCollection.getValue(initializationData).add(secondRace);
 		final Game game = gameInitializer.initializeGame(initializationData);
 		final String firstRaceid = raceId.getValue(firstRace);
-		assertThat(firstRaceid, not(isEmptyOrNullString()));
+		assertThat(firstRaceid, not(emptyOrNullString()));
 
 		// Check that races have been initialized:
 		final Collection<Race> raceCollection = gameRaceCollection.getValue(game);
@@ -126,7 +126,7 @@ public class RaceTurnCreationIntegrationTest {
 
 	private Set<String> getRaceIds(final Collection<Race> raceCollection) {
 		return raceCollection.stream().map(raceId::getValue) //
-				.peek(name -> assertThat(name, not(isEmptyOrNullString()))) //
+				.peek(name -> assertThat(name, not(emptyOrNullString()))) //
 				.collect(Collectors.toSet());
 	}
 }

@@ -84,8 +84,8 @@ public class MineralInitializationIntegrationTest {
 		assertThat(concentrations, not(nullValue()));
 		assertThat(concentrations, IsIterableWithSize.iterableWithSize(3));
 		concentrations.forEach(conc -> {
-			assertThat(conc.getAmount(), greaterThan(0.0));
 			assertThat(conc.getType(), not(nullValue()));
+			assertThat(conc.getAmount(), greaterThan(0.0));
 		});
 	}
 
