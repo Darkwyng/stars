@@ -79,7 +79,7 @@ public class MineralGenerationIntegrationTest {
 		final Map<CargoType, Integer> cargoAfterMining = collectCargo(getHomeworld(game));
 
 		assertThat(mineralTypes, hasSize(greaterThan(0)));
-		mineralTypes.stream().forEach(type -> {
+		mineralTypes.stream().peek(type -> assertThat(type, not(nullValue()))).forEach(type -> {
 			assertThat(cargoAfterMining.get(type), greaterThan(cargoBeforeMining.get(type)));
 		});
 	}
