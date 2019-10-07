@@ -41,7 +41,6 @@
 		<dependency>
 			<groupId>com.pim.stars</groupId>
 			<artifactId>addons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
