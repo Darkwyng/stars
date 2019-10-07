@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.dataextension.api.DataExtensionConfiguration;
-import com.pim.stars.id.api.IdConfiguration;
+import com.pim.stars.id.IdConfiguration;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;

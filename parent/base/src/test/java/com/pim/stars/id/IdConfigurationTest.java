@@ -1,4 +1,4 @@
-package com.pim.stars.id.api;
+package com.pim.stars.id;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.id.IdTestConfiguration;
+import com.pim.stars.id.IdConfiguration;
+import com.pim.stars.id.api.IdCreator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = IdTestConfiguration.class)

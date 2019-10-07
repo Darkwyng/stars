@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.id.api.IdConfiguration;
+import com.pim.stars.id.IdConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = IdConfiguration.Complete.class)

@@ -1,9 +1,10 @@
-package com.pim.stars.id.api;
+package com.pim.stars.id;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.id.imp.IdCreatorImp;
 
 public interface IdConfiguration {
