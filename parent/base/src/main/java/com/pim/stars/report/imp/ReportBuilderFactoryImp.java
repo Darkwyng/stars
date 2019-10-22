@@ -26,18 +26,24 @@ public class ReportBuilderFactoryImp implements ReportBuilderFactory {
 
 	private static class ReportBuilderImp implements ReportBuilder {
 
-		private final String reportClassName;
+		final ReportEntity report = new ReportEntity();
 		private final ReportRepository reportRepository;
 
 		public ReportBuilderImp(final ReportRepository reportRepository, final String reportClassName) {
 			this.reportRepository = reportRepository;
-			this.reportClassName = reportClassName;
+			report.setReportClassName(reportClassName);
+		}
+
+		@Override
+		public ReportBuilder addArguments(final String... arguments) {
+			for (final String argument : arguments) {
+				report.getArguments().add(argument);
+			}
+			return this;
 		}
 
 		@Override
 		public void build() {
-			final ReportEntity report = new ReportEntity();
-			report.setReportClassName(reportClassName);
 			reportRepository.insert(report);
 		}
 	}

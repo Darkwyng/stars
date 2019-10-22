@@ -2,10 +2,11 @@ package com.pim.stars.report.imp;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 
 import java.util.List;
 
-import org.hamcrest.collection.IsIterableWithSize;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,13 @@ public class ReportBuilderTest {
 
 	@Test
 	public void testThatReportCanBeCreated() {
-		reportBuilderFactory.create(getClass()).build();
+		reportBuilderFactory.create(getClass()).addArguments("One", "Two").build();
 
 		final List<ReportEntity> allReports = reportRepository.findAll();
-		assertThat(allReports, IsIterableWithSize.iterableWithSize(1));
+		assertThat(allReports, iterableWithSize(1));
 
 		final ReportEntity report = allReports.iterator().next();
 		assertThat(report.getReportClassName(), is(getClass().getName()));
+		assertThat(report.getArguments(), containsInAnyOrder("One", "Two"));
 	}
 }
