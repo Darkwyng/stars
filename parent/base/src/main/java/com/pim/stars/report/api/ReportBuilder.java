@@ -1,15 +1,24 @@
 package com.pim.stars.report.api;
 
+import com.pim.stars.game.api.Game;
+import com.pim.stars.turn.api.Race;
+
 public interface ReportBuilder {
 
-	public ReportBuilder addArguments(String... arguments);
+	public ReportTypeBuilder create(Game game, Race race);
 
-	public void build();
+	public static interface ReportTypeBuilder {
 
-	public static interface ReportBuilderFactory {
+		public ReportArgumentBuilder type(Class<?> reportClass);
 
-		public ReportBuilder create(Class<?> reportClass);
+		public ReportArgumentBuilder type(String reportClassName);
+	}
 
-		public ReportBuilder create(String reportClassName);
+	public static interface ReportArgumentBuilder {
+
+		public ReportArgumentBuilder addArguments(String... arguments);
+
+		public void build();
+
 	}
 }

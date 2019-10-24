@@ -8,4 +8,8 @@ public interface Game extends Entity<Game> {
 	public default Class<Game> getEntityClass() {
 		return Game.class;
 	}
+
+	public String getId();
+
+	public int getYear();
 }

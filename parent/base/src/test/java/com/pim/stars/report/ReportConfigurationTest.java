@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.report.api.ReportBuilder.ReportBuilderFactory;
+import com.pim.stars.report.api.ReportBuilder;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ReportTestConfiguration.class)
 public class ReportConfigurationTest {
 
 	@Autowired
-	private ReportBuilderFactory reportBuilderFactory;
+	private ReportBuilder reportBuilderFactory;
 
 	@Test
 	public void testThatApplicationContextStarts() {

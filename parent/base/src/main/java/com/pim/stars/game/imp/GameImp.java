@@ -18,4 +18,14 @@ public class GameImp implements Game {
 	public void set(final String key, final Object value) {
 		extensions.put(key, value);
 	}
+
+	@Override
+	public String getId() {
+		return null; // TODO 1: impl gameId
+	}
+
+	@Override
+	public int getYear() {
+		return 0; // TODO 1: impl gameId
+	}
 }

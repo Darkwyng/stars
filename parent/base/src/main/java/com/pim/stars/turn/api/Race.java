@@ -8,4 +8,6 @@ public interface Race extends Entity<Race> {
 	public default Class<Race> getEntityClass() {
 		return Race.class;
 	}
+
+	public String getId();
 }

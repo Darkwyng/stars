@@ -8,8 +8,36 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ReportEntity {
 
+	private String gameId;
+	private int year;
+	private String raceId;
+
 	private String reportClassName;
 	private Collection<String> arguments = new ArrayList<>();
+
+	public String getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(final String gameId) {
+		this.gameId = gameId;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(final int year) {
+		this.year = year;
+	}
+
+	public String getRaceId() {
+		return raceId;
+	}
+
+	public void setRaceId(final String raceId) {
+		this.raceId = raceId;
+	}
 
 	public String getReportClassName() {
 		return reportClassName;
