@@ -27,11 +27,11 @@ public class TurnImp implements Turn {
 
 	@Override
 	public String getId() {
-		return null; // TODO 1: impl gameId
+		return "some game turn id"; // TODO 1: impl gameId
 	}
 
 	@Override
 	public int getYear() {
-		return 0; // TODO 1: impl gameId
+		return 2452; // TODO 1: impl gameId
 	}
 }
