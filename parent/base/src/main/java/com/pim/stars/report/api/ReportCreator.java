@@ -3,9 +3,9 @@ package com.pim.stars.report.api;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.turn.api.Race;
 
-public interface ReportBuilder {
+public interface ReportCreator {
 
-	public ReportTypeBuilder create(Game game, Race race);
+	public ReportTypeBuilder start(Game game, Race race);
 
 	public static interface ReportTypeBuilder {
 
@@ -18,7 +18,7 @@ public interface ReportBuilder {
 
 		public ReportArgumentBuilder addArguments(String... arguments);
 
-		public void build();
+		public void create();
 
 	}
 }

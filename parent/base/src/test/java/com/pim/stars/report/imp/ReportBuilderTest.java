@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.report.ReportTestConfiguration;
-import com.pim.stars.report.api.ReportBuilder;
+import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
 import com.pim.stars.turn.api.Race;
@@ -30,7 +30,7 @@ import com.pim.stars.turn.api.Race;
 public class ReportBuilderTest {
 
 	@Autowired
-	private ReportBuilder reportBuilderFactory;
+	private ReportCreator reportCreator;
 	@Autowired
 	private ReportRepository reportRepository;
 
@@ -41,8 +41,8 @@ public class ReportBuilderTest {
 
 	@Test
 	public void testThatReportCanBeCreatedAndRead() {
-		reportBuilderFactory.create(mockGame("myGameId", 2501), mockRace("my race id")).type(getClass())
-				.addArguments("One", "Two").build();
+		reportCreator.start(mockGame("myGameId", 2501), mockRace("my race id")).type(getClass())
+				.addArguments("One", "Two").create();
 
 		final List<ReportEntity> allReports = reportRepository.findAll();
 		assertThat(allReports, iterableWithSize(1));
@@ -62,13 +62,13 @@ public class ReportBuilderTest {
 		final String raceId = "my race id";
 
 		// Same ids and year:
-		reportBuilderFactory.create(mockGame(gameId, year), mockRace(raceId)).type("Type1").build();
-		reportBuilderFactory.create(mockGame(gameId, year), mockRace(raceId)).type("Type2").build();
+		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type1").create();
+		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type2").create();
 
 		// Other data:
-		reportBuilderFactory.create(mockGame("myOtherGameId", year), mockRace(raceId)).type("Type3").build();
-		reportBuilderFactory.create(mockGame(gameId, 2502), mockRace(raceId)).type("Type4").build();
-		reportBuilderFactory.create(mockGame(gameId, year), mockRace("my other race id")).type("Type5").build();
+		reportCreator.start(mockGame("myOtherGameId", year), mockRace(raceId)).type("Type3").create();
+		reportCreator.start(mockGame(gameId, 2502), mockRace(raceId)).type("Type4").create();
+		reportCreator.start(mockGame(gameId, year), mockRace("my other race id")).type("Type5").create();
 
 		assertAll(() -> assertThat(getStoredReportTypes(gameId, year, raceId), containsInAnyOrder("Type1", "Type2")),
 				() -> assertThat(getStoredReportTypes("myOtherGameId", year, raceId), containsInAnyOrder("Type3")),

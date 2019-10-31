@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
-import com.pim.stars.report.api.ReportBuilder;
+import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
 import com.pim.stars.turn.api.Race;
 
 @Component
-public class ReportBuilderImp implements ReportBuilder {
+public class ReportCreatorImp implements ReportCreator {
 
 	@Autowired
 	private ReportRepository reportRepository;
 
 	@Override
-	public ReportTypeBuilder create(final Game game, final Race race) {
+	public ReportTypeBuilder start(final Game game, final Race race) {
 		final ReportEntity report = new ReportEntity();
 		report.setGameId(game.getId());
 		report.setYear(game.getYear());
@@ -66,7 +66,7 @@ public class ReportBuilderImp implements ReportBuilder {
 		}
 
 		@Override
-		public void build() {
+		public void create() {
 			reportRepository.insert(report);
 		}
 	}

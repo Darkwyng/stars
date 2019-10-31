@@ -21,11 +21,11 @@ public class GameImp implements Game {
 
 	@Override
 	public String getId() {
-		return null; // TODO 1: impl gameId
+		return "some game id"; // TODO 1: impl gameId
 	}
 
 	@Override
 	public int getYear() {
-		return 0; // TODO 1: impl gameId
+		return 2451; // TODO 1: impl gameId
 	}
 }
