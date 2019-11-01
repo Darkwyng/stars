@@ -2,8 +2,11 @@ package com.pim.stars.production;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
+import com.pim.stars.effect.api.EffectCalculator;
+import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.planets.api.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.resource.ResourceConfiguration;
@@ -12,7 +15,8 @@ import com.pim.stars.resource.api.ResourceCalculator;
 public interface ProductionConfiguration {
 
 	@Configuration
-	@ComponentScan
+	@ComponentScan(excludeFilters = {
+			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
 	public static class Provided {
 
 	}
@@ -28,5 +32,9 @@ public interface ProductionConfiguration {
 		public GamePlanetCollection gamePlanetCollection();
 
 		public ResourceCalculator resourceCalculator();
+
+		public EffectCalculator effectCalculator();
+
+		public EffectExecutor effectExecutor();
 	}
 }

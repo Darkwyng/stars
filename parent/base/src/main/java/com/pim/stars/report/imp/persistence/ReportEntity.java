@@ -13,6 +13,8 @@ public class ReportEntity {
 	private String raceId;
 
 	private String reportClassName;
+	private String bundleName;
+
 	private Collection<String> arguments = new ArrayList<>();
 
 	public String getGameId() {
@@ -45,6 +47,15 @@ public class ReportEntity {
 
 	public void setReportClassName(final String className) {
 		this.reportClassName = className;
+	}
+
+	public String getBundleName() {
+		return bundleName;
+	}
+
+	public void setBundleName(final String bundleName) {
+		this.bundleName = bundleName;
+
 	}
 
 	public Collection<String> getArguments() {

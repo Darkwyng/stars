@@ -12,9 +12,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.mineral.MineralConfiguration;
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = MineralConfiguration.Complete.class)
+@ContextConfiguration(classes = { MineralConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class MineralCompleteConfigurationTest {
 
 	@Autowired

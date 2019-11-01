@@ -29,6 +29,8 @@ import com.pim.stars.turn.api.Race;
 @ContextConfiguration(classes = ReportTestConfiguration.class)
 public class ReportBuilderTest {
 
+	private static final String BUNDLE_NAME = "com.pim.stars.report.imp.messages";
+
 	@Autowired
 	private ReportCreator reportCreator;
 	@Autowired
@@ -41,7 +43,7 @@ public class ReportBuilderTest {
 
 	@Test
 	public void testThatReportCanBeCreatedAndRead() {
-		reportCreator.start(mockGame("myGameId", 2501), mockRace("my race id")).type(getClass())
+		reportCreator.start(mockGame("myGameId", 2501), mockRace("my race id")).type(getClass()).bundle(BUNDLE_NAME)
 				.addArguments("One", "Two").create();
 
 		final List<ReportEntity> allReports = reportRepository.findAll();
@@ -62,13 +64,15 @@ public class ReportBuilderTest {
 		final String raceId = "my race id";
 
 		// Same ids and year:
-		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type1").create();
-		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type2").create();
+		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type1").bundle(BUNDLE_NAME).create();
+		reportCreator.start(mockGame(gameId, year), mockRace(raceId)).type("Type2").bundle(BUNDLE_NAME).create();
 
 		// Other data:
-		reportCreator.start(mockGame("myOtherGameId", year), mockRace(raceId)).type("Type3").create();
-		reportCreator.start(mockGame(gameId, 2502), mockRace(raceId)).type("Type4").create();
-		reportCreator.start(mockGame(gameId, year), mockRace("my other race id")).type("Type5").create();
+		reportCreator.start(mockGame("myOtherGameId", year), mockRace(raceId)).type("Type3").bundle(BUNDLE_NAME)
+				.create();
+		reportCreator.start(mockGame(gameId, 2502), mockRace(raceId)).type("Type4").bundle(BUNDLE_NAME).create();
+		reportCreator.start(mockGame(gameId, year), mockRace("my other race id")).type("Type5").bundle(BUNDLE_NAME)
+				.create();
 
 		assertAll(() -> assertThat(getStoredReportTypes(gameId, year, raceId), containsInAnyOrder("Type1", "Type2")),
 				() -> assertThat(getStoredReportTypes("myOtherGameId", year, raceId), containsInAnyOrder("Type3")),

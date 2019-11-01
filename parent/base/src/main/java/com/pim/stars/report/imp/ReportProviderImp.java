@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,31 +20,24 @@ public class ReportProviderImp implements ReportProvider {
 	@Autowired
 	private ReportRepository reportRepository;
 
-	@PostConstruct
-	public void postConstruct() {
-		// To fail early (if necessary), the bundle is loaded while the application context is starting up:
-		getBundle(Locale.CHINA);
-	}
-
 	@Override
 	public Stream<MessageReport> getReports(final Game game, final Race race, final Locale locale) {
-		final ResourceBundle bundle = getBundle(locale);
 		return reportRepository.findByGameIdAndYearAndRaceId(game.getId(), game.getYear(), race.getId()).stream()
-				.map(entity -> new MessageReportImp(entity, bundle));
+				.map(entity -> new MessageReportImp(entity, locale));
 	}
 
-	protected ResourceBundle getBundle(final Locale locale) {
-		return ResourceBundle.getBundle("com.pim.stars.report.imp.messages", locale); // TODO: bundle name is part of API
+	protected ResourceBundle getBundle(final String bundleName, final Locale locale) {
+		return ResourceBundle.getBundle(bundleName, locale); // TODO 5: bad error handling; this may raise an exception if the bundle does not exist
 	}
 
 	private class MessageReportImp implements MessageReport {
 
 		private final ReportEntity entity;
-		private final ResourceBundle bundle;
+		private final Locale locale;
 
-		public MessageReportImp(final ReportEntity entity, final ResourceBundle bundle) {
+		public MessageReportImp(final ReportEntity entity, final Locale locale) {
 			this.entity = entity;
-			this.bundle = bundle;
+			this.locale = locale;
 		}
 
 		@Override
@@ -56,6 +47,7 @@ public class ReportProviderImp implements ReportProvider {
 
 		@Override
 		public String getMessage() {
+			final ResourceBundle bundle = getBundle(entity.getBundleName(), locale);
 			final String pattern = bundle.getString(entity.getReportClassName());
 			return MessageFormat.format(pattern, entity.getArguments().toArray());
 		}

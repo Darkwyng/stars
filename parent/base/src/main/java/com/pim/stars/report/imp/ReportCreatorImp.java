@@ -17,10 +17,19 @@ public class ReportCreatorImp implements ReportCreator {
 
 	@Override
 	public ReportTypeBuilder start(final Game game, final Race race) {
+		return start(game, race.getId());
+	}
+
+	@Override
+	public ReportTypeBuilder start(final Game game, final String raceId) {
+		return start(game.getId(), game.getYear(), raceId);
+	}
+
+	private ReportTypeBuilder start(final String gameId, final int year, final String raceId) {
 		final ReportEntity report = new ReportEntity();
-		report.setGameId(game.getId());
-		report.setYear(game.getYear());
-		report.setRaceId(race.getId());
+		report.setGameId(gameId);
+		report.setYear(year);
+		report.setRaceId(raceId);
 
 		return new ReportTypeBuilderImp(reportRepository, report);
 	}
@@ -36,15 +45,33 @@ public class ReportCreatorImp implements ReportCreator {
 		}
 
 		@Override
-		public ReportArgumentBuilder type(final Class<?> reportClass) {
+		public ReportBundleBuilder type(final Class<?> reportClass) {
 			return type(reportClass.getName());
 		}
 
 		@Override
-		public ReportArgumentBuilder type(final String reportClassName) {
+		public ReportBundleBuilder type(final String reportClassName) {
 			report.setReportClassName(reportClassName);
+			return new ReportBundleBuilderImp(reportRepository, report);
+		}
+	}
+
+	private static class ReportBundleBuilderImp implements ReportBundleBuilder {
+
+		private final ReportRepository reportRepository;
+		private final ReportEntity report;
+
+		public ReportBundleBuilderImp(final ReportRepository reportRepository, final ReportEntity report) {
+			this.reportRepository = reportRepository;
+			this.report = report;
+		}
+
+		@Override
+		public ReportArgumentBuilder bundle(final String bundleName) {
+			report.setBundleName(bundleName);
 			return new ReportArgumentBuilderImp(reportRepository, report);
 		}
+
 	}
 
 	private static class ReportArgumentBuilderImp implements ReportArgumentBuilder {

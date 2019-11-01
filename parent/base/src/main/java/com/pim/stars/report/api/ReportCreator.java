@@ -7,11 +7,18 @@ public interface ReportCreator {
 
 	public ReportTypeBuilder start(Game game, Race race);
 
+	public ReportTypeBuilder start(Game game, String raceId);
+
 	public static interface ReportTypeBuilder {
 
-		public ReportArgumentBuilder type(Class<?> reportClass);
+		public ReportBundleBuilder type(Class<?> reportClass);
 
-		public ReportArgumentBuilder type(String reportClassName);
+		public ReportBundleBuilder type(String reportClassName);
+	}
+
+	public static interface ReportBundleBuilder {
+
+		public ReportArgumentBuilder bundle(String bundleName);
 	}
 
 	public static interface ReportArgumentBuilder {

@@ -22,6 +22,7 @@ import com.pim.stars.mineral.MineralConfiguration;
 import com.pim.stars.mineral.api.extensions.PlanetIsHomeworld;
 import com.pim.stars.mineral.api.extensions.PlanetMineCount;
 import com.pim.stars.mineral.imp.policies.MineProductionItemType;
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.production.api.PlanetProductionQueueManager;
@@ -35,7 +36,7 @@ import com.pim.stars.turn.api.TurnConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
-		MineralConfiguration.Complete.class, TurnConfiguration.Complete.class })
+		MineralConfiguration.Complete.class, TurnConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class MineralProductionIntegrationTest {
 
 	@Autowired

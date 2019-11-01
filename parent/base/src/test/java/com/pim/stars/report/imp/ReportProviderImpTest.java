@@ -36,17 +36,20 @@ public class ReportProviderImpTest {
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+
 		final ReportEntity one = new ReportEntity();
 		one.setReportClassName("Type1");
+		one.setBundleName("com.pim.stars.report.first.messages");
 		one.getArguments().add("Unused argument");
+
 		final ReportEntity two = new ReportEntity();
 		two.setReportClassName("Type2");
+		two.setBundleName("com.pim.stars.report.second.messages");
 		two.getArguments().add("John Smith");
 		two.getArguments().add("Hi");
+
 		when(reportRepository.findByGameIdAndYearAndRaceId("myGameId", 2501, "myRaceId"))
 				.thenReturn(Arrays.asList(one, two));
-
-		testee.postConstruct();
 	}
 
 	@Test
