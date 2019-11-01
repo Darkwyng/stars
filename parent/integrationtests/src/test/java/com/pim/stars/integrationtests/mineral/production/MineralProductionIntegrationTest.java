@@ -86,6 +86,8 @@ public class MineralProductionIntegrationTest {
 
 		final ProductionQueue queue = planetProductionQueue.getValue(homeworld);
 		assertThat(queue.isEmpty(), is(true));
+
+		// TODO: test for reporting of mine building
 	}
 
 	private Planet getHomeworld(final Game game) {

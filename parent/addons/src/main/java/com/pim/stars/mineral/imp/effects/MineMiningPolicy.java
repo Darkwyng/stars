@@ -52,16 +52,20 @@ public class MineMiningPolicy implements MiningPolicy {
 				final boolean minesAreAvailable = productionAvailabilityCalculator.isProductionItemTypeAvailable(game,
 						planet, mineProductionItemType);
 				if (minesAreAvailable) {
-					final Race owner = gameRaceCollection.getValue(game).stream()
-							.filter(race -> raceId.getValue(race).equals(ownerId)).findAny().get();
-					final double efficiency = raceMiningSettings.getValue(owner).getMineEfficiency();
-					final double effectiveMines = numberOfMines * efficiency;
-
-					return miningCalculator.calculateMining(game, planet, effectiveMines);
+					return calculateMining(game, planet, ownerId, numberOfMines);
 				}
 			}
 		}
 		return cargoProcessor.createCargoHolder();
 	}
 
+	private CargoHolder calculateMining(final Game game, final Planet planet, final String ownerId,
+			final Integer numberOfMines) {
+		final Race owner = gameRaceCollection.getValue(game).stream()
+				.filter(race -> raceId.getValue(race).equals(ownerId)).findAny().get();
+		final double efficiency = raceMiningSettings.getValue(owner).getMineEfficiency();
+		final double effectiveMines = numberOfMines * efficiency;
+
+		return miningCalculator.calculateMining(game, planet, effectiveMines);
+	}
 }

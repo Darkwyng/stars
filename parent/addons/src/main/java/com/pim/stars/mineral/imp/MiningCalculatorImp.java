@@ -34,13 +34,13 @@ public class MiningCalculatorImp implements MiningCalculator {
 	public CargoHolder calculateMining(final Game game, final Planet planet, final double effectiveMines) {
 		final CargoTransferBuilder builder = cargoProcessor.createCargoHolder().transferFromNowhere();
 		planetMineralConcentrations.getValue(planet).forEach(concentration -> {
-			final int minedQuantity = executeMining(planet, concentration, effectiveMines);
+			final int minedQuantity = calculateMining(planet, concentration, effectiveMines);
 			builder.quantity(concentration.getType(), minedQuantity);
 		});
 		return builder.sum();
 	}
 
-	private int executeMining(final Planet planet, final MineralConcentration concentration,
+	private int calculateMining(final Planet planet, final MineralConcentration concentration,
 			final double effectiveMines) {
 		final FractionalMinedQuantity fractionalMinedQuantity = planetFractionalMinedQuantity.getValue(planet)
 				.getItems().stream().filter(item -> item.getType().equals(concentration.getType())).findAny().get();
@@ -50,9 +50,8 @@ public class MiningCalculatorImp implements MiningCalculator {
 				* effectiveMines / mineralProperties.getBaseConcentration();
 		final int minedQuantity = floor(fullMinedQuantity);
 
-		final int newFractionalMinedQuantity = floor(
-				(fullMinedQuantity - minedQuantity) * mineralProperties.getFractionMiningPrecision())
-				/ mineralProperties.getFractionMiningPrecision();
+		final int precision = mineralProperties.getFractionalMiningPrecision();
+		final int newFractionalMinedQuantity = floor((fullMinedQuantity - minedQuantity) * precision) / precision;
 		fractionalMinedQuantity.setQuantity(newFractionalMinedQuantity);
 
 		return minedQuantity;

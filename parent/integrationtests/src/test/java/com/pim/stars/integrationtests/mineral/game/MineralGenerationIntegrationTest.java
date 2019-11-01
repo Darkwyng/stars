@@ -83,6 +83,8 @@ public class MineralGenerationIntegrationTest {
 		mineralTypes.stream().peek(type -> assertThat(type, not(nullValue()))).forEach(type -> {
 			assertThat(cargoAfterMining.get(type), greaterThan(cargoBeforeMining.get(type)));
 		});
+
+		// TODO: test for reporting of mining
 	}
 
 	private Map<CargoType, Integer> collectCargo(final Planet homeworld) {

@@ -23,7 +23,7 @@ public class MineralProperties {
 	@NonNull
 	private int baseConcentration;
 	@NonNull
-	private int fractionMiningPrecision;
+	private int fractionalMiningPrecision;
 	private int homeWorldMinimumConcentration;
 
 	private MiningSettings defaultSettings = new MiningSettings();
@@ -60,12 +60,12 @@ public class MineralProperties {
 		this.baseConcentration = baseConcentration;
 	}
 
-	public int getFractionMiningPrecision() {
-		return fractionMiningPrecision;
+	public int getFractionalMiningPrecision() {
+		return fractionalMiningPrecision;
 	}
 
-	public void setFractionMiningPrecision(final int fractionMiningPrecision) {
-		this.fractionMiningPrecision = fractionMiningPrecision;
+	public void setFractionalMiningPrecision(final int fractionMiningPrecision) {
+		this.fractionalMiningPrecision = fractionMiningPrecision;
 	}
 
 	public int getHomeWorldMinimumConcentration() {
