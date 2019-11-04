@@ -8,6 +8,13 @@ import com.pim.stars.game.api.Game;
 public class GameImp implements Game {
 
 	private final Map<String, Object> extensions = new HashMap<>();
+	private final String gameId;
+	private final int year;
+
+	public GameImp(final String gameId, final int year) {
+		this.gameId = gameId;
+		this.year = year;
+	}
 
 	@Override
 	public Object get(final String key) {
@@ -21,11 +28,11 @@ public class GameImp implements Game {
 
 	@Override
 	public String getId() {
-		return "some game id"; // TODO 1: impl gameId
+		return gameId;
 	}
 
 	@Override
 	public int getYear() {
-		return 2451; // TODO 1: impl gameId
+		return year;
 	}
 }

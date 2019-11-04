@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.api.Game;
@@ -11,6 +12,7 @@ import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
 import com.pim.stars.game.api.effects.GameGenerationPolicy.GameGenerationContext;
 
+@Component
 public class GameGeneratorImp implements GameGenerator {
 
 	@Autowired

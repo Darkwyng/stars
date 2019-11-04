@@ -23,8 +23,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.api.CargoConfiguration;
 import com.pim.stars.colonization.api.ColonizationConfiguration;
+import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
-import com.pim.stars.game.api.GameConfiguration;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;

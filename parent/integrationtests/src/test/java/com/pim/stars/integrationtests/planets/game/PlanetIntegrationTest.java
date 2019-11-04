@@ -18,8 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.api.Cargo;
+import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
-import com.pim.stars.game.api.GameConfiguration;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.planets.api.Planet;

@@ -1,34 +1,29 @@
-package com.pim.stars.game.api;
+package com.pim.stars.game;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.dataextension.api.DataExtensionConfiguration;
 import com.pim.stars.effect.api.EffectConfiguration;
 import com.pim.stars.effect.api.EffectProvider;
-import com.pim.stars.game.imp.GameGeneratorImp;
-import com.pim.stars.game.imp.GameInitializerImp;
+import com.pim.stars.id.IdConfiguration;
+import com.pim.stars.id.api.IdCreator;
 
 public interface GameConfiguration {
 
 	@Configuration
+	@ComponentScan(excludeFilters = {
+			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
 	public static class Provided {
 
-		@Bean
-		public GameInitializer gameInitializer() {
-			return new GameInitializerImp();
-		}
-
-		@Bean
-		public GameGenerator gameGenerator() {
-			return new GameGeneratorImp();
-		}
 	}
 
 	@Configuration
-	@Import({ DataExtensionConfiguration.Complete.class, EffectConfiguration.Complete.class })
+	@Import({ DataExtensionConfiguration.Complete.class, EffectConfiguration.Complete.class,
+			IdConfiguration.Complete.class })
 	public static class Complete extends Provided {
 
 	}
@@ -38,5 +33,7 @@ public interface GameConfiguration {
 		public DataExtender dataExtender();
 
 		public EffectProvider effectProvider();
+
+		public IdCreator idCreator();
 	}
 }

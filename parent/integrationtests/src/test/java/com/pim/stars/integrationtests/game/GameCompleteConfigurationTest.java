@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.game.api.GameConfiguration;
+import com.pim.stars.game.GameConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = GameConfiguration.Complete.class)

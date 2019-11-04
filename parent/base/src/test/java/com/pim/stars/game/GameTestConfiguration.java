@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.effect.api.EffectProvider;
-import com.pim.stars.game.api.GameConfiguration;
+import com.pim.stars.id.api.IdCreator;
 
 @Configuration
 @Import({ GameConfiguration.Provided.class })
@@ -24,5 +24,11 @@ public class GameTestConfiguration implements GameConfiguration.Required {
 	@Override
 	public EffectProvider effectProvider() {
 		return mock(EffectProvider.class);
+	}
+
+	@Bean
+	@Override
+	public IdCreator idCreator() {
+		return mock(IdCreator.class);
 	}
 }

@@ -1,6 +1,7 @@
 package com.pim.stars.game.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.effect.api.EffectProvider;
@@ -8,13 +9,19 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
+import com.pim.stars.id.api.IdCreator;
 
+@Component
 public class GameInitializerImp implements GameInitializer {
 
 	@Autowired
 	private EffectProvider effectProvider;
 	@Autowired
 	private DataExtender dataExtender;
+	@Autowired
+	private IdCreator idCreator;
+	@Autowired
+	private GameProperties gameProperties;
 
 	@Override
 	public GameInitializationData createNewGameInitializationData() {
@@ -27,7 +34,7 @@ public class GameInitializerImp implements GameInitializer {
 
 	@Override
 	public Game initializeGame(final GameInitializationData data) {
-		final Game game = new GameImp();
+		final Game game = new GameImp(idCreator.createId(), gameProperties.getStartingYear());
 
 		dataExtender.extendData(game);
 		effectProvider.getEffectCollection(game, null, GameInitializationPolicy.class).stream()

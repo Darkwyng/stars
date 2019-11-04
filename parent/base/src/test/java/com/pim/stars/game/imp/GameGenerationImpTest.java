@@ -49,7 +49,7 @@ public class GameGenerationImpTest {
 	public void testThatPoliciesAreCalledDuringGameGenerator() {
 		assertThat(gameGenerationPolicy, not(nullValue()));
 		assertThat(gameGenerationPolicyCallCounter, is(0));
-		gameGenerator.generateGame(new GameImp());
+		gameGenerator.generateGame(new GameImp("myId", 2507));
 
 		// Check gameInitializationPolicy was called:
 		assertThat(gameGenerationPolicyCallCounter, is(1));
