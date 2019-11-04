@@ -1,11 +1,14 @@
 package com.pim.stars.turn.imp.policies;
 
+import org.springframework.stereotype.Component;
+
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.turn.api.Race;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
 import com.pim.stars.turn.imp.TurnImp;
 
+@Component
 public class GameTurnEntityCreator implements TurnEntityCreator<Game> {
 
 	@Override

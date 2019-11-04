@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
+import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.dataextension.api.DataExtensionConfiguration;
-import com.pim.stars.effect.api.EffectConfiguration;
+import com.pim.stars.effect.EffectConfiguration;
 import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.id.IdConfiguration;
 import com.pim.stars.id.api.IdCreator;

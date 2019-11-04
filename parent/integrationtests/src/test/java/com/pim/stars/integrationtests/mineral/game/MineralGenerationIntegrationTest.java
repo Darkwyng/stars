@@ -34,8 +34,8 @@ import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
+import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.api.Race;
-import com.pim.stars.turn.api.TurnConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,

@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.cargo.api.Cargo;
 import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
+import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.dataextension.api.DataExtensionConfiguration;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
@@ -22,7 +22,7 @@ import com.pim.stars.planets.imp.effects.PlanetGameInitializationPolicy;
 import com.pim.stars.race.api.RaceConfiguration;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
-import com.pim.stars.turn.api.TurnConfiguration;
+import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;

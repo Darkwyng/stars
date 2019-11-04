@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.api.Game;
 
+@Component
 public class EffectCalculatorImp implements EffectCalculator {
 
 	@Autowired

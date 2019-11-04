@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
 
+@Component
 public class TurnEntityCreatorMapper {
 
 	@Autowired

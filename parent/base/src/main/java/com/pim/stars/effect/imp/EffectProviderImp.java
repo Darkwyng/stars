@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectProvider;
@@ -18,6 +19,7 @@ import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.effect.api.policies.EffectProviderPolicy;
 import com.pim.stars.game.api.Game;
 
+@Component
 public class EffectProviderImp implements EffectProvider {
 
 	@Autowired(required = false)
@@ -26,8 +28,8 @@ public class EffectProviderImp implements EffectProvider {
 	private final Collection<EffectProviderPolicy<?>> effectProviderPolicyCollection = new ArrayList<>();
 
 	@Override
-	public <E extends Effect> Collection<E> getEffectCollection(Game game,
-			final Object firstEffectHolder, final Class<E> effectClass) {
+	public <E extends Effect> Collection<E> getEffectCollection(final Game game, final Object firstEffectHolder,
+			final Class<E> effectClass) {
 
 		// E.g. for a fleet find the race, all fleet components, ship designs and gadgets that might provide effects:
 		final Set<Object> allEffectHolders = getAllEffectHolders(game, firstEffectHolder);
@@ -39,7 +41,7 @@ public class EffectProviderImp implements EffectProvider {
 		return removeDeactivatedEffects(sortedEffects);
 	}
 
-	private Set<Object> getAllEffectHolders(Game game, final Object effectHolder) {
+	private Set<Object> getAllEffectHolders(final Game game, final Object effectHolder) {
 		final Set<Object> knownEffectHolders = new HashSet<>(Collections.singleton(effectHolder));
 
 		Set<Object> newEffectHolders = knownEffectHolders;
@@ -51,7 +53,7 @@ public class EffectProviderImp implements EffectProvider {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" }) // because objects are passed into policies using generics
-	private Set<Object> getNewEffectHolders(Game game, final Set<Object> knownEffectHolders) {
+	private Set<Object> getNewEffectHolders(final Game game, final Set<Object> knownEffectHolders) {
 		final Set<Object> foundEffectHolders = new HashSet<>();
 
 		for (final Object effectHolder : knownEffectHolders) {

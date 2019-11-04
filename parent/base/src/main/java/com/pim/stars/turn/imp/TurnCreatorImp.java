@@ -6,6 +6,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
@@ -19,6 +20,7 @@ import com.pim.stars.turn.api.policies.TurnEntityCreator;
 import com.pim.stars.turn.imp.policies.utilities.GameEntityTransformerMapper;
 import com.pim.stars.turn.imp.policies.utilities.TurnEntityCreatorMapper;
 
+@Component
 public class TurnCreatorImp implements TurnCreator {
 
 	@Autowired

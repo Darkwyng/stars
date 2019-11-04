@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.dataextension.api.DataExtensionConfiguration;
+import com.pim.stars.dataextension.DataExtensionConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DataExtensionConfiguration.Complete.class)

@@ -1,21 +1,16 @@
 package com.pim.stars.id;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-
-import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.id.imp.IdCreatorImp;
 
 public interface IdConfiguration {
 
 	@Configuration
+	@ComponentScan(excludeFilters = {
+			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
 	public static class Provided {
-
-		@Bean
-		public IdCreator idCreator() {
-			return new IdCreatorImp();
-		}
 
 	}
 

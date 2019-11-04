@@ -1,26 +1,17 @@
-package com.pim.stars.dataextension.api;
+package com.pim.stars.dataextension;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
-
-import com.pim.stars.dataextension.imp.DataExtenderImp;
-import com.pim.stars.dataextension.imp.DataExtensionPolicyProviderImp;
 
 public interface DataExtensionConfiguration {
 
 	@Configuration
+	@ComponentScan(excludeFilters = {
+			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
 	public static class Provided {
 
-		@Bean
-		public DataExtensionPolicyProvider dataExtensionPolicyProvider() {
-			return new DataExtensionPolicyProviderImp();
-		}
-
-		@Bean
-		public DataExtender dataExtender() {
-			return new DataExtenderImp();
-		}
 	}
 
 	@Configuration

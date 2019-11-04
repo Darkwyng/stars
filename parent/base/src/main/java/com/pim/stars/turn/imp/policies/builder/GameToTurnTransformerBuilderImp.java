@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
@@ -13,6 +14,7 @@ import com.pim.stars.turn.api.TurnCreator;
 import com.pim.stars.turn.api.TurnCreator.TurnTransformationContext;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
+@Component
 public class GameToTurnTransformerBuilderImp implements GameToTurnTransformerBuilder {
 
 	@Autowired

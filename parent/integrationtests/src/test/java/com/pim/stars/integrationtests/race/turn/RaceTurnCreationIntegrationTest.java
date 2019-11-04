@@ -34,9 +34,9 @@ import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
+import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.api.Race;
 import com.pim.stars.turn.api.Turn;
-import com.pim.stars.turn.api.TurnConfiguration;
 import com.pim.stars.turn.api.TurnCreator;
 
 @ExtendWith(SpringExtension.class)

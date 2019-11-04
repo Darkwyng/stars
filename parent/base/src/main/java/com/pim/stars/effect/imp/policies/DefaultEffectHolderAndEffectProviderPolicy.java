@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
@@ -18,6 +19,7 @@ import com.pim.stars.game.api.Game;
 /**
  * This implementation will load the effects that are within the application context.
  */
+@Component
 public class DefaultEffectHolderAndEffectProviderPolicy
 		implements EffectProviderPolicy<Object>, EffectHolderProviderPolicy<Object> {
 
@@ -34,7 +36,7 @@ public class DefaultEffectHolderAndEffectProviderPolicy
 	}
 
 	@Override
-	public Collection<Object> getFurtherEffectHolders(Game game, final Object effectHolder) {
+	public Collection<Object> getFurtherEffectHolders(final Game game, final Object effectHolder) {
 		return Collections.singleton(EFFECT_HOLDER); // ... this method. Its result will be then passed into...
 	}
 

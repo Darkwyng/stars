@@ -1,14 +1,11 @@
-package com.pim.stars.resource;
+package com.pim.stars.turn;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
-import com.pim.stars.effect.EffectConfiguration;
-import com.pim.stars.effect.api.EffectCalculator;
-
-public interface ResourceConfiguration {
+public interface TurnConfiguration {
 
 	@Configuration
 	@ComponentScan(excludeFilters = {
@@ -18,13 +15,12 @@ public interface ResourceConfiguration {
 	}
 
 	@Configuration
-	@Import({ EffectConfiguration.Complete.class })
+	@Import({}) // Currently nothing is imported by this component
 	public static class Complete extends Provided {
 
 	}
 
 	public static interface Required {
-
-		public EffectCalculator effectCalculator();
+		// Currently nothing is required by this component
 	}
 }

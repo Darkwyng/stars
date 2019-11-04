@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.turn.api.TurnConfiguration;
+import com.pim.stars.turn.TurnConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TurnConfiguration.Complete.class)

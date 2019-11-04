@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.effect.api.EffectConfiguration;
+import com.pim.stars.effect.EffectConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = EffectConfiguration.Complete.class)
