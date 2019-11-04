@@ -13,7 +13,6 @@ import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.ProductionConfiguration;
@@ -58,8 +57,6 @@ public interface MineralConfiguration {
 		public ProductionAvailabilityCalculator productionAvailabilityCalculator();
 
 		public GamePlanetCollection gamePlanetCollection();
-
-		public PlanetCargo planetCargo();
 
 		public IdCreator idCreator();
 

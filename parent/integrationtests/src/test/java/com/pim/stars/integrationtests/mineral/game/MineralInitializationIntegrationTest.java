@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.api.Cargo.CargoItem;
+import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
@@ -31,7 +32,6 @@ import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
@@ -59,7 +59,7 @@ public class MineralInitializationIntegrationTest {
 	@Autowired
 	private PlanetMineCount planetMineCount;
 	@Autowired
-	private PlanetCargo planetCargo;
+	private CargoProcessor cargoProcessor;
 	@Autowired
 	private PlanetMineralConcentrations planetMineralConcentrations;
 
@@ -97,7 +97,7 @@ public class MineralInitializationIntegrationTest {
 
 		final Planet homeworld = allHomeworlds.iterator().next();
 		assertThat(planetMineCount.getValue(homeworld), greaterThan(0));
-		final Collection<CargoItem> cargoItems = planetCargo.getValue(homeworld).getItems().stream()
+		final Collection<CargoItem> cargoItems = cargoProcessor.createCargoHolder(homeworld).getItems().stream()
 				.filter(item -> item.getType() instanceof MineralType).collect(Collectors.toList());
 		assertThat(cargoItems, hasSize(3));
 		cargoItems.forEach(conc -> {

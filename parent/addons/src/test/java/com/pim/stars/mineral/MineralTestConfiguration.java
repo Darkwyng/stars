@@ -12,7 +12,6 @@ import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
@@ -71,12 +70,6 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 	@Override
 	public GamePlanetCollection gamePlanetCollection() {
 		return mock(GamePlanetCollection.class);
-	}
-
-	@Bean
-	@Override
-	public PlanetCargo planetCargo() {
-		return mock(PlanetCargo.class);
 	}
 
 	@Bean

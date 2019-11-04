@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
@@ -30,7 +31,6 @@ import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
@@ -61,7 +61,7 @@ public class MineralGenerationIntegrationTest {
 	@Autowired
 	private PlanetMineCount planetMineCount;
 	@Autowired
-	private PlanetCargo planetCargo;
+	private CargoProcessor cargoProcessor;
 
 	@Test
 	public void testThatMineralsAreMinedDuringGameGeneration() {
@@ -89,7 +89,7 @@ public class MineralGenerationIntegrationTest {
 
 	private Map<CargoType, Integer> collectCargo(final Planet homeworld) {
 		final Map<CargoType, Integer> result = new HashMap<>();
-		planetCargo.getValue(homeworld).getItems().stream() //
+		cargoProcessor.createCargoHolder(homeworld).getItems().stream() //
 				.peek(entry -> assertThat(entry, not(nullValue())))
 				.peek(entry -> assertThat(entry.getType(), not(nullValue())))
 				.forEach(entry -> result.put(entry.getType(), entry.getQuantity()));
