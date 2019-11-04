@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.pim.stars.effect.api.EffectExecutor;
@@ -19,6 +20,7 @@ import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
 
+@Component
 public class HomeworldGameInitializationPolicy implements GameInitializationPolicy {
 
 	@Autowired

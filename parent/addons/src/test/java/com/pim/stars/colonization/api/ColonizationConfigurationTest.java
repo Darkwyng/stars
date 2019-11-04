@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.colonization.ColonizationTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
@@ -17,11 +18,10 @@ import com.pim.stars.colonization.ColonizationTestConfiguration;
 public class ColonizationConfigurationTest {
 
 	@Autowired
-	private ColonistCalculator colonistCalculator;
+	private CargoType cargoType;
 
 	@Test
 	public void testThatApplicationContextStarts() {
-		assertThat(colonistCalculator, not(nullValue()));
-		new ColonizationConfiguration.Complete(); // (for test coverage)
+		assertThat(cargoType, not(nullValue()));
 	}
 }

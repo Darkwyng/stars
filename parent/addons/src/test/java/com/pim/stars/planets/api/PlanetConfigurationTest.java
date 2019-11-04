@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.PlanetTestConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 
@@ -24,6 +23,5 @@ public class PlanetConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(gamePlanetCollection, not(nullValue()));
-		new PlanetConfiguration.Complete(); // (for test coverage)
 	}
 }

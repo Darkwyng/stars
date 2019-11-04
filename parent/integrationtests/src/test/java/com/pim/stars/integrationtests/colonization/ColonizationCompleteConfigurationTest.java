@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.colonization.api.ColonizationConfiguration;
+import com.pim.stars.colonization.ColonizationConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ColonizationConfiguration.Complete.class)

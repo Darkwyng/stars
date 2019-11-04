@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.effect.EffectConfiguration;
 import com.pim.stars.effect.EffectTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +22,5 @@ public class EffectConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(effectProvider, not(nullValue()));
-		new EffectConfiguration.Complete(); // (for test coverage)
 	}
 }

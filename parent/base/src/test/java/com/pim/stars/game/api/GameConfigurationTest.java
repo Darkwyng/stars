@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.GameTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +22,5 @@ public class GameConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(gameInitializer, not(nullValue()));
-		new GameConfiguration.Complete(); // (for test coverage)
 	}
 }

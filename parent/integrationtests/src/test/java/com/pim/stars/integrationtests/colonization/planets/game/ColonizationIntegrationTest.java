@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.colonization.ColonizationConfiguration;
 import com.pim.stars.colonization.api.ColonistCalculator;
-import com.pim.stars.colonization.api.ColonizationConfiguration;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;

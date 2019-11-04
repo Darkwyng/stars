@@ -22,6 +22,5 @@ public class ReportConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(reportCreator, not(nullValue()));
-		new ReportConfiguration.Complete(); // (for test coverage)
 	}
 }

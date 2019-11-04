@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.cargo.api.CargoConfiguration;
+import com.pim.stars.cargo.CargoConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = CargoConfiguration.Complete.class)

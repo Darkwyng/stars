@@ -2,7 +2,9 @@ package com.pim.stars.colonization.imp;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
 @EnableConfigurationProperties(ColonizationProperties.class)
 @ConfigurationProperties(prefix = "colonization")
 public class ColonizationProperties {

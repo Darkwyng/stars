@@ -26,6 +26,5 @@ public class ProductionConfigurationTest {
 	public void testThatApplicationContextStarts() {
 		assertThat(planetProductionGameGenerationPolicy, not(nullValue()));
 		assertThat(planetProductionQueue, not(nullValue()));
-		new ProductionConfiguration.Complete(); // (for test coverage)
 	}
 }

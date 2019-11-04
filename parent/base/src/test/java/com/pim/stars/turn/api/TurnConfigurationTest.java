@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.TurnTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +22,5 @@ public class TurnConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(turnCreator, not(nullValue()));
-		new TurnConfiguration.Complete(); // (for test coverage)
 	}
 }

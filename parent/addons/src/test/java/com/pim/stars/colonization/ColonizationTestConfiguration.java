@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.cargo.api.CargoProcessor;
-import com.pim.stars.colonization.api.ColonizationConfiguration;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.id.api.IdCreator;

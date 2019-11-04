@@ -1,12 +1,14 @@
 package com.pim.stars.colonization.imp.effects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.colonization.api.ColonistCalculator;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.resource.api.effects.ResourceCalculationPolicy;
 
+@Component
 public class ColonistResourceCalculationPolicy implements ResourceCalculationPolicy {
 
 	@Autowired

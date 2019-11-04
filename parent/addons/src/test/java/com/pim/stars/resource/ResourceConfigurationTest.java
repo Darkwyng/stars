@@ -26,6 +26,5 @@ public class ResourceConfigurationTest {
 	public void testThatApplicationContextStarts() {
 		assertThat(resourceCalculator, not(nullValue()));
 		assertThat(resourceProductionCostType, not(nullValue()));
-		new ResourceConfiguration.Complete(); // (for test coverage)
 	}
 }

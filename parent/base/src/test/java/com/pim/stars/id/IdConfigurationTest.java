@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.id.IdConfiguration;
 import com.pim.stars.id.api.IdCreator;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +22,5 @@ public class IdConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(idCreator, not(nullValue()));
-		new IdConfiguration.Complete(); // (for test coverage)
 	}
 }

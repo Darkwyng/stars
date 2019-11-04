@@ -7,10 +7,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.cargo.api.Cargo;
+import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.Planet;
+import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
@@ -29,6 +31,17 @@ public interface PlanetConfiguration {
 	@ComponentScan(excludeFilters = {
 			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
 	public static class Provided {
+
+		@Bean
+		public CargoDataExtensionPolicy<?> planetCargo() {
+			return new PlanetCargo();
+		}
+
+		@Bean
+		public GameEntityTransformer<?, ?> planetCollectionGameEntityTransformer(
+				final GameToTurnTransformerBuilder builder) {
+			return builder.transformEntityCollectionExtension(GamePlanetCollection.class).build();
+		}
 
 		@Bean
 		public TurnEntityCreator<?> planetTurnEntityCreator(final GameToTurnTransformerBuilder builder) {

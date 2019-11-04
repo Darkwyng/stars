@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.dataextension.DataExtensionTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +22,5 @@ public class DataExtensionConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(dataExtender, not(nullValue()));
-		new DataExtensionConfiguration.Complete(); // (for test coverage)
 	}
 }

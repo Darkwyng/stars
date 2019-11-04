@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
@@ -18,6 +19,7 @@ import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
 import com.pim.stars.dataextension.api.Entity;
 
+@Component
 public class CargoProcessorImp implements CargoProcessor {
 
 	@Autowired(required = false)

@@ -1,6 +1,7 @@
 package com.pim.stars.colonization.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
@@ -12,6 +13,7 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 
+@Component
 public class ColonistCalculatorImp implements ColonistCalculator {
 
 	@Autowired

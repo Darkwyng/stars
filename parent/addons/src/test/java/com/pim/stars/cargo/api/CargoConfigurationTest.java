@@ -22,6 +22,5 @@ public class CargoConfigurationTest {
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(cargoProcessor, not(nullValue()));
-		new CargoConfiguration.Complete(); // (for test coverage)
 	}
 }

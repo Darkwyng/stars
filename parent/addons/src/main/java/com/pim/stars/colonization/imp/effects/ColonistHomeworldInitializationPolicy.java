@@ -1,6 +1,7 @@
 package com.pim.stars.colonization.imp.effects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.colonization.api.effects.PlanetColonizationPolicy;
@@ -13,6 +14,7 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
 import com.pim.stars.turn.api.Race;
 
+@Component
 public class ColonistHomeworldInitializationPolicy implements HomeworldInitializationPolicy {
 
 	@Autowired

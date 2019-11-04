@@ -22,7 +22,6 @@ public class MineralConfigurationTest {
 
 	@Test
 	public void testThatApplicationContextStarts() {
-		new MineralConfiguration.Complete(); // (for test coverage)
 	}
 
 	@Test
