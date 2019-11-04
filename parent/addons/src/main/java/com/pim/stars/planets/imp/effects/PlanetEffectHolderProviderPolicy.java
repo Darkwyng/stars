@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.game.api.Game;
@@ -13,6 +14,7 @@ import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.Race;
 
+@Component
 public class PlanetEffectHolderProviderPolicy implements EffectHolderProviderPolicy<Planet> {
 
 	@Autowired

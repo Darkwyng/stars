@@ -2,9 +2,12 @@ package com.pim.stars.planets.api.extensions;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 import com.pim.stars.planets.api.Planet;
 
+@Component
 public class PlanetOwnerId implements DataExtensionPolicy<Planet, String> {
 
 	@Override

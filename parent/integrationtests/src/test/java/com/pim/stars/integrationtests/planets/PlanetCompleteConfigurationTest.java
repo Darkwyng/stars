@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.planets.api.PlanetConfiguration;
+import com.pim.stars.planets.PlanetConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = PlanetConfiguration.Complete.class)

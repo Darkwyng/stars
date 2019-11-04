@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.race.api.RaceConfiguration;
+import com.pim.stars.race.RaceConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = RaceConfiguration.Complete.class)

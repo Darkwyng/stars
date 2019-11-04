@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
 @EnableConfigurationProperties(RaceProperties.class)
 @ConfigurationProperties(prefix = "race")
 public class RaceProperties {

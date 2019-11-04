@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.turn.api.Race;
 
+@Component
 public class GameInitializationDataRaceCollection
 		implements DataExtensionPolicy<GameInitializationData, Collection<Race>> {
 

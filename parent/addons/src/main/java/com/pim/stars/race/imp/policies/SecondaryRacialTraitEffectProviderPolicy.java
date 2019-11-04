@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
 import com.pim.stars.turn.api.Race;
 
+@Component
 public class SecondaryRacialTraitEffectProviderPolicy implements EffectCollectionProviderPolicy<Race> {
 
 	@Autowired

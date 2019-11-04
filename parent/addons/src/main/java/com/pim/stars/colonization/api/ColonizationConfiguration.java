@@ -19,10 +19,10 @@ import com.pim.stars.effect.EffectConfiguration;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.planets.api.PlanetConfiguration;
+import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
-import com.pim.stars.race.api.RaceConfiguration;
+import com.pim.stars.race.RaceConfiguration;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.turn.api.Race;
 

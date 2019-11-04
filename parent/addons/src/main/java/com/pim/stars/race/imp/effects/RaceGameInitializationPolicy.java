@@ -3,6 +3,7 @@ package com.pim.stars.race.imp.effects;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
@@ -11,6 +12,7 @@ import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.turn.api.Race;
 
+@Component
 public class RaceGameInitializationPolicy implements GameInitializationPolicy {
 
 	@Autowired

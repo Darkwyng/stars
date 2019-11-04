@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.race.RaceConfiguration;
 import com.pim.stars.race.RaceTestConfiguration;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 

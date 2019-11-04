@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.race.api.RaceTraitProvider;
@@ -22,6 +23,7 @@ import com.pim.stars.race.api.traits.PrimaryRacialTrait;
 import com.pim.stars.race.api.traits.SecondaryRacialTrait;
 import com.pim.stars.race.imp.traits.AbstractRacialTrait;
 
+@Component
 public class RaceTraitProviderImp implements RaceTraitProvider {
 
 	private Collection<PrimaryRacialTrait> primaryRacialTraits;

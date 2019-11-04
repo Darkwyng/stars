@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.pim.stars.dataextension.api.DataExtender;
@@ -19,6 +20,7 @@ import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
 
+@Component
 public class PlanetGameInitializationPolicy implements GameInitializationPolicy {
 
 	@Autowired

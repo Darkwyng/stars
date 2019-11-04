@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
-import com.pim.stars.planets.api.PlanetConfiguration;
+import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.resource.ResourceConfiguration;
 import com.pim.stars.resource.api.ResourceCalculator;

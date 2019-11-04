@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.race.api.RaceConfiguration;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 @Configuration

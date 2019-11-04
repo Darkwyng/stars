@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.pim.stars.race.api.RaceConfiguration;
+import com.pim.stars.race.RaceConfiguration;
 
 @Configuration
 @Import({ RaceConfiguration.Complete.class })
