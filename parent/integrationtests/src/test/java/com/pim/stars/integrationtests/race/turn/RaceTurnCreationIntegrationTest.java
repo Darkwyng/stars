@@ -27,6 +27,7 @@ import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
@@ -40,8 +41,9 @@ import com.pim.stars.turn.api.Turn;
 import com.pim.stars.turn.api.TurnCreator;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
-		TurnConfiguration.Complete.class, CargoConfiguration.Complete.class, ColonizationConfiguration.Complete.class })
+@ContextConfiguration(classes = { GameConfiguration.Complete.class, PersistenceTestConfiguration.class,
+		RaceTestApiConfiguration.class, TurnConfiguration.Complete.class, CargoConfiguration.Complete.class,
+		ColonizationConfiguration.Complete.class })
 public class RaceTurnCreationIntegrationTest {
 
 	@Autowired

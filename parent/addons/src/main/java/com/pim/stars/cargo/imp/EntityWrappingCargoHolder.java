@@ -28,4 +28,9 @@ public class EntityWrappingCargoHolder extends AbstractCargoHolder {
 		final Cargo cargo = (Cargo) policy.getValue(entity);
 		return cargo.getItems();
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return getItems().stream().findAny().isEmpty();
+	}
 }

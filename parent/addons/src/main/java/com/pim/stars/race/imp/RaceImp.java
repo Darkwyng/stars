@@ -21,6 +21,6 @@ public class RaceImp implements Race {
 
 	@Override
 	public String getId() {
-		return "some race id"; // TODO 1: impl raceId
+		return extensions.get("RaceId").toString(); // TODO 1: impl raceId
 	}
 }

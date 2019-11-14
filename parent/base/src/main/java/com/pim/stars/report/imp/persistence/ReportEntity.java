@@ -65,4 +65,12 @@ public class ReportEntity {
 	public void setArguments(final Collection<String> arguments) {
 		this.arguments = arguments;
 	}
+
+	@Override
+	public String toString() {
+		return "ReportEntity [gameId=" + gameId //
+				+ ", year=" + year //
+				+ ", raceId=" + raceId //
+				+ ", reportClassName=" + reportClassName + "]";
+	}
 }

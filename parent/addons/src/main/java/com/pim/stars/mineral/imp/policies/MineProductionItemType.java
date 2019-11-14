@@ -65,6 +65,6 @@ public class MineProductionItemType implements ProductionItemType {
 		final String name = planetName.getValue(planet);
 
 		reportCreator.start(game, raceId).type(PlanetHasBuiltMinesReport.class)
-				.bundle(MineralConstants.REPORT_BUNDLE_NAME).addArguments(name, String.valueOf(numberOfItems));
+				.bundle(MineralConstants.REPORT_BUNDLE_NAME).addArguments(name, String.valueOf(numberOfItems)).create();
 	}
 }

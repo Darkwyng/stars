@@ -11,6 +11,8 @@ public interface CargoHolder {
 
 	public int getQuantity(CargoType cargoType);
 
+	public boolean isEmpty();
+
 	public CargoTransferBuilder transferTo(CargoHolder target);
 
 	public CargoTransferBuilder transferFrom(CargoHolder source);

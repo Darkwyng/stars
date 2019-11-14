@@ -11,20 +11,31 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
 import com.pim.stars.game.api.effects.GameGenerationPolicy.GameGenerationContext;
+import com.pim.stars.game.imp.persistence.GamePersistenceInterface;
 
 @Component
 public class GameGeneratorImp implements GameGenerator {
 
 	@Autowired
 	private EffectProvider effectProvider;
+	@Autowired
+	private GamePersistenceInterface gamePersistenceInterface;
 
 	@Override
-	public void generateGame(final Game game) {
+	public Game generateGame(final Game game) {
 
+		final Game newGame = new GameImp(game.getId(), game.getYear() + 1, (GameImp) game);
+		doGameGeneration(newGame);
+		return newGame;
+	}
+
+	private void doGameGeneration(final Game newGame) {
 		final GameGenerationContext context = new GameGenerationContextImp();
 
-		effectProvider.getEffectCollection(game, null, GameGenerationPolicy.class).stream()
-				.forEach(policy -> policy.generateGame(game, context));
+		effectProvider.getEffectCollection(newGame, null, GameGenerationPolicy.class).stream()
+				.forEach(policy -> policy.generateGame(newGame, context));
+
+		gamePersistenceInterface.generateGame(newGame.getId(), newGame.getYear());
 	}
 
 	public class GameGenerationContextImp implements GameGenerationContext {

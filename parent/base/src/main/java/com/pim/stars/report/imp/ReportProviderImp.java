@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.report.api.ReportProvider;
 import com.pim.stars.report.imp.persistence.ReportEntity;
@@ -22,6 +23,9 @@ public class ReportProviderImp implements ReportProvider {
 
 	@Override
 	public Stream<MessageReport> getReports(final Game game, final Race race, final Locale locale) {
+		Preconditions.checkNotNull(game.getId(), "gameId must not be null");
+		Preconditions.checkNotNull(race.getId(), "raceId must not be null");
+
 		return reportRepository.findByGameIdAndYearAndRaceId(game.getId(), game.getYear(), race.getId()).stream()
 				.map(entity -> new MessageReportImp(entity, locale));
 	}
@@ -50,6 +54,11 @@ public class ReportProviderImp implements ReportProvider {
 			final ResourceBundle bundle = getBundle(entity.getBundleName(), locale);
 			final String pattern = bundle.getString(entity.getReportClassName());
 			return MessageFormat.format(pattern, entity.getArguments().toArray());
+		}
+
+		@Override
+		public String toString() {
+			return entity.getReportClassName() + ": " + getMessage();
 		}
 	}
 }

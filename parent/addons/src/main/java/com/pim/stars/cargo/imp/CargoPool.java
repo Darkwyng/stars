@@ -22,4 +22,9 @@ public class CargoPool extends AbstractCargoHolder {
 	public Collection<CargoItem> getItems() {
 		return items;
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return items.stream().findAny().isEmpty();
+	}
 }

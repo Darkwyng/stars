@@ -28,6 +28,7 @@ import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
@@ -43,7 +44,7 @@ import com.pim.stars.turn.api.TurnCreator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PlanetConfiguration.Complete.class, GameConfiguration.Complete.class,
-		RaceTestApiConfiguration.class, ColonizationConfiguration.Complete.class })
+		PersistenceTestConfiguration.class, RaceTestApiConfiguration.class, ColonizationConfiguration.Complete.class })
 public class PlanetTurnCreationIntegrationTest {
 
 	@Autowired

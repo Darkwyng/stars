@@ -3,6 +3,7 @@ package com.pim.stars.report.imp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.report.imp.persistence.ReportEntity;
@@ -26,6 +27,9 @@ public class ReportCreatorImp implements ReportCreator {
 	}
 
 	private ReportTypeBuilder start(final String gameId, final int year, final String raceId) {
+		Preconditions.checkNotNull(gameId, "gameId must not be null");
+		Preconditions.checkNotNull(raceId, "raceId must not be null");
+
 		final ReportEntity report = new ReportEntity();
 		report.setGameId(gameId);
 		report.setYear(year);
@@ -51,6 +55,7 @@ public class ReportCreatorImp implements ReportCreator {
 
 		@Override
 		public ReportBundleBuilder type(final String reportClassName) {
+			Preconditions.checkNotNull(reportClassName, "reportClassName must not be null");
 			report.setReportClassName(reportClassName);
 			return new ReportBundleBuilderImp(reportRepository, report);
 		}
@@ -68,6 +73,7 @@ public class ReportCreatorImp implements ReportCreator {
 
 		@Override
 		public ReportArgumentBuilder bundle(final String bundleName) {
+			Preconditions.checkNotNull(bundleName, "bundleName must not be null");
 			report.setBundleName(bundleName);
 			return new ReportArgumentBuilderImp(reportRepository, report);
 		}
