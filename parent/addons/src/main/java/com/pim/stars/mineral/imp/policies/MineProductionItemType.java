@@ -16,7 +16,6 @@ import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
 import com.pim.stars.production.api.policies.ProductionItemType;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.policies.ResourceProductionCostType;
 import com.pim.stars.turn.api.Race;
@@ -31,8 +30,6 @@ public class MineProductionItemType implements ProductionItemType {
 	@Autowired
 	private GameRaceCollection gameRaceCollection;
 	@Autowired
-	private RaceId raceId;
-	@Autowired
 	private RaceMiningSettings raceMiningSettings;
 	@Autowired
 	private PlanetMineCount planetMineCount;
@@ -44,8 +41,8 @@ public class MineProductionItemType implements ProductionItemType {
 	@Override
 	public ProductionCost getCostPerItem(final Game game, final Planet planet, final ProductionCostBuilder builder) {
 		final String ownerId = planetOwnerId.getValue(planet);
-		final Race owner = gameRaceCollection.getValue(game).stream()
-				.filter(race -> raceId.getValue(race).equals(ownerId)).findAny().get();
+		final Race owner = gameRaceCollection.getValue(game).stream().filter(race -> race.getId().equals(ownerId))
+				.findAny().get();
 		final MiningSettings miningSettings = raceMiningSettings.getValue(owner);
 
 		return builder.add(resourceProductionCostType, miningSettings.getMineProductionCost()).build();

@@ -15,7 +15,6 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.Race;
 
 @Component
@@ -27,8 +26,6 @@ public class MineMiningPolicy implements MiningPolicy {
 	private PlanetOwnerId planetOwnerId;
 	@Autowired
 	private GameRaceCollection gameRaceCollection;
-	@Autowired
-	private RaceId raceId;
 	@Autowired
 	private RaceMiningSettings raceMiningSettings;
 
@@ -61,8 +58,8 @@ public class MineMiningPolicy implements MiningPolicy {
 
 	private CargoHolder calculateMining(final Game game, final Planet planet, final String ownerId,
 			final Integer numberOfMines) {
-		final Race owner = gameRaceCollection.getValue(game).stream()
-				.filter(race -> raceId.getValue(race).equals(ownerId)).findAny().get();
+		final Race owner = gameRaceCollection.getValue(game).stream().filter(race -> race.getId().equals(ownerId))
+				.findAny().get();
 		final double efficiency = raceMiningSettings.getValue(owner).getMineEfficiency();
 		final double effectiveMines = numberOfMines * efficiency;
 

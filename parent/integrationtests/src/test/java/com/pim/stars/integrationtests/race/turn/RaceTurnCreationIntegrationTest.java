@@ -30,7 +30,6 @@ import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -59,8 +58,6 @@ public class RaceTurnCreationIntegrationTest {
 	private RacePrimaryRacialTrait racePrimaryRacialTrait;
 	@Autowired
 	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
-	@Autowired
-	private RaceId raceId;
 
 	@Autowired
 	private TurnCreator turnCreator;
@@ -74,7 +71,7 @@ public class RaceTurnCreationIntegrationTest {
 		dataRaceCollection.getValue(initializationData).add(firstRace);
 		dataRaceCollection.getValue(initializationData).add(secondRace);
 		final Game game = gameInitializer.initializeGame(initializationData);
-		final String firstRaceid = raceId.getValue(firstRace);
+		final String firstRaceid = firstRace.getId();
 		assertThat(firstRaceid, not(emptyOrNullString()));
 
 		// Check that races have been initialized:
@@ -109,15 +106,15 @@ public class RaceTurnCreationIntegrationTest {
 		// Check that traits of races is only transformed for the owner:
 		// Primary trait:
 		final List<String> raceIdsWithPrimaryTrait = turnRaceCollection.stream()
-				.filter(race -> racePrimaryRacialTrait.getValue(race) != null).map(race -> raceId.getValue(race))
+				.filter(race -> racePrimaryRacialTrait.getValue(race) != null).map(race -> race.getId())
 				.collect(Collectors.toList());
 		assertThat(raceIdsWithPrimaryTrait.size(), is(1));
 		assertThat(raceIdsWithPrimaryTrait, containsInAnyOrder(firstRaceid));
 
 		// Secondary traits:
 		final List<String> raceIdsWithSecondaryTraits = turnRaceCollection.stream()
-				.filter(race -> !raceSecondaryRacialTraitCollection.getValue(race).isEmpty())
-				.map(race -> raceId.getValue(race)).collect(Collectors.toList());
+				.filter(race -> !raceSecondaryRacialTraitCollection.getValue(race).isEmpty()).map(race -> race.getId())
+				.collect(Collectors.toList());
 		assertThat(raceIdsWithSecondaryTraits.size(), is(1));
 		assertThat(raceIdsWithSecondaryTraits, containsInAnyOrder(firstRaceid));
 	}
@@ -127,8 +124,8 @@ public class RaceTurnCreationIntegrationTest {
 	}
 
 	private Set<String> getRaceIds(final Collection<Race> raceCollection) {
-		return raceCollection.stream().map(raceId::getValue) //
-				.peek(name -> assertThat(name, not(emptyOrNullString()))) //
+		return raceCollection.stream().map(Race::getId) //
+				.peek(id -> assertThat(id, not(emptyOrNullString()))) //
 				.collect(Collectors.toSet());
 	}
 }

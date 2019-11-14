@@ -87,5 +87,7 @@ public interface RaceConfiguration {
 		public DataExtender dataExtender();
 
 		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
+
+		public RaceId raceId();
 	}
 }

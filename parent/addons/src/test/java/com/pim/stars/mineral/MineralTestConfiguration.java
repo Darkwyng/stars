@@ -16,7 +16,6 @@ import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.policies.ResourceProductionCostType;
 
@@ -52,12 +51,6 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 	@Override
 	public GameRaceCollection gameRaceCollection() {
 		return mock(GameRaceCollection.class);
-	}
-
-	@Bean
-	@Override
-	public RaceId raceId() {
-		return mock(RaceId.class);
 	}
 
 	@Bean

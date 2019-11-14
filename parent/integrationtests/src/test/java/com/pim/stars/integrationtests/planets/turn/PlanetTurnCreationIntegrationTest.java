@@ -35,7 +35,6 @@ import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
 import com.pim.stars.turn.api.Race;
@@ -60,8 +59,6 @@ public class PlanetTurnCreationIntegrationTest {
 	private PlanetName planetName;
 	@Autowired
 	private PlanetOwnerId planetOwnerId;
-	@Autowired
-	private RaceId raceId;
 
 	@Autowired
 	private ColonistCalculator colonistCalculator;
@@ -108,11 +105,10 @@ public class PlanetTurnCreationIntegrationTest {
 		assertThat(turnPlanetNameString, is(planetNameString));
 
 		// Check that ownership of planets is only transformed for the owner:
-		final String firstRaceId = raceId.getValue(firstRace);
 		final List<String> planetOwnerIds = turnPlanetCollection.stream().map(planet -> planetOwnerId.getValue(planet))
 				.filter(ownerId -> ownerId != null).collect(Collectors.toList());
 		assertThat("Only the owner of a planet should see who owns a planet", planetOwnerIds,
-				containsInAnyOrder(firstRaceId));
+				containsInAnyOrder(firstRace.getId()));
 
 		// Check that cargo of planets is only transformed for the owner:
 		turnPlanetCollection.stream().filter(planet -> planetOwnerId.getValue(planet) != null)

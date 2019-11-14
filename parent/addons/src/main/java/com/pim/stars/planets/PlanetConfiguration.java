@@ -19,7 +19,6 @@ import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.race.RaceConfiguration;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
@@ -54,15 +53,14 @@ public interface PlanetConfiguration {
 		}
 
 		@Bean
-		public GameEntityTransformer<?, ?> planetOwnerEntityTransformer(final GameToTurnTransformerBuilder builder,
-				final RaceId raceId) {
+		public GameEntityTransformer<?, ?> planetOwnerEntityTransformer(final GameToTurnTransformerBuilder builder) {
 			return builder.transformExtension(PlanetOwnerId.class) //
 					.transform((ownerId, context) -> {
 						// Copy, if the owner of the planet is the owner of the turn:
 						if (ownerId == null) {
 							return null;
 						} else {
-							final String turnOwnerId = raceId.getValue(context.getRace());
+							final String turnOwnerId = context.getRace().getId();
 							return turnOwnerId.equals(ownerId) ? ownerId : null;
 						}
 					}).build();
@@ -70,14 +68,14 @@ public interface PlanetConfiguration {
 
 		@Bean
 		public GameEntityTransformer<?, ?> planetCargoEntityTransformer(final GameToTurnTransformerBuilder builder,
-				final RaceId raceId, final PlanetOwnerId planetOwnerId) {
+				final PlanetOwnerId planetOwnerId) {
 			return builder.transformExtension(PlanetCargo.class).transform((cargo, context) -> {
 				// Copy, if the owner of the planet is the owner of the turn:
 				final String ownerId = planetOwnerId.getValue((Planet) context.getGameEntityStack().peek());
 				if (ownerId == null) {
 					return cargo;
 				} else {
-					final String turnOwnerId = raceId.getValue(context.getRace());
+					final String turnOwnerId = context.getRace().getId();
 					return turnOwnerId.equals(ownerId) ? cargo : new Cargo();
 				}
 			}).build();
@@ -99,8 +97,6 @@ public interface PlanetConfiguration {
 		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 
 		public GameRaceCollection gameRaceCollection();
-
-		public RaceId raceId();
 
 		public IdCreator idCreator();
 

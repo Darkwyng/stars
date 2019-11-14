@@ -13,7 +13,6 @@ import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
 
 @Configuration
 @Import({ ColonizationConfiguration.Provided.class })
@@ -53,12 +52,6 @@ public class ColonizationTestConfiguration implements ColonizationConfiguration.
 	@Override
 	public EffectExecutor effectExecutor() {
 		return mock(EffectExecutor.class);
-	}
-
-	@Bean
-	@Override
-	public RaceId raceId() {
-		return mock(RaceId.class);
 	}
 
 	@Bean
