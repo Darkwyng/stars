@@ -9,13 +9,12 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.MiningCalculator;
 import com.pim.stars.mineral.api.effects.MiningPolicy;
 import com.pim.stars.mineral.api.extensions.PlanetMineCount;
-import com.pim.stars.mineral.api.extensions.RaceMiningSettings;
+import com.pim.stars.mineral.imp.persistence.MineralRaceEntity;
+import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class MineMiningPolicy implements MiningPolicy {
@@ -25,9 +24,7 @@ public class MineMiningPolicy implements MiningPolicy {
 	@Autowired
 	private PlanetOwnerId planetOwnerId;
 	@Autowired
-	private GameRaceCollection gameRaceCollection;
-	@Autowired
-	private RaceMiningSettings raceMiningSettings;
+	private MineralRaceRepository mineralRaceRepository;
 
 	@Autowired
 	private CargoProcessor cargoProcessor;
@@ -58,9 +55,9 @@ public class MineMiningPolicy implements MiningPolicy {
 
 	private CargoHolder calculateMining(final Game game, final Planet planet, final String ownerId,
 			final Integer numberOfMines) {
-		final Race owner = gameRaceCollection.getValue(game).stream().filter(race -> race.getId().equals(ownerId))
-				.findAny().get();
-		final double efficiency = raceMiningSettings.getValue(owner).getMineEfficiency();
+
+		MineralRaceEntity owner = mineralRaceRepository.findByRaceId(ownerId);
+		final double efficiency = owner.getMineEfficiency();
 		final double effectiveMines = numberOfMines * efficiency;
 
 		return miningCalculator.calculateMining(game, planet, effectiveMines);

@@ -5,9 +5,8 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.extensions.PlanetMineCount;
-import com.pim.stars.mineral.api.extensions.RaceMiningSettings;
-import com.pim.stars.mineral.api.extensions.RaceMiningSettings.MiningSettings;
 import com.pim.stars.mineral.imp.effects.MineralConstants;
+import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.PlanetName;
@@ -15,10 +14,8 @@ import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
 import com.pim.stars.production.api.policies.ProductionItemType;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.policies.ResourceProductionCostType;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class MineProductionItemType implements ProductionItemType {
@@ -28,9 +25,7 @@ public class MineProductionItemType implements ProductionItemType {
 	@Autowired
 	private PlanetOwnerId planetOwnerId;
 	@Autowired
-	private GameRaceCollection gameRaceCollection;
-	@Autowired
-	private RaceMiningSettings raceMiningSettings;
+	private MineralRaceRepository mineralRaceRepository;
 	@Autowired
 	private PlanetMineCount planetMineCount;
 	@Autowired
@@ -41,11 +36,9 @@ public class MineProductionItemType implements ProductionItemType {
 	@Override
 	public ProductionCost getCostPerItem(final Game game, final Planet planet, final ProductionCostBuilder builder) {
 		final String ownerId = planetOwnerId.getValue(planet);
-		final Race owner = gameRaceCollection.getValue(game).stream().filter(race -> race.getId().equals(ownerId))
-				.findAny().get();
-		final MiningSettings miningSettings = raceMiningSettings.getValue(owner);
+		final int mineProductionCost = mineralRaceRepository.findByRaceId(ownerId).getMineProductionCost();
 
-		return builder.add(resourceProductionCostType, miningSettings.getMineProductionCost()).build();
+		return builder.add(resourceProductionCostType, mineProductionCost).build();
 	}
 
 	@Override

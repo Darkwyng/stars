@@ -4,6 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
 import org.mockito.Answers;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,6 +23,8 @@ import com.pim.stars.resource.api.policies.ResourceProductionCostType;
 
 @Configuration
 @Import({ MineralConfiguration.Provided.class })
+@EnableAutoConfiguration // Required by @DataMongoTest
+@DataMongoTest
 public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 	@Bean

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.pim.stars.cargo.CargoConfiguration;
 import com.pim.stars.cargo.api.CargoProcessor;
@@ -11,6 +12,7 @@ import com.pim.stars.colonization.ColonizationConfiguration;
 import com.pim.stars.effect.EffectConfiguration;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
@@ -27,6 +29,7 @@ public interface MineralConfiguration {
 	@Configuration
 	@ComponentScan(excludeFilters = {
 			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
+	@EnableMongoRepositories(basePackageClasses = { MineralRaceRepository.class })
 	public static class Provided {
 
 	}

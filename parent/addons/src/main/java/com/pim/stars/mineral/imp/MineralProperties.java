@@ -9,8 +9,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import com.pim.stars.mineral.api.extensions.RaceMiningSettings.MiningSettings;
-
 @Component
 @EnableConfigurationProperties(MineralProperties.class)
 @ConfigurationProperties(prefix = "mineral")
@@ -26,7 +24,7 @@ public class MineralProperties {
 	private int fractionalMiningPrecision;
 	private int homeWorldMinimumConcentration;
 
-	private MiningSettings defaultSettings = new MiningSettings();
+	private RaceMiningSettings defaultSettings = new RaceMiningSettings();
 
 	public List<String> getTypeIds() {
 		return typeIds;
@@ -36,11 +34,11 @@ public class MineralProperties {
 		this.typeIds = typeIds;
 	}
 
-	public MiningSettings getDefaultSettings() {
+	public RaceMiningSettings getDefaultSettings() {
 		return defaultSettings;
 	}
 
-	public void setDefaultSettings(final MiningSettings defaultSettings) {
+	public void setDefaultSettings(final RaceMiningSettings defaultSettings) {
 		this.defaultSettings = defaultSettings;
 	}
 
@@ -74,5 +72,39 @@ public class MineralProperties {
 
 	public void setHomeWorldMinimumConcentration(final int homeWorldMinimumConcentration) {
 		this.homeWorldMinimumConcentration = homeWorldMinimumConcentration;
+	}
+
+	public static class RaceMiningSettings {
+
+		@NonNull
+		private int mineProductionCost;
+		@NonNull
+		private double mineEfficiency;
+
+		public RaceMiningSettings(final RaceMiningSettings defaultSettings) {
+			this();
+			this.mineProductionCost = defaultSettings.mineProductionCost;
+			this.mineEfficiency = defaultSettings.mineEfficiency;
+		}
+
+		public RaceMiningSettings() {
+			super();
+		}
+
+		public int getMineProductionCost() {
+			return mineProductionCost;
+		}
+
+		public void setMineProductionCost(final int mineProductionCost) {
+			this.mineProductionCost = mineProductionCost;
+		}
+
+		public double getMineEfficiency() {
+			return mineEfficiency;
+		}
+
+		public void setMineEfficiency(final double mineEfficiency) {
+			this.mineEfficiency = mineEfficiency;
+		}
 	}
 }

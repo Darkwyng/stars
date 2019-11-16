@@ -19,7 +19,7 @@ import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 
 @Component
-public class MineralGameInitializationPolicy implements GameInitializationPolicy {
+public class MineralConcentrationGameInitializationPolicy implements GameInitializationPolicy {
 
 	private static final Random RANDOM = new Random();
 
