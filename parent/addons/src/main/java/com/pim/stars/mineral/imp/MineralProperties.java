@@ -2,10 +2,12 @@ package com.pim.stars.mineral.imp;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,17 +15,20 @@ import org.springframework.validation.annotation.Validated;
 @EnableConfigurationProperties(MineralProperties.class)
 @ConfigurationProperties(prefix = "mineral")
 @PropertySource("classpath:com/pim/stars/mineral/imp/mineral.properties")
-@Validated
+@Validated // TODO: @Validated adds validation during startup of the application context, but a call to Validator.validate(...) would then fail, because MineralProperties is MineralProperties$$EnhancerBySpring and its fields will always be at the default value even after calling the setter explicitly.
 public class MineralProperties {
 
 	private List<String> typeIds;
 	private int numberOfMinesToStartWith;
-	@NonNull
+
+	@Positive
 	private int baseConcentration;
-	@NonNull
+	@Positive
 	private int fractionalMiningPrecision;
+
 	private int homeWorldMinimumConcentration;
 
+	@Valid
 	private RaceMiningSettings defaultSettings = new RaceMiningSettings();
 
 	public List<String> getTypeIds() {
@@ -74,11 +79,12 @@ public class MineralProperties {
 		this.homeWorldMinimumConcentration = homeWorldMinimumConcentration;
 	}
 
+	@Validated
 	public static class RaceMiningSettings {
 
-		@NonNull
+		@Positive
 		private int mineProductionCost;
-		@NonNull
+		@Positive
 		private double mineEfficiency;
 
 		public RaceMiningSettings(final RaceMiningSettings defaultSettings) {

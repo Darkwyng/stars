@@ -63,6 +63,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>6.1.0.Final</version>
+			</dependency>
+
+			<dependency>
 				<!-- This dependency comes with the above BOM already, but it is listed here explicitly, so that JUnit 4 can be excluded. -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
@@ -116,6 +122,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 
 		<dependency>
