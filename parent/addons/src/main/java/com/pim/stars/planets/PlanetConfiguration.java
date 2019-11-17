@@ -18,7 +18,7 @@ import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.race.RaceConfiguration;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.turn.TurnConfiguration;
 import com.pim.stars.turn.api.policies.GameEntityTransformer;
 import com.pim.stars.turn.api.policies.TurnEntityCreator;
@@ -96,9 +96,8 @@ public interface PlanetConfiguration {
 
 		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 
-		public GameRaceCollection gameRaceCollection();
-
 		public IdCreator idCreator();
 
+		public RaceProvider raceProvider();
 	}
 }

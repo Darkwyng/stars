@@ -17,7 +17,7 @@ import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.policies.ResourceProductionCostType;
 
@@ -53,12 +53,6 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 	@Bean
 	@Override
-	public GameRaceCollection gameRaceCollection() {
-		return mock(GameRaceCollection.class);
-	}
-
-	@Bean
-	@Override
 	public ProductionAvailabilityCalculator productionAvailabilityCalculator() {
 		return mock(ProductionAvailabilityCalculator.class);
 	}
@@ -67,6 +61,12 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 	@Override
 	public GamePlanetCollection gamePlanetCollection() {
 		return mock(GamePlanetCollection.class);
+	}
+
+	@Override
+	@Bean
+	public GameInitializationDataRaceCollection gameInitializationDataRaceCollection() {
+		return mock(GameInitializationDataRaceCollection.class);
 	}
 
 	@Bean

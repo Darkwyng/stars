@@ -14,7 +14,7 @@ import com.pim.stars.mineral.imp.MineralProperties;
 import com.pim.stars.mineral.imp.MineralProperties.RaceMiningSettings;
 import com.pim.stars.mineral.imp.persistence.MineralRaceEntity;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.turn.api.Race;
 
 @Component
@@ -23,7 +23,7 @@ public class MineralRaceGameInitializationPolicy implements GameInitializationPo
 	@Autowired
 	private MineralProperties mineralProperties;
 	@Autowired
-	private GameRaceCollection gameRaceCollection;
+	private GameInitializationDataRaceCollection gameRaceCollection;
 	@Autowired
 	private MineralRaceRepository mineralRaceRepository;
 
@@ -35,7 +35,7 @@ public class MineralRaceGameInitializationPolicy implements GameInitializationPo
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
 
-		final List<MineralRaceEntity> newEntities = gameRaceCollection.getValue(game).stream()
+		final List<MineralRaceEntity> newEntities = gameRaceCollection.getValue(initializationData).stream()
 				.map(this::mapRaceToEntity).collect(Collectors.toList());
 		Preconditions.checkArgument(!newEntities.isEmpty(), "There must be races");
 

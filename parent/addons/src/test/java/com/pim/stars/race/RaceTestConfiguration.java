@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.api.extensions.RaceId;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
@@ -39,5 +40,11 @@ public class RaceTestConfiguration implements RaceConfiguration.Required {
 	@Override
 	public RaceId raceId() {
 		return mock(RaceId.class);
+	}
+
+	@Bean
+	@Override
+	public GameRaceCollection gameRaceCollection() {
+		return mock(GameRaceCollection.class);
 	}
 }

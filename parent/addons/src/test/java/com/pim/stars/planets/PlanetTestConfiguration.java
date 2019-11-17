@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 @Configuration
@@ -31,13 +31,13 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 
 	@Bean
 	@Override
-	public GameRaceCollection gameRaceCollection() {
-		return mock(GameRaceCollection.class);
+	public IdCreator idCreator() {
+		return mock(IdCreator.class);
 	}
 
 	@Bean
 	@Override
-	public IdCreator idCreator() {
-		return mock(IdCreator.class);
+	public RaceProvider raceProvider() {
+		return mock(RaceProvider.class);
 	}
 }

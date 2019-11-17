@@ -88,6 +88,8 @@ public interface RaceConfiguration {
 
 		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 
+		public GameRaceCollection gameRaceCollection();
+
 		public RaceId raceId();
 	}
 }

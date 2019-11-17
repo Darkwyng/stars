@@ -1,9 +1,7 @@
 package com.pim.stars.integrationtests.colonization.planets.game;
 
-import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
@@ -33,7 +31,6 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
 import com.pim.stars.turn.api.Race;
@@ -58,8 +55,6 @@ public class ColonizationIntegrationTest {
 	@Autowired
 	private GameInitializationDataRaceCollection dataRaceCollection;
 	@Autowired
-	private GameRaceCollection gameRaceCollection;
-	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetOwnerId planetOwnerId;
@@ -72,8 +67,6 @@ public class ColonizationIntegrationTest {
 		dataRaceCollection.getValue(initializationData).add(newRace);
 
 		final Game game = gameInitializer.initializeGame(initializationData);
-		assertThat("Races should have been copied to the game.", gameRaceCollection.getValue(game),
-				not(anyOf(empty(), nullValue())));
 		final Integer initialPopulation = getHomeworldPopulation(game);
 		assertThat(initialPopulation, is(colonizationProperties.getDefaultInitialPopulation()));
 

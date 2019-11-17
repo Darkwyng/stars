@@ -15,7 +15,7 @@ import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.RaceConfiguration;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
+import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 
 public interface ColonizationConfiguration {
 
@@ -37,8 +37,6 @@ public interface ColonizationConfiguration {
 
 		public GamePlanetCollection gamePlanetCollection();
 
-		public GameRaceCollection gameRaceCollection();
-
 		public PlanetOwnerId planetOwnerId();
 
 		public CargoProcessor cargoProcessor();
@@ -48,5 +46,7 @@ public interface ColonizationConfiguration {
 		public EffectExecutor effectExecutor();
 
 		public IdCreator idCreator();
+
+		public GameInitializationDataRaceCollection gameInitializationDataRaceCollection();
 	}
 }
