@@ -35,11 +35,10 @@ import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
-import com.pim.stars.turn.TurnConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
-		MineralConfiguration.Complete.class, TurnConfiguration.Complete.class, PersistenceTestConfiguration.class })
+		MineralConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class MineralGenerationIntegrationTest {
 
 	@Autowired
