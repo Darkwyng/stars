@@ -66,6 +66,9 @@ public class GameGenerationImpTest {
 
 				@Override
 				public void generateGame(final Game game, final GameGenerationContext generationContext) {
+					generationContext.set("TheTestKey", "TheTestValue");
+					assertThat(generationContext.get("TheTestKey"), is("TheTestValue"));
+
 					gameGenerationPolicyCallCounter++;
 				}
 			};

@@ -62,10 +62,10 @@ public class ReportProviderImpTest {
 
 			switch (report.getType()) {
 			case "Type1":
-				assertThat(report.getMessage(), is("Hello, world. This is an Ümläut."));
+				assertThat(report.toString(), report.getMessage(), is("Hello, world. This is an Ümläut."));
 				break;
 			case "Type2":
-				assertThat(report.getMessage(), is("Hello, John Smith. You said 'Hi'."));
+				assertThat(report.toString(), report.getMessage(), is("Hello, John Smith. You said 'Hi'."));
 				break;
 			default:
 				fail("Unknown type: " + report.getType());

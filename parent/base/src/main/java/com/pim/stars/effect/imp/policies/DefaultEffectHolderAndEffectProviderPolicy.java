@@ -56,9 +56,7 @@ public class DefaultEffectHolderAndEffectProviderPolicy
 		Collection<Effect> result = map.get(effectClass);
 		if (result == null) {
 			synchronized (this) {
-				if (result == null) {
-					fillMapForEffectClass(effectClass);
-				}
+				fillMapForEffectClass(effectClass);
 			}
 			result = map.get(effectClass);
 		}

@@ -32,20 +32,18 @@ public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvid
 			final Class<?> entityClass) {
 		if (policyMap == null) {
 			synchronized (this) {
-				if (policyMap == null) {
-					// Eclipse accepts this, but maven's compiler fails in "clean install" on parent, but not in "install" or in "clean install" on base:
-					// policyMap = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
-					//			       .collect(Collectors.groupingBy(DataExtensionPolicy<?, ?>::getEntityClass));
-					// Maven says:
-					// Collector<        DataExtensionPolicy<?,?>,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
-					// cannot be converted to
-					// Collector<? super DataExtensionPolicy     ,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
+				// Eclipse accepts this, but maven's compiler fails in "clean install" on parent, but not in "install" or in "clean install" on base:
+				// policyMap = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
+				//			       .collect(Collectors.groupingBy(DataExtensionPolicy<?, ?>::getEntityClass));
+				// Maven says:
+				// Collector<        DataExtensionPolicy<?,?>,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
+				// cannot be converted to
+				// Collector<? super DataExtensionPolicy     ,capture#2 of ?,Map<Class<?>,List<DataExtensionPolicy<?,?>>>>
 
-					// So instead we do this:
-					final Map map = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
-							.collect(Collectors.groupingBy(DataExtensionPolicy::getEntityClass));
-					policyMap = map;
-				}
+				// So instead we do this:
+				final Map map = applicationContext.getBeansOfType(DataExtensionPolicy.class).values().stream()
+						.collect(Collectors.groupingBy(DataExtensionPolicy::getEntityClass));
+				policyMap = map;
 			}
 		}
 		return (Collection) policyMap.get(entityClass);
