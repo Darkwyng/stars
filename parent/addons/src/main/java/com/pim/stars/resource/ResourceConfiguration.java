@@ -18,8 +18,8 @@ public interface ResourceConfiguration {
 	}
 
 	@Configuration
-	@Import({ EffectConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	@Import({ Provided.class, EffectConfiguration.Complete.class })
+	public static class Complete {
 
 	}
 

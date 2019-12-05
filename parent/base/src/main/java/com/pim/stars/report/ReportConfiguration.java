@@ -19,8 +19,8 @@ public interface ReportConfiguration {
 	}
 
 	@Configuration
-	@Import({}) // Currently nothing is imported by this component
-	public static class Complete extends Provided {
+	@Import({ Provided.class })
+	public static class Complete {
 
 	}
 

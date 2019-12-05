@@ -11,8 +11,6 @@ import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.IdConfiguration;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.race.imp.persistence.RaceRepository;
-import com.pim.stars.turn.TurnConfiguration;
-import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
 public interface RaceConfiguration {
 
@@ -25,9 +23,8 @@ public interface RaceConfiguration {
 	}
 
 	@Configuration
-	@Import({ IdConfiguration.Complete.class, DataExtensionConfiguration.Complete.class,
-			TurnConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	@Import({ Provided.class, IdConfiguration.Complete.class, DataExtensionConfiguration.Complete.class })
+	public static class Complete {
 
 	}
 
@@ -36,7 +33,5 @@ public interface RaceConfiguration {
 		public IdCreator idCreator();
 
 		public DataExtender dataExtender();
-
-		public GameToTurnTransformerBuilder gameToTurnTransformerBuilder();
 	}
 }

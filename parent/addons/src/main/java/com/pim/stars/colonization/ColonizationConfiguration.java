@@ -28,9 +28,9 @@ public interface ColonizationConfiguration {
 	}
 
 	@Configuration
-	@Import({ PlanetConfiguration.Complete.class, CargoConfiguration.Complete.class, RaceConfiguration.Complete.class,
-			EffectConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	@Import({ Provided.class, PlanetConfiguration.Complete.class, CargoConfiguration.Complete.class,
+			RaceConfiguration.Complete.class, EffectConfiguration.Complete.class })
+	public static class Complete {
 
 	}
 

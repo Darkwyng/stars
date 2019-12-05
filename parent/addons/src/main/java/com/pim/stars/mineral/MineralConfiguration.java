@@ -36,10 +36,10 @@ public interface MineralConfiguration {
 	}
 
 	@Configuration
-	@Import({ EffectConfiguration.Complete.class, PlanetConfiguration.Complete.class, CargoConfiguration.Complete.class,
-			RaceConfiguration.Complete.class, ProductionConfiguration.Complete.class,
+	@Import({ Provided.class, EffectConfiguration.Complete.class, PlanetConfiguration.Complete.class,
+			CargoConfiguration.Complete.class, RaceConfiguration.Complete.class, ProductionConfiguration.Complete.class,
 			ColonizationConfiguration.Complete.class, ReportConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	public static class Complete {
 
 	}
 

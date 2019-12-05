@@ -22,8 +22,8 @@ public interface ProductionConfiguration {
 	}
 
 	@Configuration
-	@Import({ PlanetConfiguration.Complete.class, ResourceConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	@Import({ Provided.class, PlanetConfiguration.Complete.class, ResourceConfiguration.Complete.class })
+	public static class Complete {
 
 	}
 

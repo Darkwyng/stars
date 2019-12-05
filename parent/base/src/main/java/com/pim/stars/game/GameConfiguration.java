@@ -25,9 +25,9 @@ public interface GameConfiguration {
 	}
 
 	@Configuration
-	@Import({ DataExtensionConfiguration.Complete.class, EffectConfiguration.Complete.class,
+	@Import({ Provided.class, DataExtensionConfiguration.Complete.class, EffectConfiguration.Complete.class,
 			IdConfiguration.Complete.class })
-	public static class Complete extends Provided {
+	public static class Complete {
 
 	}
 
