@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.RaceInitializer;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
 import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
 import com.pim.stars.race.api.traits.SecondaryRacialTrait;
-import com.pim.stars.turn.api.Race;
 
 public class RaceTestDataProvider {
 
@@ -30,12 +30,12 @@ public class RaceTestDataProvider {
 	@Autowired
 	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
 
-	public Race createRace() {
+	public RaceInitializationData createRace() {
 		return createRace(null);
 	}
 
-	public Race createRace(final String primaryTraitId, final String... secondaryTraitIds) {
-		final Race newRace = raceInitializer.initializeRace();
+	public RaceInitializationData createRace(final String primaryTraitId, final String... secondaryTraitIds) {
+		final RaceInitializationData newRace = raceInitializer.initializeRace();
 		racePrimaryRacialTrait.setValue(newRace, getPrimaryTrait(primaryTraitId));
 		addSecondaryTraits(newRace, secondaryTraitIds);
 
@@ -59,7 +59,7 @@ public class RaceTestDataProvider {
 		return primaryRacialTrait;
 	}
 
-	private void addSecondaryTraits(final Race newRace, final String... secondaryTraitIds) {
+	private void addSecondaryTraits(final RaceInitializationData newRace, final String... secondaryTraitIds) {
 		final Collection<SecondaryRacialTrait> secondaryTraits = raceSecondaryRacialTraitCollection.getValue(newRace);
 		Arrays.stream(secondaryTraitIds).map(traitId -> raceTraitProvider.getSecondaryRacialTraitById(traitId))
 				.peek(optional -> assertThat(

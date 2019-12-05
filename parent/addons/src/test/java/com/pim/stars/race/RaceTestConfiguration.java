@@ -4,18 +4,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
 import org.mockito.Answers;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
-import com.pim.stars.race.api.extensions.RaceId;
+import com.pim.stars.race.imp.persistence.RaceRepository;
 import com.pim.stars.turn.api.policies.builder.GameToTurnTransformerBuilder;
 
-@Configuration
-@Import({ RaceConfiguration.Provided.class })
 public class RaceTestConfiguration implements RaceConfiguration.Required {
 
 	@Bean
@@ -36,15 +34,11 @@ public class RaceTestConfiguration implements RaceConfiguration.Required {
 		return mock(GameToTurnTransformerBuilder.class, withSettings().defaultAnswer(Answers.RETURNS_DEEP_STUBS));
 	}
 
-	@Bean
-	@Override
-	public RaceId raceId() {
-		return mock(RaceId.class);
-	}
+	@Configuration
+	@Import({ RaceTestConfiguration.class, RaceConfiguration.Provided.class })
+	public class WithoutPersistence {
 
-	@Bean
-	@Override
-	public GameRaceCollection gameRaceCollection() {
-		return mock(GameRaceCollection.class);
+		@MockBean
+		private RaceRepository raceRepository;
 	}
 }

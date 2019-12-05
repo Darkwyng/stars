@@ -5,15 +5,15 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
+import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
-import com.pim.stars.turn.api.Race;
 
 @Component
-public class RacePrimaryRacialTrait implements DataExtensionPolicy<Race, PrimaryRacialTrait> {
+public class RacePrimaryRacialTrait implements DataExtensionPolicy<RaceInitializationData, PrimaryRacialTrait> {
 
 	@Override
-	public Class<Race> getEntityClass() {
-		return Race.class;
+	public Class<RaceInitializationData> getEntityClass() {
+		return RaceInitializationData.class;
 	}
 
 	@Override

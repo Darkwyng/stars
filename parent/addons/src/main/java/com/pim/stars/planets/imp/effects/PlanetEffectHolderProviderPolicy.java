@@ -31,7 +31,7 @@ public class PlanetEffectHolderProviderPolicy implements EffectHolderProviderPol
 	public Collection<Object> getFurtherEffectHolders(final Game game, final Planet planet) {
 		final String ownerId = planetOwnerId.getValue(planet);
 		if (ownerId != null) {
-			final Race owner = raceProvider.getRacebyId(game, ownerId);
+			final Race owner = raceProvider.getRaceById(game, ownerId);
 			Preconditions.checkNotNull(owner, "owner must not be null");
 			return Collections.singleton(owner);
 		} else {

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
@@ -14,7 +13,7 @@ import com.pim.stars.mineral.imp.MineralProperties;
 import com.pim.stars.mineral.imp.MineralProperties.RaceMiningSettings;
 import com.pim.stars.mineral.imp.persistence.MineralRaceEntity;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
-import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.turn.api.Race;
 
 @Component
@@ -23,7 +22,7 @@ public class MineralRaceGameInitializationPolicy implements GameInitializationPo
 	@Autowired
 	private MineralProperties mineralProperties;
 	@Autowired
-	private GameInitializationDataRaceCollection gameRaceCollection;
+	private RaceProvider raceProvider;
 	@Autowired
 	private MineralRaceRepository mineralRaceRepository;
 
@@ -35,12 +34,10 @@ public class MineralRaceGameInitializationPolicy implements GameInitializationPo
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
 
-		final List<MineralRaceEntity> newEntities = gameRaceCollection.getValue(initializationData).stream()
-				.map(this::mapRaceToEntity).collect(Collectors.toList());
-		Preconditions.checkArgument(!newEntities.isEmpty(), "There must be races");
+		final List<MineralRaceEntity> newEntities = raceProvider.getRacesByGame(game).map(this::mapRaceToEntity)
+				.collect(Collectors.toList());
 
 		mineralRaceRepository.saveAll(newEntities);
-
 	}
 
 	private MineralRaceEntity mapRaceToEntity(final Race race) {

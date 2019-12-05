@@ -31,11 +31,11 @@ import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
 import com.pim.stars.turn.TurnConfiguration;
-import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
@@ -66,7 +66,7 @@ public class MineralGenerationIntegrationTest {
 	@Test
 	public void testThatMineralsAreMinedDuringGameGeneration() {
 
-		final Race newRace = raceTestDataProvider.createRace();
+		final RaceInitializationData newRace = raceTestDataProvider.createRace();
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);

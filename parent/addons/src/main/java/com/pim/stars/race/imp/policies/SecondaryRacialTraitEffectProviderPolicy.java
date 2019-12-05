@@ -1,21 +1,24 @@
 package com.pim.stars.race.imp.policies;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
-import com.pim.stars.race.api.extensions.RaceSecondaryRacialTraitCollection;
+import com.pim.stars.race.api.RaceTraitProvider;
+import com.pim.stars.race.imp.persistence.RaceRepository;
 import com.pim.stars.turn.api.Race;
 
 @Component
 public class SecondaryRacialTraitEffectProviderPolicy implements EffectCollectionProviderPolicy<Race> {
 
 	@Autowired
-	private RaceSecondaryRacialTraitCollection raceSecondaryRacialTraitCollection;
+	private RaceTraitProvider raceTraitProvider;
+	@Autowired
+	private RaceRepository raceRepository;
 
 	@Override
 	public boolean matchesEffectHolder(final Object effectHolder) {
@@ -24,10 +27,10 @@ public class SecondaryRacialTraitEffectProviderPolicy implements EffectCollectio
 
 	@Override
 	public Collection<Effect> getEffectCollectionFromEffectHolder(final Race effectHolder) {
-		final Collection<Effect> result = new ArrayList<>();
-		raceSecondaryRacialTraitCollection.getValue(effectHolder).stream().forEach(trait -> {
-			trait.getEffectCollection().stream().forEach(effect -> result.add(effect));
-		});
-		return result;
+		return raceRepository.findByRaceId(effectHolder.getId()).getSecondaryRacialTraitIds().stream()
+				.map(id -> raceTraitProvider.getSecondaryRacialTraitById(id)
+						.orElseThrow(() -> new IllegalArgumentException("No secondary trait found for ID " + id))
+						.getEffectCollection())
+				.flatMap(c -> c.stream()).collect(Collectors.toList());
 	}
 }

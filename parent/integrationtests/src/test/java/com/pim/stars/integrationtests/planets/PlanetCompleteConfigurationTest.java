@@ -11,10 +11,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.PlanetConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PlanetConfiguration.Complete.class)
+@ContextConfiguration(classes = { PlanetConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class PlanetCompleteConfigurationTest {
 
 	@Autowired

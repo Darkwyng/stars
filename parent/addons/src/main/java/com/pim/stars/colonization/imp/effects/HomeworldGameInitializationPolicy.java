@@ -17,7 +17,7 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
-import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
+import com.pim.stars.race.api.RaceProvider;
 
 @Component
 public class HomeworldGameInitializationPolicy implements GameInitializationPolicy {
@@ -25,7 +25,7 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 	@Autowired
 	private EffectExecutor effectExecutor;
 	@Autowired
-	private GameInitializationDataRaceCollection gameRaceCollection;
+	private RaceProvider raceProvider;
 	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
 
@@ -43,7 +43,7 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
 		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
 		final Collection<Planet> homeworlds = new ArrayList<>();
-		gameRaceCollection.getValue(initializationData).forEach(race -> {
+		raceProvider.getRacesByGame(game).forEach(race -> {
 			final Planet planet = selectNewHomeworld(planetCollection, homeworlds);
 			final String ownerId = race.getId();
 			planetOwnerId.setValue(planet, ownerId);

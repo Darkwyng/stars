@@ -46,17 +46,17 @@ public class DataExtenderImpTest {
 				() -> assertThat(emptyPolicy.getValue(entity), nullValue()),
 				() -> assertThat(listPolicy.getValue(entity), nullValue()));
 
-		dataExtender.extendData(entity);
+		final EntityForTest returnedEntity = dataExtender.extendData(entity);
 
 		assertAll(
-				() -> assertThat(entity.extensions.keySet(),
+				() -> assertThat(returnedEntity.extensions.keySet(),
 						containsInAnyOrder("SimpleDataTypeDataExtensionPolicyForTest", "ListForTest")),
-				() -> assertThat(simplePolicy.getValue(entity), is("Hello world")),
-				() -> assertThat(emptyPolicy.getValue(entity), nullValue()),
-				() -> assertThat(listPolicy.getValue(entity), hasItems(1, 2, 3)));
+				() -> assertThat(simplePolicy.getValue(returnedEntity), is("Hello world")),
+				() -> assertThat(emptyPolicy.getValue(returnedEntity), nullValue()),
+				() -> assertThat(listPolicy.getValue(returnedEntity), hasItems(1, 2, 3)));
 
-		simplePolicy.setValue(entity, "Hello, again!");
-		assertThat(simplePolicy.getValue(entity), is("Hello, again!"));
+		simplePolicy.setValue(returnedEntity, "Hello, again!");
+		assertThat(simplePolicy.getValue(returnedEntity), is("Hello, again!"));
 	}
 
 	private static final class EntityForTest implements Entity<EntityForTest> {

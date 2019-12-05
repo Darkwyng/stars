@@ -18,7 +18,8 @@ public class DataExtenderImp implements DataExtender {
 	private DataExtensionPolicyProvider dataExtensionPolicyProvider;
 
 	@Override
-	public void extendData(final Entity<?> entity) {
+	@SuppressWarnings("unchecked")
+	public <T extends Entity<?>> T extendData(final Entity<T> entity) {
 
 		final Collection<DataExtensionPolicy<Entity<?>, ?>> policiesToUse = dataExtensionPolicyProvider
 				.getDataExtensionPoliciesForEntity(entity);
@@ -31,5 +32,6 @@ public class DataExtenderImp implements DataExtender {
 				entity.set(policy.getKey(), defaultValue.get());
 			}
 		});
+		return (T) entity;
 	}
 }

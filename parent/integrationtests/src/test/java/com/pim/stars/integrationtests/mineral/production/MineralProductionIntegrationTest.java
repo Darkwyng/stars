@@ -34,6 +34,8 @@ import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.production.api.PlanetProductionQueueManager;
 import com.pim.stars.production.imp.ProductionQueue;
 import com.pim.stars.production.imp.extensions.PlanetProductionQueue;
+import com.pim.stars.race.api.RaceInitializationData;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
@@ -52,6 +54,8 @@ public class MineralProductionIntegrationTest {
 	private GameInitializationDataRaceCollection dataRaceCollection;
 	@Autowired
 	private GameInitializer gameInitializer;
+	@Autowired
+	private RaceProvider raceProvider;
 	@Autowired
 	private GameGenerator gameGenerator;
 
@@ -73,12 +77,13 @@ public class MineralProductionIntegrationTest {
 	@Test
 	public void testThatMinesCanBeBuilt() {
 
-		final Race newRace = raceTestDataProvider.createRace();
+		final RaceInitializationData newRaceInitializationData = raceTestDataProvider.createRace();
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
-		dataRaceCollection.getValue(initializationData).add(newRace);
+		dataRaceCollection.getValue(initializationData).add(newRaceInitializationData);
 
 		Game game = gameInitializer.initializeGame(initializationData);
+		final Race newRace = raceProvider.getRacesByGame(game).findAny().get();
 		final Planet homeworld = getHomeworld(game);
 		final Integer minesBeforeBuilding = planetMineCount.getValue(homeworld);
 		assertThat(minesBeforeBuilding, is(10));

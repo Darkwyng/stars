@@ -20,6 +20,7 @@ import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.ProductionConfiguration;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 import com.pim.stars.race.RaceConfiguration;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.report.ReportConfiguration;
 import com.pim.stars.report.api.ReportCreator;
@@ -61,5 +62,7 @@ public interface MineralConfiguration {
 		public IdCreator idCreator();
 
 		public ReportCreator reportCreator();
+
+		public RaceProvider raceProvider();
 	}
 }

@@ -2,5 +2,5 @@ package com.pim.stars.dataextension.api;
 
 public interface DataExtender {
 
-	public void extendData(Entity<?> entity);
+	public <T extends Entity<?>> T extendData(Entity<T> entity);
 }

@@ -4,7 +4,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
@@ -16,24 +18,23 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.race.RaceTestConfiguration;
-import com.pim.stars.race.api.RaceInitializer;
 import com.pim.stars.race.api.RaceTraitProvider;
-import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
+import com.pim.stars.race.imp.RaceImp;
+import com.pim.stars.race.imp.persistence.RaceEntity;
+import com.pim.stars.race.imp.persistence.RaceRepository;
 import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = RaceTestConfiguration.class)
+@ContextConfiguration(classes = { RaceTestConfiguration.class, RaceTestConfiguration.WithoutPersistence.class })
 public class PrimaryRacialTraitEffectProviderPolicyTest {
 
 	@Autowired
 	private PrimaryRacialTraitEffectProviderPolicy testee;
 	@Autowired
-	private RacePrimaryRacialTrait racePrimaryRacialTrait;
-	@Autowired
-	private RaceInitializer raceInitializer;
-	@Autowired
 	private RaceTraitProvider raceTraitProvider;
+	@Autowired
+	private RaceRepository raceRepository;
 
 	@Test
 	public void testThatEffectHolderIsMatched() {
@@ -43,14 +44,18 @@ public class PrimaryRacialTraitEffectProviderPolicyTest {
 
 	@Test
 	public void testThatEffectsOfTraitAreReturned() {
-		final Race race = raceInitializer.initializeRace();
-		final PrimaryRacialTrait trait = raceTraitProvider.getPrimaryRacialTraitById("HyperExpander").get();
-		racePrimaryRacialTrait.setValue(race, trait);
-		assertThat(trait.getEffectCollection(), not(empty()));
-		final Class<? extends Effect> effectClass = trait.getEffectCollection().iterator().next().getClass();
+		final RaceEntity entity = new RaceEntity();
+		entity.setPrimaryRacialTraitId("HyperExpander");
+		when(raceRepository.findByRaceId("exampleRaceId")).thenReturn(entity);
 
-		final Collection<? extends Effect> effectCollection = testee.getEffectCollectionFromEffectHolder(race,
-				effectClass);
-		assertThat(effectCollection, not(empty()));
+		final PrimaryRacialTrait trait = raceTraitProvider.getPrimaryRacialTraitById("HyperExpander").get();
+		assertThat(trait.getEffectCollection(), not(empty()));
+
+		final Effect effect = trait.getEffectCollection().iterator().next();
+		final Class<? extends Effect> effectClass = effect.getClass();
+
+		final Collection<? extends Effect> effectCollection = testee
+				.getEffectCollectionFromEffectHolder(new RaceImp("exampleRaceId"), effectClass);
+		assertThat(effectCollection, containsInAnyOrder(effect));
 	}
 }

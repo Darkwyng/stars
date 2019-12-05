@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,7 +18,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,8 +54,9 @@ public class GameInitializerImpTest {
 	@BeforeEach
 	public void setUp() {
 		gameInitializationPolicyCallCounter = 0;
-		when(effectProvider.getEffectCollection(Mockito.any(), Mockito.any(), eq(GameInitializationPolicy.class)))
+		when(effectProvider.getEffectCollection(any(), any(), eq(GameInitializationPolicy.class)))
 				.thenReturn(Arrays.asList(gameInitializationPolicy));
+		when(dataExtender.extendData(any())).thenAnswer(returnsFirstArg());
 	}
 
 	@Test

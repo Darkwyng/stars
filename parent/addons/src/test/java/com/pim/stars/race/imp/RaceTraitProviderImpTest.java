@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -100,7 +101,8 @@ public class RaceTraitProviderImpTest {
 	 * These beans are required by the effects that are loaded from the XML files.
 	 */
 	@Configuration
-	protected static class TestConfiguration extends RaceTestConfiguration {
+	@Import({ RaceTestConfiguration.WithoutPersistence.class })
+	protected static class TestConfiguration {
 
 		@Bean
 		public CargoProcessor cargoProcessor() {

@@ -11,17 +11,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.race.RaceTestConfiguration;
-import com.pim.stars.race.api.extensions.GameRaceCollection;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = RaceTestConfiguration.class)
+@ContextConfiguration(classes = { RaceTestConfiguration.WithoutPersistence.class })
 public class RaceConfigurationTest {
 
 	@Autowired
-	private GameRaceCollection gameRaceCollection;
+	private RaceProvider raceProvider;
 
 	@Test
 	public void testThatApplicationContextStarts() {
-		assertThat(gameRaceCollection, not(nullValue()));
+		assertThat(raceProvider, not(nullValue()));
 	}
+
 }

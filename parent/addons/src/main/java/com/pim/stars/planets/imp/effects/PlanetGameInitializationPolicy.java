@@ -58,11 +58,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	}
 
 	protected Planet initializeNewPlanet(final Game game, final GameInitializationData data) {
-		final PlanetImp newPlanet = new PlanetImp();
-
-		dataExtender.extendData(newPlanet);
-
-		return newPlanet;
+		return dataExtender.extendData(new PlanetImp());
 	}
 
 	private List<String> getAvailablePlanetNames(final GameInitializationData data) {

@@ -30,10 +30,10 @@ import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
-import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { ColonizationConfiguration.Complete.class, GameConfiguration.Complete.class,
@@ -61,7 +61,7 @@ public class ColonizationIntegrationTest {
 
 	@Test
 	public void testThatHomeworldsAreInitializedWithColonistsAndThatColonistsGrow() {
-		final Race newRace = raceTestDataProvider.createRace("HyperExpander");
+		final RaceInitializationData newRace = raceTestDataProvider.createRace("HyperExpander");
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);
@@ -78,7 +78,8 @@ public class ColonizationIntegrationTest {
 
 	@Test
 	public void testThatLowStartinPopulationTraitLowersPopulation() {
-		final Race newRace = raceTestDataProvider.createRace("HyperExpander", "LowStartingPopulation");
+		final RaceInitializationData newRace = raceTestDataProvider.createRace("HyperExpander",
+				"LowStartingPopulation");
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);

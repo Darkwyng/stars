@@ -7,14 +7,18 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
-import com.pim.stars.race.api.extensions.RacePrimaryRacialTrait;
+import com.pim.stars.race.api.RaceTraitProvider;
+import com.pim.stars.race.imp.persistence.RaceEntity;
+import com.pim.stars.race.imp.persistence.RaceRepository;
 import com.pim.stars.turn.api.Race;
 
 @Component
 public class PrimaryRacialTraitEffectProviderPolicy implements EffectCollectionProviderPolicy<Race> {
 
 	@Autowired
-	private RacePrimaryRacialTrait racePrimaryRacialTrait;
+	private RaceTraitProvider raceTraitProvider;
+	@Autowired
+	private RaceRepository raceRepository;
 
 	@Override
 	public boolean matchesEffectHolder(final Object effectHolder) {
@@ -23,6 +27,11 @@ public class PrimaryRacialTraitEffectProviderPolicy implements EffectCollectionP
 
 	@Override
 	public Collection<Effect> getEffectCollectionFromEffectHolder(final Race effectHolder) {
-		return racePrimaryRacialTrait.getValue(effectHolder).getEffectCollection();
+		final RaceEntity entity = raceRepository.findByRaceId(effectHolder.getId());
+		final String id = entity.getPrimaryRacialTraitId();
+
+		return raceTraitProvider.getPrimaryRacialTraitById(id)
+				.orElseThrow(() -> new IllegalArgumentException("No primary trait found for ID " + id))
+				.getEffectCollection();
 	}
 }

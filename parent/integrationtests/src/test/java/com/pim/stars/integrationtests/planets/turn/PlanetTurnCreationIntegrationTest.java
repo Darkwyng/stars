@@ -34,6 +34,8 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.race.api.RaceInitializationData;
+import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
@@ -54,6 +56,8 @@ public class PlanetTurnCreationIntegrationTest {
 	@Autowired
 	private GameInitializer gameInitializer;
 	@Autowired
+	private RaceProvider raceProvider;
+	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetName planetName;
@@ -67,13 +71,14 @@ public class PlanetTurnCreationIntegrationTest {
 
 	@Test
 	public void testThatTurnGenerationTransformsPlanetsWithNames() {
-		final Race firstRace = raceTestDataProvider.createRace();
-		final Race secondRace = raceTestDataProvider.createRace();
+		final RaceInitializationData firstRace = raceTestDataProvider.createRace();
+		final RaceInitializationData secondRace = raceTestDataProvider.createRace();
 
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(firstRace);
 		dataRaceCollection.getValue(initializationData).add(secondRace);
 		final Game game = gameInitializer.initializeGame(initializationData);
+		final Race aRace = raceProvider.getRacesByGame(game).findAny().get();
 
 		// Check that planets have been initialized:
 		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
@@ -84,7 +89,7 @@ public class PlanetTurnCreationIntegrationTest {
 		assertThat(planetCollection.size(), is(planetNames.size()));
 
 		// Create a turn:
-		final Turn turn = turnCreator.createTurn(game, firstRace);
+		final Turn turn = turnCreator.createTurn(game, aRace);
 		assertThat(turn, not(nullValue()));
 
 		// Check that planets were transformed:
@@ -108,7 +113,7 @@ public class PlanetTurnCreationIntegrationTest {
 		final List<String> planetOwnerIds = turnPlanetCollection.stream().map(planet -> planetOwnerId.getValue(planet))
 				.filter(ownerId -> ownerId != null).collect(Collectors.toList());
 		assertThat("Only the owner of a planet should see who owns a planet", planetOwnerIds,
-				containsInAnyOrder(firstRace.getId()));
+				containsInAnyOrder(aRace.getId()));
 
 		// Check that cargo of planets is only transformed for the owner:
 		turnPlanetCollection.stream().filter(planet -> planetOwnerId.getValue(planet) != null)
