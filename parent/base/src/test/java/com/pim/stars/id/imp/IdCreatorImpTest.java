@@ -5,43 +5,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.dataextension.api.Entity;
-import com.pim.stars.id.IdTestConfiguration;
-import com.pim.stars.id.api.extensions.IdDataExtensionPolicy;
+import com.pim.stars.id.api.IdCreator;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = IdCreatorImpTest.TestConfiguration.class)
 public class IdCreatorImpTest {
-
-	@Autowired
-	private IdDataExtensionPolicy<?> idDataExtensionPolicy;
 
 	@Test
 	public void testThatIdsAreCreated() {
-		final String defaultId = idDataExtensionPolicy.getDefaultValue().get();
-		assertThat(defaultId, not(emptyOrNullString()));
-	}
-
-	@Configuration
-	protected static class TestConfiguration extends IdTestConfiguration {
-
-		@SuppressWarnings("rawtypes")
-		@Bean
-		public IdDataExtensionPolicy<?> idDataExtensionPolicy() {
-			return new IdDataExtensionPolicy() {
-
-				@Override
-				public Class<? extends Entity<?>> getEntityClass() {
-					return null;
-				}
-			};
-		}
+		final IdCreator testee = new IdCreatorImp();
+		assertThat(testee.createId(), not(emptyOrNullString()));
 	}
 }
