@@ -15,7 +15,6 @@ import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.ProductionConfiguration;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
@@ -50,8 +49,6 @@ public interface MineralConfiguration {
 		public CargoProcessor cargoProcessor();
 
 		public PlanetOwnerId planetOwnerId();
-
-		public PlanetName planetName();
 
 		public ProductionAvailabilityCalculator productionAvailabilityCalculator();
 

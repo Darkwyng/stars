@@ -16,7 +16,6 @@ import com.pim.stars.mineral.api.effects.MiningPolicy;
 import com.pim.stars.mineral.imp.reports.PlanetHasMinedReport;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.report.api.ReportCreator;
 
@@ -27,8 +26,6 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetOwnerId planetOwnerId;
-	@Autowired
-	private PlanetName planetName;
 
 	@Autowired
 	private EffectCalculator effectCalculator;
@@ -56,11 +53,10 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 
 	private void createReport(final Game game, final Planet planet, final CargoHolder totalMinedCargo) {
 		final String raceId = planetOwnerId.getValue(planet);
-		final String name = planetName.getValue(planet);
 		final Integer totalQuantity = totalMinedCargo.getItems().stream()
 				.collect(Collectors.summingInt(CargoItem::getQuantity));
 
 		reportCreator.start(game, raceId).type(PlanetHasMinedReport.class).bundle(MineralConstants.REPORT_BUNDLE_NAME)
-				.addArguments(name, totalQuantity.toString()).create();
+				.addArguments(planet.getName(), totalQuantity.toString()).create();
 	}
 }

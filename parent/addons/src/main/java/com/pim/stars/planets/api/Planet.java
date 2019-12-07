@@ -8,4 +8,6 @@ public interface Planet extends Entity<Planet> {
 	public default Class<Planet> getEntityClass() {
 		return Planet.class;
 	}
+
+	public String getName();
 }

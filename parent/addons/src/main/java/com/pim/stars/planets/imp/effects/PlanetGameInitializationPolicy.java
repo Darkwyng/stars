@@ -16,7 +16,6 @@ import com.pim.stars.game.api.effects.GameInitializationPolicy;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
 
@@ -25,8 +24,6 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 
 	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
-	@Autowired
-	private PlanetName planetName;
 	@Autowired
 	private GameInitializationDataNumberOfPlanets gameInitializationDataNumberOfPlanets;
 
@@ -48,17 +45,11 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 
 		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
 		for (int i = 0; i < gameInitializationDataNumberOfPlanets.getValue(data); i++) {
-			final Planet newPlanet = initializeNewPlanet(game, data);
-
 			final String name = selectNewPlanetName(availableNames);
-			planetName.setValue(newPlanet, name);
+			final Planet newPlanet = dataExtender.extendData(new PlanetImp(name));
 
 			planetCollection.add(newPlanet);
 		}
-	}
-
-	protected Planet initializeNewPlanet(final Game game, final GameInitializationData data) {
-		return dataExtender.extendData(new PlanetImp());
 	}
 
 	private List<String> getAvailablePlanetNames(final GameInitializationData data) {

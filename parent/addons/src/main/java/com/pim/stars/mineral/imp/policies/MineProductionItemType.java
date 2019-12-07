@@ -9,7 +9,6 @@ import com.pim.stars.mineral.imp.effects.MineralConstants;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.PlanetName;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
@@ -28,8 +27,6 @@ public class MineProductionItemType implements ProductionItemType {
 	private MineralRaceRepository mineralRaceRepository;
 	@Autowired
 	private PlanetMineCount planetMineCount;
-	@Autowired
-	private PlanetName planetName;
 	@Autowired
 	private ReportCreator reportCreator;
 
@@ -52,9 +49,9 @@ public class MineProductionItemType implements ProductionItemType {
 
 	private void createReport(final Game game, final Planet planet, final int numberOfItems) {
 		final String raceId = planetOwnerId.getValue(planet);
-		final String name = planetName.getValue(planet);
 
 		reportCreator.start(game, raceId).type(PlanetHasBuiltMinesReport.class)
-				.bundle(MineralConstants.REPORT_BUNDLE_NAME).addArguments(name, String.valueOf(numberOfItems)).create();
+				.bundle(MineralConstants.REPORT_BUNDLE_NAME)
+				.addArguments(planet.getName(), String.valueOf(numberOfItems)).create();
 	}
 }

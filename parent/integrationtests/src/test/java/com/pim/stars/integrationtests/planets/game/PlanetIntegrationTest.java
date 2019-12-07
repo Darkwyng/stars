@@ -27,7 +27,6 @@ import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
-import com.pim.stars.planets.api.extensions.PlanetName;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PlanetConfiguration.Complete.class, GameConfiguration.Complete.class,
@@ -38,8 +37,6 @@ public class PlanetIntegrationTest {
 	private GameInitializer gameInitializer;
 	@Autowired
 	private GamePlanetCollection gamePlanetCollection;
-	@Autowired
-	private PlanetName planetName;
 	@Autowired
 	private PlanetCargo planetCargo;
 
@@ -53,7 +50,7 @@ public class PlanetIntegrationTest {
 		assertThat(planetCollection, not(empty()));
 
 		// Check that each planet has a unique name:
-		final Set<String> usedNames = planetCollection.stream().map(planetName::getValue) //
+		final Set<String> usedNames = planetCollection.stream().map(Planet::getName) //
 				.peek(name -> assertThat(name, not(emptyOrNullString()))) //
 				.collect(Collectors.toSet());
 		assertThat(planetCollection.size(), is(usedNames.size()));
