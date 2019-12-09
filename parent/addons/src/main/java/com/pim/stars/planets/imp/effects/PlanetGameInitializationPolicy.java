@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanet
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.PlanetProperties;
+import com.pim.stars.planets.imp.persistence.PlanetEntity;
+import com.pim.stars.planets.imp.persistence.PlanetRepository;
 
 @Component
 public class PlanetGameInitializationPolicy implements GameInitializationPolicy {
@@ -31,6 +34,8 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	private DataExtender dataExtender;
 	@Autowired
 	private PlanetProperties planetProperties;
+	@Autowired
+	private PlanetRepository planetRepository;
 
 	final Random random = new Random();
 
@@ -50,6 +55,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 
 			planetCollection.add(newPlanet);
 		}
+		persistPlanetCollection(game, planetCollection);
 	}
 
 	private List<String> getAvailablePlanetNames(final GameInitializationData data) {
@@ -62,5 +68,18 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	private String selectNewPlanetName(final List<String> availableNames) {
 		final int index = random.nextInt(availableNames.size());
 		return availableNames.remove(index);
+	}
+
+	private void persistPlanetCollection(final Game game, final Collection<Planet> planetCollection) {
+		final List<PlanetEntity> entityCollection = planetCollection.stream().map(planet -> {
+			final PlanetEntity entity = new PlanetEntity();
+			entity.setGameId(game.getId());
+			entity.setYear(game.getYear());
+			entity.setName(planet.getName());
+
+			return entity;
+		}).collect(Collectors.toList());
+
+		planetRepository.saveAll(entityCollection);
 	}
 }

@@ -2,6 +2,8 @@ package com.pim.stars.planets;
 
 import static org.mockito.Mockito.mock;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,5 +40,13 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 
 		@MockBean
 		private PlanetRepository planetRepository;
+	}
+
+	@Configuration
+	@EnableAutoConfiguration // Required by @DataMongoTest
+	@DataMongoTest
+	@Import({ PlanetTestConfiguration.class, PlanetConfiguration.Provided.class })
+	public class WithPersistence {
+
 	}
 }

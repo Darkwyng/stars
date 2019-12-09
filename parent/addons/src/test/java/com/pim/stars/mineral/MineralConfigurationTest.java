@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.pim.stars.mineral.api.policies.MineralType;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = MineralTestConfiguration.class)
+@ContextConfiguration(classes = MineralTestConfiguration.WithoutPersistence.class)
 public class MineralConfigurationTest {
 
 	@Autowired

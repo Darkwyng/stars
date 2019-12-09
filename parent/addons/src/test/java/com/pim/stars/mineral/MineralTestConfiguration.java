@@ -6,6 +6,7 @@ import static org.mockito.Mockito.withSettings;
 import org.mockito.Answers;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
@@ -21,10 +23,6 @@ import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.policies.ResourceProductionCostType;
 
-@Configuration
-@Import({ MineralConfiguration.Provided.class })
-@EnableAutoConfiguration // Required by @DataMongoTest
-@DataMongoTest
 public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 	@Bean
@@ -86,4 +84,19 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 		return mock(ResourceProductionCostType.class);
 	}
 
+	@Configuration
+	@Import({ MineralTestConfiguration.class, MineralConfiguration.Provided.class })
+	public class WithoutPersistence {
+
+		@MockBean
+		private MineralRaceRepository mineralRaceRepository;
+	}
+
+	@Configuration
+	@EnableAutoConfiguration // Required by @DataMongoTest
+	@DataMongoTest
+	@Import({ MineralTestConfiguration.class, MineralConfiguration.Provided.class })
+	public class WithPersistence {
+
+	}
 }
