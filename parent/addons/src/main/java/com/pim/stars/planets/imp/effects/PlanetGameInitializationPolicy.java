@@ -46,7 +46,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
 		for (int i = 0; i < gameInitializationDataNumberOfPlanets.getValue(data); i++) {
 			final String name = selectNewPlanetName(availableNames);
-			final Planet newPlanet = dataExtender.extendData(new PlanetImp(name));
+			final Planet newPlanet = dataExtender.extendData(new PlanetImp(name, null));
 
 			planetCollection.add(newPlanet);
 		}

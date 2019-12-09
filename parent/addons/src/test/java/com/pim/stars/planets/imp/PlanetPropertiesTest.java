@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.pim.stars.planets.PlanetTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PlanetTestConfiguration.class)
+@ContextConfiguration(classes = PlanetTestConfiguration.WithoutPersistence.class)
 public class PlanetPropertiesTest {
 
 	@Autowired

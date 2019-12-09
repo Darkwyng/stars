@@ -18,7 +18,7 @@ import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PlanetTestConfiguration.class)
+@ContextConfiguration(classes = PlanetTestConfiguration.WithoutPersistence.class)
 public class PlanetConfigurationTest {
 
 	@Autowired

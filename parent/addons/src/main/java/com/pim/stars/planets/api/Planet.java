@@ -1,5 +1,7 @@
 package com.pim.stars.planets.api;
 
+import java.util.Optional;
+
 import com.pim.stars.dataextension.api.Entity;
 
 public interface Planet extends Entity<Planet> {
@@ -10,4 +12,6 @@ public interface Planet extends Entity<Planet> {
 	}
 
 	public String getName();
+
+	public Optional<String> getOwnerId();
 }

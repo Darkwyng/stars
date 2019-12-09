@@ -2,6 +2,7 @@ package com.pim.stars.planets.imp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.pim.stars.planets.api.Planet;
 
@@ -9,10 +10,12 @@ public class PlanetImp implements Planet {
 
 	private final Map<String, Object> extensions = new HashMap<>();
 	private final String name;
+	private final String ownerId;
 
-	public PlanetImp(final String name) {
+	public PlanetImp(final String name, final String ownerId) {
 		super();
 		this.name = name;
+		this.ownerId = ownerId;
 	}
 
 	@Override
@@ -28,5 +31,10 @@ public class PlanetImp implements Planet {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public Optional<String> getOwnerId() {
+		return Optional.ofNullable(ownerId);
 	}
 }

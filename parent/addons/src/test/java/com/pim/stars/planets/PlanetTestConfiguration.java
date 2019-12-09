@@ -2,16 +2,16 @@ package com.pim.stars.planets;
 
 import static org.mockito.Mockito.mock;
 
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.planets.imp.persistence.PlanetRepository;
 import com.pim.stars.race.api.RaceProvider;
 
-@Configuration
-@Import({ PlanetConfiguration.Provided.class })
 public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 
 	@Bean
@@ -30,5 +30,13 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 	@Override
 	public RaceProvider raceProvider() {
 		return mock(RaceProvider.class);
+	}
+
+	@Configuration
+	@Import({ PlanetTestConfiguration.class, PlanetConfiguration.Provided.class })
+	public class WithoutPersistence {
+
+		@MockBean
+		private PlanetRepository planetRepository;
 	}
 }
