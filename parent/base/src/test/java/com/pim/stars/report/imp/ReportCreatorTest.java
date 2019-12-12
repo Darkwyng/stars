@@ -27,7 +27,7 @@ import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ReportTestConfiguration.class)
-public class ReportBuilderTest {
+public class ReportCreatorTest {
 
 	private static final String BUNDLE_NAME = "com.pim.stars.report.imp.messages";
 
