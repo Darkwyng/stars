@@ -30,7 +30,7 @@ import com.pim.stars.mineral.api.extensions.PlanetMineCount;
 import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -49,12 +49,12 @@ public class MineralGenerationIntegrationTest {
 	private GameInitializer gameInitializer;
 	@Autowired
 	private GameGenerator gameGenerator;
+	@Autowired
+	private PlanetProvider planetProvider;
 
 	@Autowired
 	private List<MineralType> mineralTypes;
 
-	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetIsHomeworld planetIsHomeworld;
 	@Autowired
@@ -72,7 +72,7 @@ public class MineralGenerationIntegrationTest {
 
 		final Game game = gameInitializer.initializeGame(initializationData);
 		final Planet homeworld = getHomeworld(game);
-		planetMineCount.setValue(homeworld, 100); // 100 mines will always do some mining
+		planetMineCount.setValue(homeworld, 100); // 100, because 100 mines will always do some mining (no matter how low the concentration is)
 		final Map<CargoType, Integer> cargoBeforeMining = collectCargo(homeworld);
 
 		gameGenerator.generateGame(game);
@@ -97,8 +97,8 @@ public class MineralGenerationIntegrationTest {
 	}
 
 	private Planet getHomeworld(final Game game) {
-		final List<Planet> allHomeworlds = gamePlanetCollection.getValue(game).stream()
-				.filter(planetIsHomeworld::getValue).collect(Collectors.toList());
+		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
+				.collect(Collectors.toList());
 		assertThat(allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();

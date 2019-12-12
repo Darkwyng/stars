@@ -16,7 +16,7 @@ import com.pim.stars.mineral.api.extensions.PlanetMineralConcentrations;
 import com.pim.stars.mineral.api.extensions.PlanetMineralConcentrations.MineralConcentration;
 import com.pim.stars.mineral.api.extensions.PlanetMineralConcentrations.MineralConcentrations;
 import com.pim.stars.mineral.api.policies.MineralType;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 
 @Component
 public class MineralConcentrationGameInitializationPolicy implements GameInitializationPolicy {
@@ -27,7 +27,7 @@ public class MineralConcentrationGameInitializationPolicy implements GameInitial
 	private final List<MineralType> mineralTypes = new ArrayList<>();
 
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
+	private PlanetProvider planetProvider;
 	@Autowired
 	private PlanetMineralConcentrations planetMineralConcentrations;
 
@@ -38,7 +38,7 @@ public class MineralConcentrationGameInitializationPolicy implements GameInitial
 
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
-		gamePlanetCollection.getValue(game).stream().forEach(planet -> {
+		planetProvider.getPlanetsByGame(game).forEach(planet -> {
 
 			final MineralConcentrationsImp newConcentrations = new MineralConcentrationsImp();
 			newConcentrations.initialize(mineralTypes);

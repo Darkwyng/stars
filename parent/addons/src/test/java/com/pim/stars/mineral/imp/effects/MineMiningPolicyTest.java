@@ -13,7 +13,6 @@ import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.MiningCalculator;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 
 public class MineMiningPolicyTest {
 
@@ -24,8 +23,6 @@ public class MineMiningPolicyTest {
 
 	@Mock
 	private MiningCalculator miningCalculator;
-	@Mock
-	private PlanetOwnerId planetOwnerId;
 	@Mock
 	private CargoProcessor cargoProcessor;
 

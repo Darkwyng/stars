@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.ProductionCostCalculator;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.imp.ProductionQueue;
@@ -15,7 +15,7 @@ import com.pim.stars.production.imp.extensions.PlanetProductionQueue;
 public class PlanetProductionGameGenerationPolicy implements GameGenerationPolicy {
 
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
+	private PlanetProvider planetProvider;
 	@Autowired
 	private PlanetProductionQueue planetProductionQueue;
 	@Autowired
@@ -27,7 +27,7 @@ public class PlanetProductionGameGenerationPolicy implements GameGenerationPolic
 		final ProductionResultBuilder builder = new ProductionResultBuilder();
 
 		// Work through queue on each planet:
-		gamePlanetCollection.getValue(game).stream().map(planet -> {
+		planetProvider.getPlanetsByGame(game).map(planet -> {
 			// Find queues:
 			final ProductionQueue queue = planetProductionQueue.getValue(planet);
 			if (queue != null && !queue.isEmpty()) {

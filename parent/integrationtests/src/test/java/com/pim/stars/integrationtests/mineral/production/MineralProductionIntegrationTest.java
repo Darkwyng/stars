@@ -30,7 +30,7 @@ import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.PlanetProductionQueueManager;
 import com.pim.stars.production.imp.ProductionQueue;
 import com.pim.stars.production.imp.extensions.PlanetProductionQueue;
@@ -57,9 +57,9 @@ public class MineralProductionIntegrationTest {
 	private RaceProvider raceProvider;
 	@Autowired
 	private GameGenerator gameGenerator;
-
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
+	private PlanetProvider planetProvider;
+
 	@Autowired
 	private PlanetIsHomeworld planetIsHomeworld;
 	@Autowired
@@ -118,8 +118,8 @@ public class MineralProductionIntegrationTest {
 	}
 
 	private Planet getHomeworld(final Game game) {
-		final List<Planet> allHomeworlds = gamePlanetCollection.getValue(game).stream()
-				.filter(planetIsHomeworld::getValue).collect(Collectors.toList());
+		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
+				.collect(Collectors.toList());
 		assertThat(allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();

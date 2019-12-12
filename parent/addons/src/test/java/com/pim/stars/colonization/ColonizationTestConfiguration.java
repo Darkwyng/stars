@@ -10,26 +10,14 @@ import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.api.PlanetProcessor;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 
 @Configuration
 @Import({ ColonizationConfiguration.Provided.class })
 public class ColonizationTestConfiguration implements ColonizationConfiguration.Required {
-
-	@Bean
-	@Override
-	public GamePlanetCollection gamePlanetCollection() {
-		return mock(GamePlanetCollection.class);
-	}
-
-	@Bean
-	@Override
-	public PlanetOwnerId planetOwnerId() {
-		return mock(PlanetOwnerId.class);
-	}
 
 	@Bean
 	@Override
@@ -65,5 +53,17 @@ public class ColonizationTestConfiguration implements ColonizationConfiguration.
 	@Bean
 	public RaceProvider raceProvider() {
 		return mock(RaceProvider.class);
+	}
+
+	@Override
+	@Bean
+	public PlanetProvider planetProvider() {
+		return mock(PlanetProvider.class);
+	}
+
+	@Override
+	@Bean
+	public PlanetProcessor planetProcessor() {
+		return mock(PlanetProcessor.class);
 	}
 }

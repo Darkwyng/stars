@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.planets.PlanetConfiguration;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.resource.ResourceConfiguration;
 import com.pim.stars.resource.api.ResourceCalculator;
 
@@ -29,12 +29,12 @@ public interface ProductionConfiguration {
 
 	public static interface Required {
 
-		public GamePlanetCollection gamePlanetCollection();
-
 		public ResourceCalculator resourceCalculator();
 
 		public EffectCalculator effectCalculator();
 
 		public EffectExecutor effectExecutor();
+
+		public PlanetProvider planetProvider();
 	}
 }

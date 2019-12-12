@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,6 @@ import com.pim.stars.planets.PlanetTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = PlanetTestConfiguration.WithPersistence.class)
@@ -36,8 +34,6 @@ public class PlanetGameInitializationPolicyTest {
 	@Autowired
 	private PlanetProvider planetProvider;
 
-	@MockBean
-	private GamePlanetCollection gamePlanetCollection;
 	@MockBean
 	private GameInitializationDataNumberOfPlanets gameInitializationDataNumberOfPlanets;
 	@MockBean
@@ -53,7 +49,6 @@ public class PlanetGameInitializationPolicyTest {
 
 		when(dataExtender.extendData(any())).thenAnswer(returnsFirstArg());
 		when(gameInitializationDataNumberOfPlanets.getValue(data)).thenReturn(3);
-		when(gamePlanetCollection.getValue(game)).thenReturn(new ArrayList<>());
 
 		testee.initializeGame(game, data);
 

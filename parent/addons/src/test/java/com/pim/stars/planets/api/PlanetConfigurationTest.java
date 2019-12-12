@@ -14,15 +14,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.planets.PlanetTestConfiguration;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = PlanetTestConfiguration.WithoutPersistence.class)
 public class PlanetConfigurationTest {
 
-	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetCargo planetCargo;
 	@Autowired
@@ -36,7 +33,6 @@ public class PlanetConfigurationTest {
 
 	@Test
 	public void testThatApplicationContextStarts() {
-		assertThat(gamePlanetCollection, not(nullValue()));
 		assertThat(planetCargo, not(nullValue()));
 		assertThat(planetCargo, sameInstance(cargoDataExtensionPolicyForGeneric));
 		assertThat(planetCargo, sameInstance(cargoDataExtensionPolicyForPlanet));

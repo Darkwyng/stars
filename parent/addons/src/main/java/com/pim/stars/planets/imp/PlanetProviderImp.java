@@ -19,6 +19,6 @@ public class PlanetProviderImp implements PlanetProvider {
 	@Override
 	public Stream<Planet> getPlanetsByGame(final Game game) {
 		return planetRepository.findByGameIdAndYear(game.getId(), game.getYear()).stream()
-				.map(entity -> new PlanetImp(entity.getName(), entity.getOwnerId()));
+				.map(entity -> new PlanetImp(game, entity.getName(), entity.getOwnerId()));
 	}
 }

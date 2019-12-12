@@ -13,7 +13,6 @@ import com.pim.stars.mineral.imp.persistence.MineralRaceEntity;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
 import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 
 @Component
@@ -21,8 +20,6 @@ public class MineMiningPolicy implements MiningPolicy {
 
 	@Autowired
 	private PlanetMineCount planetMineCount;
-	@Autowired
-	private PlanetOwnerId planetOwnerId;
 	@Autowired
 	private MineralRaceRepository mineralRaceRepository;
 
@@ -38,15 +35,14 @@ public class MineMiningPolicy implements MiningPolicy {
 	@Override
 	public CargoHolder calculateMining(final Game game, final Planet planet) {
 
-		final String ownerId = planetOwnerId.getValue(planet);
-		final boolean planetHasOwner = ownerId != null;
+		final boolean planetHasOwner = planet.getOwnerId().isPresent();
 		if (planetHasOwner) {
 			final Integer numberOfMines = planetMineCount.getValue(planet);
 			if (numberOfMines > 0) {
 				final boolean minesAreAvailable = productionAvailabilityCalculator.isProductionItemTypeAvailable(game,
 						planet, mineProductionItemType);
 				if (minesAreAvailable) {
-					return calculateMining(game, planet, ownerId, numberOfMines);
+					return calculateMining(game, planet, planet.getOwnerId().get(), numberOfMines);
 				}
 			}
 		}
@@ -56,7 +52,7 @@ public class MineMiningPolicy implements MiningPolicy {
 	private CargoHolder calculateMining(final Game game, final Planet planet, final String ownerId,
 			final Integer numberOfMines) {
 
-		MineralRaceEntity owner = mineralRaceRepository.findByRaceId(ownerId);
+		final MineralRaceEntity owner = mineralRaceRepository.findByRaceId(ownerId); // TODO: findByGameIdAndYearAndRaceId
 		final double efficiency = owner.getMineEfficiency();
 		final double effectiveMines = numberOfMines * efficiency;
 

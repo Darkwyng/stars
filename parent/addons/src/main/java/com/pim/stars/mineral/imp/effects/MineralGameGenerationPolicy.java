@@ -1,6 +1,7 @@
 package com.pim.stars.mineral.imp.effects;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,14 @@ import com.pim.stars.game.api.effects.GameGenerationPolicy;
 import com.pim.stars.mineral.api.effects.MiningPolicy;
 import com.pim.stars.mineral.imp.reports.PlanetHasMinedReport;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.report.api.ReportCreator;
 
 @Component
 public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
-	@Autowired
-	private PlanetOwnerId planetOwnerId;
-
+	private PlanetProvider planetProvider;
 	@Autowired
 	private EffectCalculator effectCalculator;
 	@Autowired
@@ -36,8 +33,7 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 
 	@Override
 	public void generateGame(final Game game, final GameGenerationContext gameGenerationContext) {
-		for (final Planet planet : gamePlanetCollection.getValue(game)) {
-
+		planetProvider.getPlanetsByGame(game).forEach(planet -> {
 			final CargoHolder totalMinedCargo = effectCalculator.calculateEffect(game, MiningPolicy.class, planet,
 					cargoProcessor.createCargoHolder(), (policy, context, currentValue) -> {
 						final CargoHolder minedCargo = policy.calculateMining(game, planet);
@@ -45,18 +41,21 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 					});
 
 			if (!totalMinedCargo.isEmpty()) {
-				createReport(game, planet, totalMinedCargo);
+				createReportIfNecessary(game, planet, totalMinedCargo);
 				cargoProcessor.createCargoHolder(planet).transferFromNowhere().allOf(totalMinedCargo).execute();
 			}
-		}
+		});
 	}
 
-	private void createReport(final Game game, final Planet planet, final CargoHolder totalMinedCargo) {
-		final String raceId = planetOwnerId.getValue(planet);
-		final Integer totalQuantity = totalMinedCargo.getItems().stream()
-				.collect(Collectors.summingInt(CargoItem::getQuantity));
-
-		reportCreator.start(game, raceId).type(PlanetHasMinedReport.class).bundle(MineralConstants.REPORT_BUNDLE_NAME)
-				.addArguments(planet.getName(), totalQuantity.toString()).create();
+	private void createReportIfNecessary(final Game game, final Planet planet, final CargoHolder totalMinedCargo) {
+		final Optional<String> ownerId = planet.getOwnerId();
+		if (ownerId.isPresent()) {
+			final String raceId = ownerId.get();
+			final Integer totalQuantity = totalMinedCargo.getItems().stream()
+					.collect(Collectors.summingInt(CargoItem::getQuantity));
+			reportCreator.start(game, raceId).type(PlanetHasMinedReport.class)
+					.bundle(MineralConstants.REPORT_BUNDLE_NAME)
+					.addArguments(planet.getName(), totalQuantity.toString()).create();
+		}
 	}
 }

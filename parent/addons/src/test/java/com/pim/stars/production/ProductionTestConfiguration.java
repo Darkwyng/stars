@@ -8,18 +8,12 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.resource.api.ResourceCalculator;
 
 @Configuration
 @Import({ ProductionConfiguration.Provided.class })
 public class ProductionTestConfiguration implements ProductionConfiguration.Required {
-
-	@Bean
-	@Override
-	public GamePlanetCollection gamePlanetCollection() {
-		return mock(GamePlanetCollection.class);
-	}
 
 	@Bean
 	@Override
@@ -37,5 +31,11 @@ public class ProductionTestConfiguration implements ProductionConfiguration.Requ
 	@Override
 	public EffectExecutor effectExecutor() {
 		return mock(EffectExecutor.class);
+	}
+
+	@Override
+	@Bean
+	public PlanetProvider planetProvider() {
+		return mock(PlanetProvider.class);
 	}
 }

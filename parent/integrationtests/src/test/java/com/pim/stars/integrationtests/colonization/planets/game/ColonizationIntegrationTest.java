@@ -10,6 +10,7 @@ import static org.hamcrest.number.OrderingComparison.lessThan;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,7 @@ import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -55,9 +55,7 @@ public class ColonizationIntegrationTest {
 	@Autowired
 	private GameInitializationDataRaceCollection dataRaceCollection;
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
-	@Autowired
-	private PlanetOwnerId planetOwnerId;
+	private PlanetProvider planetProvider;
 
 	@Test
 	public void testThatHomeworldsAreInitializedWithColonistsAndThatColonistsGrow() {
@@ -91,12 +89,12 @@ public class ColonizationIntegrationTest {
 
 	private Integer getHomeworldPopulation(final Game game) {
 		// Check that planets exist:
-		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
+		final Collection<Planet> planetCollection = planetProvider.getPlanetsByGame(game).collect(Collectors.toList());
 		assertThat("There should be planets", planetCollection, not(empty()));
 
 		// Check that a homeworld has been initialized:
-		final List<String> homeworldOwnerIds = planetCollection.stream().map(planet -> planetOwnerId.getValue(planet))
-				.filter(ownerId -> ownerId != null).collect(Collectors.toList());
+		final List<String> homeworldOwnerIds = planetCollection.stream().map(Planet::getOwnerId)
+				.filter(Optional<String>::isPresent).map(Optional<String>::get).collect(Collectors.toList());
 		assertThat("There should be a homeworld with an owner", homeworldOwnerIds, hasSize(1));
 
 		// Check that population has been set:

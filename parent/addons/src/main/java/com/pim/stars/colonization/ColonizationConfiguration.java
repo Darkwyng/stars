@@ -12,8 +12,8 @@ import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.PlanetConfiguration;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.api.PlanetProcessor;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.RaceConfiguration;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
@@ -36,10 +36,6 @@ public interface ColonizationConfiguration {
 
 	public static interface Required {
 
-		public GamePlanetCollection gamePlanetCollection();
-
-		public PlanetOwnerId planetOwnerId();
-
 		public CargoProcessor cargoProcessor();
 
 		public EffectCalculator effectCalculator();
@@ -51,5 +47,9 @@ public interface ColonizationConfiguration {
 		public GameInitializationDataRaceCollection gameInitializationDataRaceCollection();
 
 		public RaceProvider raceProvider();
+
+		public PlanetProvider planetProvider();
+
+		public PlanetProcessor planetProcessor();
 	}
 }

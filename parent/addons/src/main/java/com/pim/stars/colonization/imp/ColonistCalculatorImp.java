@@ -11,7 +11,6 @@ import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 
 @Component
 public class ColonistCalculatorImp implements ColonistCalculator {
@@ -22,14 +21,11 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 	private ColonistCargoType colonistCargoType;
 
 	@Autowired
-	private PlanetOwnerId planetOwnerId;
-
-	@Autowired
 	private EffectCalculator effectCalculator;
 
 	@Override
 	public int getCurrentPlanetPopulation(final Game game, final Planet planet) {
-		if (planetOwnerId.getValue(planet) == null) {
+		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
 			return cargoProcessor.createCargoHolder(planet).getQuantity(colonistCargoType);
@@ -38,7 +34,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 
 	@Override
 	public int getPlanetCapacity(final Game game, final Planet planet) {
-		if (planetOwnerId.getValue(planet) == null) {
+		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
 			return effectCalculator.calculateEffect(game, PlanetCapacityPolicy.class, planet, 0,
@@ -48,7 +44,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 
 	@Override
 	public double getMaximumGrowthRateForPlanet(final Game game, final Planet planet) {
-		if (planetOwnerId.getValue(planet) == null) {
+		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
 			return 0.15;
@@ -57,7 +53,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 
 	@Override
 	public int getExpectedColonistGainForPlanet(final Game game, final Planet planet) {
-		if (planetOwnerId.getValue(planet) == null) {
+		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
 			final CargoHolder planetCargoHolder = cargoProcessor.createCargoHolder(planet);

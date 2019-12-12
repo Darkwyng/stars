@@ -31,7 +31,7 @@ import com.pim.stars.mineral.api.extensions.PlanetMineralConcentrations.MineralC
 import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -48,12 +48,12 @@ public class MineralInitializationIntegrationTest {
 	private GameInitializationDataRaceCollection dataRaceCollection;
 	@Autowired
 	private GameInitializer gameInitializer;
+	@Autowired
+	private PlanetProvider planetProvider;
 
 	@Autowired
 	private List<MineralType> mineralTypes;
 
-	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
 	@Autowired
 	private PlanetIsHomeworld planetIsHomeworld;
 	@Autowired
@@ -74,7 +74,7 @@ public class MineralInitializationIntegrationTest {
 
 		final Game game = gameInitializer.initializeGame(initializationData);
 
-		gamePlanetCollection.getValue(game).stream().forEach(this::checkPlanet);
+		planetProvider.getPlanetsByGame(game).forEach(this::checkPlanet);
 
 		checkHomeworld(game);
 
@@ -91,8 +91,8 @@ public class MineralInitializationIntegrationTest {
 	}
 
 	private void checkHomeworld(final Game game) {
-		final List<Planet> allHomeworlds = gamePlanetCollection.getValue(game).stream()
-				.filter(planetIsHomeworld::getValue).collect(Collectors.toList());
+		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
+				.collect(Collectors.toList());
 		assertThat(allHomeworlds, hasSize(1));
 
 		final Planet homeworld = allHomeworlds.iterator().next();

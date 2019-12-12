@@ -25,7 +25,7 @@ import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.planets.api.extensions.PlanetCargo;
 
 @ExtendWith(SpringExtension.class)
@@ -36,7 +36,7 @@ public class PlanetIntegrationTest {
 	@Autowired
 	private GameInitializer gameInitializer;
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
+	private PlanetProvider planetProvider;
 	@Autowired
 	private PlanetCargo planetCargo;
 
@@ -46,7 +46,7 @@ public class PlanetIntegrationTest {
 		final Game game = gameInitializer.initializeGame(initializationData);
 
 		// Check that planets have been initialized:
-		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
+		final Collection<Planet> planetCollection = planetProvider.getPlanetsByGame(game).collect(Collectors.toList());
 		assertThat(planetCollection, not(empty()));
 
 		// Check that each planet has a unique name:
@@ -57,7 +57,7 @@ public class PlanetIntegrationTest {
 
 		// Check that each planet has a cargo-object (even though it may be empty):
 		final Set<Cargo> cargoInstances = planetCollection.stream().map(planetCargo::getValue) //
-				.peek(cargo -> assertThat(cargo, not(nullValue()))) //
+				.peek(cargo -> assertThat("cargo must not be null", cargo, not(nullValue()))) //
 				.collect(Collectors.toSet());
 		assertThat(planetCollection.size(), is(cargoInstances.size()));
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,23 +15,22 @@ import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
 import com.pim.stars.planets.api.Planet;
+import com.pim.stars.planets.api.PlanetProcessor;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
 import com.pim.stars.race.api.RaceProvider;
 
 @Component
 public class HomeworldGameInitializationPolicy implements GameInitializationPolicy {
 
 	@Autowired
+	private PlanetProvider planetProvider;
+	@Autowired
 	private EffectExecutor effectExecutor;
 	@Autowired
 	private RaceProvider raceProvider;
 	@Autowired
-	private GamePlanetCollection gamePlanetCollection;
-
-	@Autowired
-	private PlanetOwnerId planetOwnerId;
+	private PlanetProcessor planetProcessor;
 
 	final Random random = new Random();
 
@@ -41,12 +41,11 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
-		final Collection<Planet> planetCollection = gamePlanetCollection.getValue(game);
+		final Collection<Planet> planetCollection = planetProvider.getPlanetsByGame(game).collect(Collectors.toList());
 		final Collection<Planet> homeworlds = new ArrayList<>();
 		raceProvider.getRacesByGame(game).forEach(race -> {
 			final Planet planet = selectNewHomeworld(planetCollection, homeworlds);
-			final String ownerId = race.getId();
-			planetOwnerId.setValue(planet, ownerId);
+			planetProcessor.setPlanetOwnerId(game, planet, race.getId());
 
 			effectExecutor.executeEffect(game, HomeworldInitializationPolicy.class, planet,
 					(policy, context) -> policy.initializeHomeworld(game, planet, race, initializationData));

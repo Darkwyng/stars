@@ -21,7 +21,7 @@ public class RaceProviderImp implements RaceProvider {
 	@Override
 	public Race getRaceById(final Game game, final String raceId) {
 		final RaceEntity entity = raceRepository.findByRaceId(raceId);
-		Preconditions.checkNotNull(entity, "race must not be null");
+		Preconditions.checkNotNull(entity, "race must not be null for id " + raceId);
 
 		return new RaceImp(entity.getRaceId());
 	}

@@ -1,6 +1,7 @@
 package com.pim.stars.dataextension.imp;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,6 +47,6 @@ public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvid
 				policyMap = map;
 			}
 		}
-		return (Collection) policyMap.get(entityClass);
+		return (Collection) policyMap.getOrDefault(entityClass, Collections.emptyList());
 	}
 }

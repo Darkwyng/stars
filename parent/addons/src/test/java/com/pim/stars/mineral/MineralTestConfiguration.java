@@ -15,8 +15,7 @@ import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
-import com.pim.stars.planets.api.extensions.GamePlanetCollection;
-import com.pim.stars.planets.api.extensions.PlanetOwnerId;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
@@ -39,20 +38,8 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 	@Bean
 	@Override
-	public PlanetOwnerId planetOwnerId() {
-		return mock(PlanetOwnerId.class);
-	}
-
-	@Bean
-	@Override
 	public ProductionAvailabilityCalculator productionAvailabilityCalculator() {
 		return mock(ProductionAvailabilityCalculator.class);
-	}
-
-	@Bean
-	@Override
-	public GamePlanetCollection gamePlanetCollection() {
-		return mock(GamePlanetCollection.class);
 	}
 
 	@Override
@@ -79,6 +66,12 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 		return mock(RaceProvider.class);
 	}
 
+	@Override
+	@Bean
+	public PlanetProvider planetProvider() {
+		return mock(PlanetProvider.class);
+	}
+
 	@Bean
 	public ResourceProductionCostType resourceProductionCostType() {
 		return mock(ResourceProductionCostType.class);
@@ -99,4 +92,5 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 	public class WithPersistence {
 
 	}
+
 }
