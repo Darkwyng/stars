@@ -1,12 +1,14 @@
 package com.pim.stars.cargo.imp.persistence;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -47,14 +49,14 @@ public class CargoPersistenceInterface {
 	}
 
 	/** Read data from the database */
-	public Stream<CargoItem> loadItems(final Game game, final Object cargoHolder) {
+	public Collection<CargoItem> loadItems(final Game game, final Object cargoHolder) {
 		final String entityId = createEntityId(game, cargoHolder);
 		final Optional<CargoEntity> optionalEntity = cargoRepository.findById(entityId);
 
 		return optionalEntity //
 				.map(entity -> entity.getItems().stream() //
-						.map(this::initializeCargoItem)) //
-				.orElse(Stream.empty());
+						.map(this::initializeCargoItem).collect(toList())) //
+				.orElse(Collections.emptyList());
 	}
 
 	private CargoItem initializeCargoItem(final CargoEntityItem item) {

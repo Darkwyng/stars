@@ -38,7 +38,7 @@ public class MineralTypeFactory {
 
 		@Override
 		public void deduct(final Game game, final Planet planet, final int amount) {
-			cargoProcessor.createCargoHolder(planet).transferToNowhere().quantity(this, amount).execute();
+			cargoProcessor.createCargoHolder(game, planet).transferToNowhere().quantity(this, amount).execute();
 		}
 	}
 }

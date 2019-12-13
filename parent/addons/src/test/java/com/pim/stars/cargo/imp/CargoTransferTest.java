@@ -7,15 +7,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -24,10 +26,10 @@ import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoHolder.CargoTransferResult;
 import com.pim.stars.cargo.api.CargoProcessor;
-import com.pim.stars.cargo.api.extensions.CargoDataExtensionPolicy;
+import com.pim.stars.cargo.api.policies.CargoHolderDefinition;
 import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
-import com.pim.stars.dataextension.api.Entity;
+import com.pim.stars.game.api.Game;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = CargoTransferTest.TestConfiguration.class)
@@ -36,16 +38,23 @@ public class CargoTransferTest {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private CargoDataExtensionPolicy<EntityForTest> cargoDataExtensionPolicy;
-	@Autowired
 	private CargoType cargoType;
+
+	@Mock
+	private Game game;
+
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+		when(game.getId()).thenReturn("Id17");
+		when(game.getYear()).thenReturn(28);
+	}
 
 	@Test
 	public void testCargoCanBeTransferred() {
 		final EntityForTest firstEntity = new EntityForTest();
-		cargoDataExtensionPolicy.setValue(firstEntity, cargoDataExtensionPolicy.getDefaultValue().get());
 
-		final CargoHolder first = cargoProcessor.createCargoHolder(firstEntity);
+		final CargoHolder first = cargoProcessor.createCargoHolder(game, firstEntity);
 		assertThat(first, not(nullValue()));
 		assertThat(first.getQuantity(cargoType), is(0));
 
@@ -59,8 +68,7 @@ public class CargoTransferTest {
 					() -> assertThat(result.getTransferredItems().iterator().next().getType(), is(cargoType)));
 		}
 		final EntityForTest secondEntity = new EntityForTest();
-		cargoDataExtensionPolicy.setValue(secondEntity, cargoDataExtensionPolicy.getDefaultValue().get());
-		final CargoHolder second = cargoProcessor.createCargoHolder(secondEntity);
+		final CargoHolder second = cargoProcessor.createCargoHolder(game, secondEntity);
 
 		// TransferTo: from first to second:
 		{
@@ -110,16 +118,28 @@ public class CargoTransferTest {
 	}
 
 	@Configuration
-	protected static class TestConfiguration extends CargoTestConfiguration {
+	@Import({ CargoTestConfiguration.WithPersistence.class })
+	protected static class TestConfiguration {
 
 		@Bean
-		public CargoDataExtensionPolicy<?> cargoDataExtensionPolicy() {
-			return new CargoDataExtensionPolicy<EntityForTest>() {
+		public CargoHolderDefinition<?> cargoHolderDefinition() {
+			return new CargoHolderDefinition<EntityForTest>() {
 
 				@Override
-				public Class<EntityForTest> getEntityClass() {
-					return EntityForTest.class;
+				public boolean matches(final Object object) {
+					return object instanceof EntityForTest;
 				}
+
+				@Override
+				public String getCargoHolderType() {
+					return "T";
+				}
+
+				@Override
+				public String getCargoHolderId(final EntityForTest object) {
+					return String.valueOf(object.hashCode());
+				}
+
 			};
 		}
 
@@ -135,23 +155,7 @@ public class CargoTransferTest {
 		}
 	}
 
-	private static final class EntityForTest implements Entity<EntityForTest> {
+	private static final class EntityForTest {
 
-		private final Map<String, Object> extensions = new HashMap<>();
-
-		@Override
-		public Class<EntityForTest> getEntityClass() {
-			return EntityForTest.class;
-		}
-
-		@Override
-		public Object get(final String key) {
-			return extensions.get(key);
-		}
-
-		@Override
-		public void set(final String key, final Object value) {
-			extensions.put(key, value);
-		}
 	}
 }

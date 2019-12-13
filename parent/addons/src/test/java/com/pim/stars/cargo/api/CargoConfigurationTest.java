@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.pim.stars.cargo.CargoTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = CargoTestConfiguration.class)
+@ContextConfiguration(classes = CargoTestConfiguration.WithoutPersistence.class)
 public class CargoConfigurationTest {
 
 	@Autowired

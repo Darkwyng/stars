@@ -19,7 +19,7 @@ public class MineralProductionInputCalculator implements ProductionInputCalculat
 	@Override
 	public void calculateProductionInput(final Game game, final Planet planet, final ProductionCostBuilder builder) {
 
-		cargoProcessor.createCargoHolder(planet).getItems().stream()
+		cargoProcessor.createCargoHolder(game, planet).getItems().stream()
 				.filter(item -> item.getType() instanceof MineralType).forEach(item -> {
 					builder.add((MineralType) item.getType(), item.getQuantity());
 				});

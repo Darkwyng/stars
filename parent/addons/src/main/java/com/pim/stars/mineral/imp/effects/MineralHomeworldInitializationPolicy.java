@@ -41,14 +41,15 @@ public class MineralHomeworldInitializationPolicy implements HomeworldInitializa
 	private MineralProperties mineralProperties;
 
 	@Override
-	public void initializeHomeworld(final Game game, final Planet planet, Race race, final GameInitializationData data) {
-		initializeStartingMinerals(planet);
+	public void initializeHomeworld(final Game game, final Planet planet, final Race race,
+			final GameInitializationData data) {
+		initializeStartingMinerals(game, planet);
 		initializeStartingMines(game, planet);
 		planetIsHomeworld.setValue(planet, true);
 	}
 
-	private void initializeStartingMinerals(final Planet planet) {
-		final CargoTransferBuilder builder = cargoProcessor.createCargoHolder(planet).transferFromNowhere();
+	private void initializeStartingMinerals(final Game game, final Planet planet) {
+		final CargoTransferBuilder builder = cargoProcessor.createCargoHolder(game, planet).transferFromNowhere();
 
 		planetMineralConcentrations.getValue(planet).forEach(concentration -> {
 			final Double cargoQuantity = concentration.getAmount() * 4 * (0.8 + (RANDOM.nextDouble() * 0.4));

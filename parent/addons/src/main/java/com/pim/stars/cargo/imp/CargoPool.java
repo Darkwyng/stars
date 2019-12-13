@@ -11,11 +11,12 @@ public class CargoPool extends AbstractCargoHolder {
 
 	public CargoPool(final Collection<CargoItem> items) {
 		super();
-		this.items = items;
+		this.items = new ArrayList<>(items);
 	}
 
 	public CargoPool() {
-		this(new ArrayList<>());
+		super();
+		this.items = new ArrayList<>();
 	}
 
 	@Override

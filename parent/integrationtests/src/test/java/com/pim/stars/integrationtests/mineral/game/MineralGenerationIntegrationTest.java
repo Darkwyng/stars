@@ -73,10 +73,10 @@ public class MineralGenerationIntegrationTest {
 		final Game game = gameInitializer.initializeGame(initializationData);
 		final Planet homeworld = getHomeworld(game);
 		planetMineCount.setValue(homeworld, 100); // 100, because 100 mines will always do some mining (no matter how low the concentration is)
-		final Map<CargoType, Integer> cargoBeforeMining = collectCargo(homeworld);
+		final Map<CargoType, Integer> cargoBeforeMining = collectCargo(game, homeworld);
 
 		gameGenerator.generateGame(game);
-		final Map<CargoType, Integer> cargoAfterMining = collectCargo(getHomeworld(game));
+		final Map<CargoType, Integer> cargoAfterMining = collectCargo(game, getHomeworld(game));
 
 		assertThat(mineralTypes, hasSize(greaterThan(0)));
 		mineralTypes.stream().peek(type -> assertThat(type, not(nullValue()))).forEach(type -> {
@@ -86,9 +86,9 @@ public class MineralGenerationIntegrationTest {
 		// TODO: test for reporting of mining
 	}
 
-	private Map<CargoType, Integer> collectCargo(final Planet homeworld) {
+	private Map<CargoType, Integer> collectCargo(final Game game, final Planet homeworld) {
 		final Map<CargoType, Integer> result = new HashMap<>();
-		cargoProcessor.createCargoHolder(homeworld).getItems().stream() //
+		cargoProcessor.createCargoHolder(game, homeworld).getItems().stream() //
 				.peek(entry -> assertThat(entry, not(nullValue())))
 				.peek(entry -> assertThat(entry.getType(), not(nullValue())))
 				.forEach(entry -> result.put(entry.getType(), entry.getQuantity()));

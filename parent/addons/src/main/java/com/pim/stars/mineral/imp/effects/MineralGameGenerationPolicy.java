@@ -42,7 +42,7 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 
 			if (!totalMinedCargo.isEmpty()) {
 				createReportIfNecessary(game, planet, totalMinedCargo);
-				cargoProcessor.createCargoHolder(planet).transferFromNowhere().allOf(totalMinedCargo).execute();
+				cargoProcessor.createCargoHolder(game, planet).transferFromNowhere().allOf(totalMinedCargo).execute();
 			}
 		});
 	}

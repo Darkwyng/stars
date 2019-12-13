@@ -97,7 +97,7 @@ public class MineralInitializationIntegrationTest {
 
 		final Planet homeworld = allHomeworlds.iterator().next();
 		assertThat(planetMineCount.getValue(homeworld), greaterThan(0));
-		final Collection<CargoItem> cargoItems = cargoProcessor.createCargoHolder(homeworld).getItems().stream()
+		final Collection<CargoItem> cargoItems = cargoProcessor.createCargoHolder(game, homeworld).getItems().stream()
 				.filter(item -> item.getType() instanceof MineralType).collect(Collectors.toList());
 		assertThat(cargoItems, hasSize(3));
 		cargoItems.forEach(conc -> {

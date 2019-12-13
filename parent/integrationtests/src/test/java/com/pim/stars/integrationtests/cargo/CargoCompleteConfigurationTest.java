@@ -12,9 +12,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.CargoConfiguration;
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = CargoConfiguration.Complete.class)
+@ContextConfiguration(classes = { CargoConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class CargoCompleteConfigurationTest {
 
 	@Autowired

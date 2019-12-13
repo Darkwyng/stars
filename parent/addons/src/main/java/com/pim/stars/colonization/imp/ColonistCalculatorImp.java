@@ -28,7 +28,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
-			return cargoProcessor.createCargoHolder(planet).getQuantity(colonistCargoType);
+			return cargoProcessor.createCargoHolder(game, planet).getQuantity(colonistCargoType);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
-			final CargoHolder planetCargoHolder = cargoProcessor.createCargoHolder(planet);
+			final CargoHolder planetCargoHolder = cargoProcessor.createCargoHolder(game, planet);
 
 			final int currentPopulation = planetCargoHolder.getQuantity(colonistCargoType);
 			final double maximumGrowthRate = getMaximumGrowthRateForPlanet(game, planet);

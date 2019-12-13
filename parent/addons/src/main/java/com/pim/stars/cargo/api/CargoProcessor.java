@@ -2,11 +2,11 @@ package com.pim.stars.cargo.api;
 
 import java.util.Collection;
 
-import com.pim.stars.dataextension.api.Entity;
+import com.pim.stars.game.api.Game;
 
 public interface CargoProcessor {
 
-	public <E extends Entity<?>> CargoHolder createCargoHolder(E entity);
+	public CargoHolder createCargoHolder(Game game, Object entity);
 
 	public CargoHolder createCargoHolder();
 

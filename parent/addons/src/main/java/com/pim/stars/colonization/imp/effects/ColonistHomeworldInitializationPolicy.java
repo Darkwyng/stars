@@ -30,7 +30,7 @@ public class ColonistHomeworldInitializationPolicy implements HomeworldInitializ
 	public void initializeHomeworld(final Game game, final Planet planet, final Race race,
 			final GameInitializationData data) {
 
-		cargoProcessor.createCargoHolder(planet).transferFromNowhere()
+		cargoProcessor.createCargoHolder(game, planet).transferFromNowhere()
 				.quantity(colonistCargoType, getInitialPopulation()).execute();
 
 		effectExecutor.executeEffect(game, PlanetColonizationPolicy.class, planet,
