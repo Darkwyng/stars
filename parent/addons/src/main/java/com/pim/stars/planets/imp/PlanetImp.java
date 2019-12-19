@@ -23,12 +23,23 @@ public class PlanetImp implements Planet {
 
 	private Map<String, Object> getExtensions() { // TODO: remove with last extensions for planets
 		final Map<String, Map<String, Object>> extensionsForThisGame = EXTENSIONS_PER_GAME_AND_PLANET_NAME
-				.computeIfAbsent(game.getId() + "#" + game.getYear(), key -> new HashMap<>());
+				.computeIfAbsent(getGameKey(game), key -> new HashMap<>());
 
 		final Map<String, Object> extensionsForThisPlanet = extensionsForThisGame.computeIfAbsent(name,
 				key -> new HashMap<>());
 
 		return extensionsForThisPlanet;
+	}
+
+	private static String getGameKey(final Game game) {
+		return game.getId() + "#" + game.getYear();
+	}
+
+	public static void generateGame(final Game previousYear, final Game currentYear) {
+		final Map<String, Map<String, Object>> extensionsForPreviousYear = EXTENSIONS_PER_GAME_AND_PLANET_NAME
+				.computeIfAbsent(getGameKey(previousYear), key -> new HashMap<>());
+
+		EXTENSIONS_PER_GAME_AND_PLANET_NAME.put(getGameKey(currentYear), extensionsForPreviousYear);
 	}
 
 	@Override

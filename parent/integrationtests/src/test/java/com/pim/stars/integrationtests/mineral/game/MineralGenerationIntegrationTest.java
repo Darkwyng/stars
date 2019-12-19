@@ -1,11 +1,13 @@
 package com.pim.stars.integrationtests.mineral.game;
 
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,17 +88,22 @@ public class MineralGenerationIntegrationTest {
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);
 
-		final Game game = gameInitializer.initializeGame(initializationData);
+		Game game = gameInitializer.initializeGame(initializationData);
 		final Planet homeworld = getHomeworld(game);
 		planetMineCount.setValue(homeworld, 100); // 100, because 100 mines will always do some mining (no matter how low the concentration is)
 		final Map<CargoType, Integer> cargoBeforeMining = collectCargo(game, homeworld);
 
-		gameGenerator.generateGame(game);
+		game = gameGenerator.generateGame(game);
 		final Map<CargoType, Integer> cargoAfterMining = collectCargo(game, getHomeworld(game));
 
 		assertThat(mineralTypes, hasSize(greaterThan(0)));
 		mineralTypes.stream().peek(type -> assertThat(type, not(nullValue()))).forEach(type -> {
-			assertThat(cargoAfterMining.get(type), greaterThan(cargoBeforeMining.get(type)));
+			final Integer after = cargoAfterMining.get(type);
+			final Integer before = cargoBeforeMining.get(type);
+			assertAll(type.toString(),
+					() -> assertThat("Quantity after mining should not be null", after, notNullValue()),
+					() -> assertThat("Quantity before mining should not be null", before, notNullValue()),
+					() -> assertThat("Quantity after mining should be graeter", after, greaterThan(before)));
 		});
 
 		// TODO: test for reporting of mining
