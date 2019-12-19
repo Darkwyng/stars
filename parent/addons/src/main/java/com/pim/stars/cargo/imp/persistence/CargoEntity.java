@@ -11,6 +11,10 @@ class CargoEntity {
 
 	@Id
 	private String entityId;
+
+	private String gameId;
+	private int year;
+
 	private Collection<CargoEntityItem> items = new ArrayList<>();
 
 	public String getEntityId() {
@@ -21,6 +25,22 @@ class CargoEntity {
 		this.entityId = entityId;
 	}
 
+	public String getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(final String gameId) {
+		this.gameId = gameId;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(final int year) {
+		this.year = year;
+	}
+
 	public Collection<CargoEntityItem> getItems() {
 		return items;
 	}
@@ -28,6 +48,7 @@ class CargoEntity {
 	public void setItems(final Collection<CargoEntityItem> items) {
 		this.items = items;
 	}
+
 }
 
 class CargoEntityItem {

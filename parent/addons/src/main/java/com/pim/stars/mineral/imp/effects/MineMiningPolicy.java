@@ -37,7 +37,7 @@ public class MineMiningPolicy implements MiningPolicy {
 
 		final boolean planetHasOwner = planet.getOwnerId().isPresent();
 		if (planetHasOwner) {
-			final Integer numberOfMines = planetMineCount.getValue(planet);
+			final int numberOfMines = planetMineCount.getValue(planet);
 			if (numberOfMines > 0) {
 				final boolean minesAreAvailable = productionAvailabilityCalculator.isProductionItemTypeAvailable(game,
 						planet, mineProductionItemType);

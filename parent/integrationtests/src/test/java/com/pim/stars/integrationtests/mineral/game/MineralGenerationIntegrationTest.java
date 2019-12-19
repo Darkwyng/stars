@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
+import com.pim.stars.production.api.policies.ProductionCostType;
 import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
@@ -54,6 +56,10 @@ public class MineralGenerationIntegrationTest {
 
 	@Autowired
 	private List<MineralType> mineralTypes;
+	@Autowired
+	private List<CargoType> cargoTypes;
+	@Autowired
+	private List<ProductionCostType> productionCostTypes;
 
 	@Autowired
 	private PlanetIsHomeworld planetIsHomeworld;
@@ -61,6 +67,16 @@ public class MineralGenerationIntegrationTest {
 	private PlanetMineCount planetMineCount;
 	@Autowired
 	private CargoProcessor cargoProcessor;
+
+	@Test
+	public void testThatMineralTypesAreRecognizedAsCargoTypes() {
+		mineralTypes.stream().forEach(mineralType -> assertThat(cargoTypes, hasItems(mineralType)));
+	}
+
+	@Test
+	public void testThatMineralTypesAreRecognizedAsProductionCostTypes() {
+		mineralTypes.stream().forEach(mineralType -> assertThat(productionCostTypes, hasItems(mineralType)));
+	}
 
 	@Test
 	public void testThatMineralsAreMinedDuringGameGeneration() {
@@ -89,9 +105,9 @@ public class MineralGenerationIntegrationTest {
 	private Map<CargoType, Integer> collectCargo(final Game game, final Planet homeworld) {
 		final Map<CargoType, Integer> result = new HashMap<>();
 		cargoProcessor.createCargoHolder(game, homeworld).getItems().stream() //
-				.peek(entry -> assertThat(entry, not(nullValue())))
-				.peek(entry -> assertThat(entry.getType(), not(nullValue())))
-				.forEach(entry -> result.put(entry.getType(), entry.getQuantity()));
+				.peek(item -> assertThat("No item should be null", item, not(nullValue())))
+				.peek(item -> assertThat("No item should have a null type", item.getType(), not(nullValue())))
+				.forEach(item -> result.put(item.getType(), item.getQuantity()));
 
 		return result;
 	}
@@ -99,7 +115,7 @@ public class MineralGenerationIntegrationTest {
 	private Planet getHomeworld(final Game game) {
 		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
 				.collect(Collectors.toList());
-		assertThat(allHomeworlds, hasSize(1));
+		assertThat("There should only be one homeworld", allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();
 	}

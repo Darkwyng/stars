@@ -14,12 +14,12 @@ public class GameEntityTest {
 	@Test
 	public void testEntityGettersReturnCorrectData() {
 		final GameEntity entity = new GameEntity();
-		entity.setGameId("47");
-		entity.setYear(48);
+		entity.getEntityId().setGameId("47");
+		entity.getEntityId().setYear(48);
 		entity.setLatest(true);
 
-		assertAll(() -> assertThat(entity.getGameId(), is("47")), //
-				() -> assertThat(entity.getYear(), is(48)), //
+		assertAll(() -> assertThat(entity.getEntityId().getGameId(), is("47")), //
+				() -> assertThat(entity.getEntityId().getYear(), is(48)), //
 				() -> assertThat(entity.isLatest(), is(true)));
 	}
 

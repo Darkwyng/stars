@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
+import com.pim.stars.cargo.api.CargoHolder.CargoItem;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.game.api.Game;
@@ -32,7 +32,13 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 	private ReportCreator reportCreator;
 
 	@Override
-	public void generateGame(final Game game, final GameGenerationContext gameGenerationContext) {
+	public int getSequence() {
+		return 1100;
+	}
+
+	@Override
+	public void generateGame(final GameGenerationContext generationContext) {
+		final Game game = generationContext.getCurrentYear();
 		planetProvider.getPlanetsByGame(game).forEach(planet -> {
 			final CargoHolder totalMinedCargo = effectCalculator.calculateEffect(game, MiningPolicy.class, planet,
 					cargoProcessor.createCargoHolder(), (policy, context, currentValue) -> {

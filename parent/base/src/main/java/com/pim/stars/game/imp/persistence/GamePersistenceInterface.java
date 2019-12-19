@@ -27,8 +27,8 @@ public class GamePersistenceInterface {
 
 	private void createNewEntity(final String gameId, final int year) {
 		final GameEntity entity = new GameEntity();
-		entity.setGameId(gameId);
-		entity.setYear(year);
+		entity.getEntityId().setGameId(gameId);
+		entity.getEntityId().setYear(year);
 		entity.setLatest(true);
 		gameRepository.save(entity);
 	}

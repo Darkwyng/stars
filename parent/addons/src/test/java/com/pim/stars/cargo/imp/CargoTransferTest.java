@@ -9,6 +9,9 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,12 +25,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.CargoTestConfiguration;
-import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
+import com.pim.stars.cargo.api.CargoHolder.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder.CargoTransferResult;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.policies.CargoHolderDefinition;
 import com.pim.stars.cargo.api.policies.CargoType;
+import com.pim.stars.cargo.api.policies.CargoType.CargoTypeFactory;
 import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
 import com.pim.stars.game.api.Game;
 
@@ -38,7 +42,7 @@ public class CargoTransferTest {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private CargoType cargoType;
+	private Collection<CargoType> cargoTypes;
 
 	@Mock
 	private Game game;
@@ -52,6 +56,8 @@ public class CargoTransferTest {
 
 	@Test
 	public void testCargoCanBeTransferred() {
+		final CargoType cargoType = cargoTypes.iterator().next();
+
 		final EntityForTest firstEntity = new EntityForTest();
 
 		final CargoHolder first = cargoProcessor.createCargoHolder(game, firstEntity);
@@ -144,14 +150,8 @@ public class CargoTransferTest {
 		}
 
 		@Bean
-		public CargoType anyCargoType() {
-			return new CargoType() {
-
-				@Override
-				public String getId() {
-					return "anyCargoType";
-				}
-			};
+		public CargoTypeFactory anyCargoTypeForTransferTest() {
+			return () -> Arrays.asList(() -> "anyCargoTypeForTransferTest");
 		}
 	}
 

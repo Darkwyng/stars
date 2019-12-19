@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.resource.api.ResourceCalculator;
-import com.pim.stars.resource.api.policies.ResourceProductionCostType;
+import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ResourceTestConfiguration.class)
@@ -20,11 +20,11 @@ public class ResourceConfigurationTest {
 	@Autowired
 	private ResourceCalculator resourceCalculator;
 	@Autowired
-	private ResourceProductionCostType resourceProductionCostType;
+	private ResourceProductionCostTypeProvider resourceProductionCostTypeProvider;
 
 	@Test
 	public void testThatApplicationContextStarts() {
 		assertThat(resourceCalculator, not(nullValue()));
-		assertThat(resourceProductionCostType, not(nullValue()));
+		assertThat(resourceProductionCostTypeProvider, not(nullValue()));
 	}
 }

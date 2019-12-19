@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.cargo.api.CargoHolder;
+import com.pim.stars.cargo.api.CargoHolder.CargoItem;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
@@ -23,7 +26,10 @@ public class CargoProcessorImp implements CargoProcessor {
 
 	@Override
 	public CargoHolder createCargoHolder(final Game game, final Object entity) {
-		return new EntityWrappingCargoHolder(() -> cargoPersistenceInterface.loadItems(game, entity));
+		final Supplier<Collection<CargoItem>> supplier = () -> cargoPersistenceInterface.loadItems(game, entity);
+		final Consumer<Collection<CargoItem>> consumer = items -> cargoPersistenceInterface.persist(game, entity,
+				items);
+		return new EntityWrappingCargoHolder(supplier, consumer);
 	}
 
 	@Override

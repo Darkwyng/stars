@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.colonization.api.ColonistCalculator;
+import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 import com.pim.stars.colonization.api.effects.PlanetCapacityPolicy;
-import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
@@ -18,7 +18,7 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private ColonistCargoType colonistCargoType;
+	private ColonistCargoTypeProvider colonistCargoTypeProvider;
 
 	@Autowired
 	private EffectCalculator effectCalculator;
@@ -28,7 +28,8 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 		if (planet.getOwnerId().isEmpty()) {
 			return 0;
 		} else {
-			return cargoProcessor.createCargoHolder(game, planet).getQuantity(colonistCargoType);
+			return cargoProcessor.createCargoHolder(game, planet)
+					.getQuantity(colonistCargoTypeProvider.getColonistCargoType());
 		}
 	}
 
@@ -58,7 +59,8 @@ public class ColonistCalculatorImp implements ColonistCalculator {
 		} else {
 			final CargoHolder planetCargoHolder = cargoProcessor.createCargoHolder(game, planet);
 
-			final int currentPopulation = planetCargoHolder.getQuantity(colonistCargoType);
+			final int currentPopulation = planetCargoHolder
+					.getQuantity(colonistCargoTypeProvider.getColonistCargoType());
 			final double maximumGrowthRate = getMaximumGrowthRateForPlanet(game, planet);
 			final int capacity = getPlanetCapacity(game, planet);
 

@@ -21,7 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.api.CargoProcessor;
-import com.pim.stars.colonization.api.policies.ColonistCargoType;
+import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectExecutor;
@@ -80,8 +80,8 @@ public class SecondaryRacialTraitEffectProviderPolicyTest {
 		}
 
 		@Bean
-		public ColonistCargoType colonistCargoType() {
-			return mock(ColonistCargoType.class);
+		public ColonistCargoTypeProvider colonistCargoTypeProvider() {
+			return mock(ColonistCargoTypeProvider.class);
 		}
 
 		@Bean

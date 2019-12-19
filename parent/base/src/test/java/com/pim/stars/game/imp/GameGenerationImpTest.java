@@ -22,7 +22,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.GameTestConfiguration;
-import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
 
@@ -65,7 +64,7 @@ public class GameGenerationImpTest {
 			return new GameGenerationPolicy() {
 
 				@Override
-				public void generateGame(final Game game, final GameGenerationContext generationContext) {
+				public void generateGame(final GameGenerationContext generationContext) {
 					generationContext.set("TheTestKey", "TheTestValue");
 					assertThat(generationContext.get("TheTestKey"), is("TheTestValue"));
 

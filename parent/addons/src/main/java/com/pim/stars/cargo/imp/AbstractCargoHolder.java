@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.util.Assert;
 
-import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.policies.CargoType;
 
@@ -19,6 +18,13 @@ public abstract class AbstractCargoHolder implements CargoHolder {
 
 	@Override
 	public abstract Collection<CargoItem> getItems();
+
+	public abstract void commitChanges();
+
+	@Override
+	public boolean isEmpty() {
+		return getItems().stream().findAny().isEmpty();
+	}
 
 	@Override
 	public int getQuantity(final CargoType cargoType) {
@@ -131,6 +137,8 @@ public abstract class AbstractCargoHolder implements CargoHolder {
 				sourceImp.remove(item);
 				targetImp.add(item);
 			}
+			sourceImp.commitChanges();
+			targetImp.commitChanges();
 
 			final Collection<CargoItem> transferredItems = itemsToTranser;
 			return new CargoTransferResultImp(source, target, transferredItems);

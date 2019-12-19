@@ -22,6 +22,7 @@ import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.report.ReportConfiguration;
 import com.pim.stars.report.api.ReportCreator;
+import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
 public interface MineralConfiguration {
 
@@ -58,5 +59,7 @@ public interface MineralConfiguration {
 		public RaceProvider raceProvider();
 
 		public PlanetProvider planetProvider();
+
+		public ResourceProductionCostTypeProvider resourceProductionCostTypeProvider();
 	}
 }

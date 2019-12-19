@@ -3,8 +3,6 @@ package com.pim.stars.cargo.imp;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.pim.stars.cargo.api.Cargo.CargoItem;
-
 public class CargoPool extends AbstractCargoHolder {
 
 	private final Collection<CargoItem> items;
@@ -25,7 +23,7 @@ public class CargoPool extends AbstractCargoHolder {
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return items.stream().findAny().isEmpty();
+	public void commitChanges() {
+		// Nothing to do, because this cargo pool is not persistent.
 	}
 }

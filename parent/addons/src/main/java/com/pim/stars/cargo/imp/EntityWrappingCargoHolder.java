@@ -2,18 +2,21 @@ package com.pim.stars.cargo.imp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import com.pim.stars.cargo.api.Cargo.CargoItem;
 
 public class EntityWrappingCargoHolder extends AbstractCargoHolder {
 
 	private final Supplier<Collection<CargoItem>> itemSupplier;
+	private final Consumer<Collection<CargoItem>> itemConsumer;
+
 	private Collection<CargoItem> items = null;
 
-	public EntityWrappingCargoHolder(final Supplier<Collection<CargoItem>> itemSupplier) {
+	public EntityWrappingCargoHolder(final Supplier<Collection<CargoItem>> itemSupplier,
+			final Consumer<Collection<CargoItem>> itemConsumer) {
 		super();
 		this.itemSupplier = itemSupplier;
+		this.itemConsumer = itemConsumer;
 	}
 
 	@Override
@@ -25,7 +28,9 @@ public class EntityWrappingCargoHolder extends AbstractCargoHolder {
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return getItems().stream().findAny().isEmpty();
+	public void commitChanges() {
+		if (items != null) {
+			itemConsumer.accept(items);
+		}
 	}
 }

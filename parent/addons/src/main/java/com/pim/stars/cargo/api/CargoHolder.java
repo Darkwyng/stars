@@ -2,7 +2,6 @@ package com.pim.stars.cargo.api;
 
 import java.util.Collection;
 
-import com.pim.stars.cargo.api.Cargo.CargoItem;
 import com.pim.stars.cargo.api.policies.CargoType;
 
 public interface CargoHolder {
@@ -43,5 +42,12 @@ public interface CargoHolder {
 		public CargoHolder getTarget();
 
 		public Collection<CargoItem> getTransferredItems();
+	}
+
+	public interface CargoItem {
+
+		public CargoType getType();
+
+		public int getQuantity();
 	}
 }

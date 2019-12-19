@@ -69,9 +69,9 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	private void persistPlanetCollection(final Game game, final Collection<Planet> planetCollection) {
 		final List<PlanetEntity> entityCollection = planetCollection.stream().map(planet -> {
 			final PlanetEntity entity = new PlanetEntity();
-			entity.setGameId(game.getId());
-			entity.setYear(game.getYear());
-			entity.setName(planet.getName());
+			entity.getEntityId().setGameId(game.getId());
+			entity.getEntityId().setYear(game.getYear());
+			entity.getEntityId().setName(planet.getName());
 
 			return entity;
 		}).collect(Collectors.toList());

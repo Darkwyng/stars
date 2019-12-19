@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.colonization.api.ColonistCalculator;
-import com.pim.stars.colonization.api.policies.ColonistCargoType;
+import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
 import com.pim.stars.planets.api.PlanetProvider;
@@ -20,15 +20,21 @@ public class ColonistGrowthGameGenerationPolicy implements GameGenerationPolicy 
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private ColonistCargoType colonistCargoType;
+	private ColonistCargoTypeProvider colonistCargoTypeProvider;
 
 	@Override
-	public void generateGame(final Game game, final GameGenerationContext generationContext) {
+	public int getSequence() {
+		return 1400;
+	}
+
+	@Override
+	public void generateGame(final GameGenerationContext generationContext) {
+		final Game game = generationContext.getCurrentYear();
 		planetProvider.getPlanetsByGame(game).forEach(planet -> {
 			final int gain = colonistCalculator.getExpectedColonistGainForPlanet(game, planet);
 			if (gain > 0) {
-				cargoProcessor.createCargoHolder(game, planet).transferFromNowhere().quantity(colonistCargoType, gain)
-						.execute();
+				cargoProcessor.createCargoHolder(game, planet).transferFromNowhere()
+						.quantity(colonistCargoTypeProvider.getColonistCargoType(), gain).execute();
 				// TODO: report for colonist growth
 			}
 		});

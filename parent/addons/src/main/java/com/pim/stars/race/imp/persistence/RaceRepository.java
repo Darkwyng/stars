@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RaceRepository extends MongoRepository<RaceEntity, Long> {
 
-	public RaceEntity findByRaceId(String raceId);
+	public RaceEntity findByRaceId(String raceId); // TODO: AndGameId?
 
-	public Collection<RaceEntity> findByGameId(String gameId);
+	public Collection<RaceEntity> findByGameId(String gameId); // TODO: streams?
 }

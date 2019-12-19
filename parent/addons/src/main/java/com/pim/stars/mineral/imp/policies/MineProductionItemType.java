@@ -13,13 +13,13 @@ import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.cost.ProductionCost.ProductionCostBuilder;
 import com.pim.stars.production.api.policies.ProductionItemType;
 import com.pim.stars.report.api.ReportCreator;
-import com.pim.stars.resource.api.policies.ResourceProductionCostType;
+import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
 @Component
 public class MineProductionItemType implements ProductionItemType {
 
 	@Autowired
-	private ResourceProductionCostType resourceProductionCostType;
+	private ResourceProductionCostTypeProvider resourceProductionCostTypeProvider;
 	@Autowired
 	private MineralRaceRepository mineralRaceRepository;
 	@Autowired
@@ -32,7 +32,8 @@ public class MineProductionItemType implements ProductionItemType {
 		final String ownerId = getOwnerId(planet);
 		final int mineProductionCost = mineralRaceRepository.findByRaceId(ownerId).getMineProductionCost();
 
-		return builder.add(resourceProductionCostType, mineProductionCost).build();
+		return builder.add(resourceProductionCostTypeProvider.getResourceProductionCostType(), mineProductionCost)
+				.build();
 	}
 
 	@Override

@@ -120,7 +120,7 @@ public class MineralProductionIntegrationTest {
 	private Planet getHomeworld(final Game game) {
 		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
 				.collect(Collectors.toList());
-		assertThat(allHomeworlds, hasSize(1));
+		assertThat("There should only be one homeworld", allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();
 	}

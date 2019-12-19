@@ -11,16 +11,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.colonization.ColonizationTestConfiguration;
+import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ColonizationTestConfiguration.class)
 public class ColonistCargoTypeTest {
 
 	@Autowired
-	private ColonistCargoType colonistCargoType;
+	private ColonistCargoTypeProvider colonistCargoTypeProvider;
 
 	@Test
 	void testThatIdIsNotEmpty() {
-		assertThat(colonistCargoType.getId(), not(emptyOrNullString()));
+		assertThat(colonistCargoTypeProvider.getColonistCargoType().getId(), not(emptyOrNullString()));
 	}
 }

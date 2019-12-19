@@ -25,22 +25,29 @@ public class GameGeneratorImp implements GameGenerator {
 	public Game generateGame(final Game game) {
 
 		final Game newGame = new GameImp(game.getId(), game.getYear() + 1, (GameImp) game);
-		doGameGeneration(newGame);
+		doGameGeneration(game, newGame);
 		return newGame;
 	}
 
-	private void doGameGeneration(final Game newGame) {
-		final GameGenerationContext context = new GameGenerationContextImp();
+	private void doGameGeneration(final Game previousYear, final Game currentYear) {
+		final GameGenerationContext context = new GameGenerationContextImp(previousYear, currentYear);
 
-		effectProvider.getEffectCollection(newGame, null, GameGenerationPolicy.class).stream()
-				.forEach(policy -> policy.generateGame(newGame, context));
+		effectProvider.getEffectCollection(currentYear, null, GameGenerationPolicy.class).stream()
+				.forEach(policy -> policy.generateGame(context));
 
-		gamePersistenceInterface.generateGame(newGame.getId(), newGame.getYear());
+		gamePersistenceInterface.generateGame(currentYear.getId(), currentYear.getYear());
 	}
 
 	public class GameGenerationContextImp implements GameGenerationContext {
 
 		private final Map<String, Object> data = new HashMap<>();
+		private final Game previousYear;
+		private final Game currentYear;
+
+		public GameGenerationContextImp(final Game previousYear, final Game currentYear) {
+			this.previousYear = previousYear;
+			this.currentYear = currentYear;
+		}
 
 		@Override
 		public Object get(final String key) {
@@ -50,6 +57,16 @@ public class GameGeneratorImp implements GameGenerator {
 		@Override
 		public void set(final String key, final Object value) {
 			data.put(key, value);
+		}
+
+		@Override
+		public Game getPreviousYear() {
+			return previousYear;
+		}
+
+		@Override
+		public Game getCurrentYear() {
+			return currentYear;
 		}
 	}
 }

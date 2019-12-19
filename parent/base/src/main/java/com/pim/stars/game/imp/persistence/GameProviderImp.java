@@ -25,10 +25,11 @@ public class GameProviderImp implements GameProvider {
 	@Override
 	public Optional<Game> getGameWithLatestYearById(final String gameId) {
 		return gameRepository.findByGameIdAndIsLatest(gameId, true).stream()
-				.sorted(Comparator.comparing(GameEntity::getYear).reversed()).map(this::mapEntityToGame).findFirst();
+				.sorted(Comparator.comparing(entity -> ((GameEntity) entity).getEntityId().getYear()).reversed())
+				.map(this::mapEntityToGame).findFirst();
 	}
 
 	private Game mapEntityToGame(final GameEntity entity) {
-		return new GameImp(entity.getGameId(), entity.getYear());
+		return new GameImp(entity.getEntityId().getGameId(), entity.getEntityId().getYear());
 	}
 }

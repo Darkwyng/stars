@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.cargo.api.Cargo.CargoItem;
+import com.pim.stars.cargo.api.CargoHolder.CargoItem;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.GameConfiguration;
 import com.pim.stars.game.api.Game;
@@ -86,7 +86,8 @@ public class MineralInitializationIntegrationTest {
 		assertThat(concentrations, IsIterableWithSize.iterableWithSize(3));
 		concentrations.forEach(conc -> {
 			assertThat(conc.getType(), not(nullValue()));
-			assertThat(conc.getAmount(), greaterThan(0.0));
+			assertThat("The mineral concentration of a planet should be above zero.", conc.getAmount(),
+					greaterThan(0.0));
 		});
 	}
 

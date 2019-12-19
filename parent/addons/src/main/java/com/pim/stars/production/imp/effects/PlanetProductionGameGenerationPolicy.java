@@ -22,11 +22,17 @@ public class PlanetProductionGameGenerationPolicy implements GameGenerationPolic
 	private ProductionCostCalculator productionCostCalculator;
 
 	@Override
-	public void generateGame(final Game game, final GameGenerationContext generationContext) {
+	public int getSequence() {
+		return 1200;
+	}
+
+	@Override
+	public void generateGame(final GameGenerationContext generationContext) {
 
 		final ProductionResultBuilder builder = new ProductionResultBuilder();
 
 		// Work through queue on each planet:
+		final Game game = generationContext.getCurrentYear();
 		planetProvider.getPlanetsByGame(game).map(planet -> {
 			// Find queues:
 			final ProductionQueue queue = planetProductionQueue.getValue(planet);

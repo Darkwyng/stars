@@ -5,9 +5,13 @@ import com.pim.stars.game.api.Game;
 
 public interface GameGenerationPolicy extends Effect {
 
-	public void generateGame(Game game, GameGenerationContext context);
+	public void generateGame(GameGenerationContext context);
 
 	public interface GameGenerationContext {
+
+		public Game getPreviousYear();
+
+		public Game getCurrentYear();
 
 		public Object get(String key);
 

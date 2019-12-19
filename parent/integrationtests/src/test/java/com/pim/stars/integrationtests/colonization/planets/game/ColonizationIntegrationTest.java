@@ -64,11 +64,11 @@ public class ColonizationIntegrationTest {
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		dataRaceCollection.getValue(initializationData).add(newRace);
 
-		final Game game = gameInitializer.initializeGame(initializationData);
+		Game game = gameInitializer.initializeGame(initializationData);
 		final Integer initialPopulation = getHomeworldPopulation(game);
 		assertThat(initialPopulation, is(colonizationProperties.getDefaultInitialPopulation()));
 
-		gameGenerator.generateGame(game);
+		game = gameGenerator.generateGame(game);
 		final Integer increasedPopulation = getHomeworldPopulation(game);
 
 		assertThat(increasedPopulation, greaterThan(initialPopulation));

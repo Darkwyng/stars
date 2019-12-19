@@ -25,8 +25,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.cargo.api.CargoProcessor;
+import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 import com.pim.stars.colonization.api.effects.PlanetCapacityPolicy;
-import com.pim.stars.colonization.api.policies.ColonistCargoType;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.colonization.imp.effects.LowStartingPopulationHomeworldInitializationPolicy;
 import com.pim.stars.effect.api.Effect;
@@ -46,7 +46,7 @@ public class RaceTraitProviderImpTest {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private ColonistCargoType colonistCargoType;
+	private ColonistCargoTypeProvider colonistCargoTypeProvider;
 	@Autowired
 	private ColonizationProperties colonizationProperties;
 
@@ -82,7 +82,8 @@ public class RaceTraitProviderImpTest {
 
 		// This will fail when the implementation changes, unfortunately:
 		assertAll(() -> assertThat(getFieldValue(policy, "cargoProcessor"), sameInstance(cargoProcessor)), //
-				() -> assertThat(getFieldValue(policy, "colonistCargoType"), sameInstance(colonistCargoType)), //
+				() -> assertThat(getFieldValue(policy, "colonistCargoTypeProvider"),
+						sameInstance(colonistCargoTypeProvider)), //
 				() -> assertThat(getFieldValue(policy, "colonizationProperties"),
 						sameInstance(colonizationProperties)));
 	}
@@ -110,8 +111,8 @@ public class RaceTraitProviderImpTest {
 		}
 
 		@Bean
-		public ColonistCargoType colonistCargoType() {
-			return mock(ColonistCargoType.class);
+		public ColonistCargoTypeProvider colonistCargoTypeProvider() {
+			return mock(ColonistCargoTypeProvider.class);
 		}
 
 		@Bean

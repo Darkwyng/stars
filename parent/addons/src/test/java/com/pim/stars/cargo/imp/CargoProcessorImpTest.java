@@ -6,6 +6,9 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +26,7 @@ import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.policies.CargoHolderDefinition;
 import com.pim.stars.cargo.api.policies.CargoType;
+import com.pim.stars.cargo.api.policies.CargoType.CargoTypeFactory;
 import com.pim.stars.game.api.Game;
 
 @ExtendWith(SpringExtension.class)
@@ -32,7 +36,7 @@ public class CargoProcessorImpTest {
 	@Autowired
 	private CargoProcessor cargoProcessor;
 	@Autowired
-	private CargoType cargoType;
+	private Collection<CargoType> cargoTypes;
 
 	@Mock
 	private Game game;
@@ -49,8 +53,10 @@ public class CargoProcessorImpTest {
 		final EntityForTest entity = new EntityForTest();
 
 		final CargoHolder cargoHolder = cargoProcessor.createCargoHolder(game, entity);
+
+		final CargoType anyCargoType = cargoTypes.iterator().next();
 		assertThat(cargoHolder, not(nullValue()));
-		assertThat(cargoHolder.getQuantity(cargoType), is(0));
+		assertThat(cargoHolder.getQuantity(anyCargoType), is(0));
 	}
 
 	@Configuration
@@ -80,14 +86,8 @@ public class CargoProcessorImpTest {
 		}
 
 		@Bean
-		public CargoType anyCargoType() {
-			return new CargoType() {
-
-				@Override
-				public String getId() {
-					return "anyCargoType";
-				}
-			};
+		public CargoTypeFactory anyCargoTypeForProcessorTest() {
+			return () -> Arrays.asList(() -> "anyCargoTypeForProcessorTest");
 		}
 	}
 
