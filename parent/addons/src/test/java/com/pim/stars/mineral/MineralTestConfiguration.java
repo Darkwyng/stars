@@ -20,7 +20,8 @@ import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.cargo.api.policies.CargoType.CargoTypeFactory;
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.id.api.IdCreator;
-import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
+import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetRepository;
+import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
 import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 import com.pim.stars.production.api.policies.ProductionCostType;
@@ -110,6 +111,8 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 		@MockBean
 		private MineralRaceRepository mineralRaceRepository;
+		@MockBean
+		private MineralPlanetRepository mineralPlanetRepository;
 	}
 
 	@Configuration

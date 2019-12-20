@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 class CargoEntity {
 
+	// TODO: use composite id
 	@Id
 	private String entityId;
 

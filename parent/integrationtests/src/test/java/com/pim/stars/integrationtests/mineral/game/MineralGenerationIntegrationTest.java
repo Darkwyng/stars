@@ -28,9 +28,9 @@ import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.mineral.MineralConfiguration;
-import com.pim.stars.mineral.api.extensions.PlanetIsHomeworld;
-import com.pim.stars.mineral.api.extensions.PlanetMineCount;
 import com.pim.stars.mineral.api.policies.MineralType;
+import com.pim.stars.mineral.testapi.MineralTestApiConfiguration;
+import com.pim.stars.mineral.testapi.MineralTestDataAccessor;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
@@ -42,7 +42,7 @@ import com.pim.stars.race.testapi.RaceTestDataProvider;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
-		MineralConfiguration.Complete.class, PersistenceTestConfiguration.class })
+		MineralConfiguration.Complete.class, PersistenceTestConfiguration.class, MineralTestApiConfiguration.class })
 public class MineralGenerationIntegrationTest {
 
 	@Autowired
@@ -55,6 +55,8 @@ public class MineralGenerationIntegrationTest {
 	private GameGenerator gameGenerator;
 	@Autowired
 	private PlanetProvider planetProvider;
+	@Autowired
+	private MineralTestDataAccessor mineralTestDataAccessor;
 
 	@Autowired
 	private List<MineralType> mineralTypes;
@@ -63,10 +65,6 @@ public class MineralGenerationIntegrationTest {
 	@Autowired
 	private List<ProductionCostType> productionCostTypes;
 
-	@Autowired
-	private PlanetIsHomeworld planetIsHomeworld;
-	@Autowired
-	private PlanetMineCount planetMineCount;
 	@Autowired
 	private CargoProcessor cargoProcessor;
 
@@ -90,7 +88,7 @@ public class MineralGenerationIntegrationTest {
 
 		Game game = gameInitializer.initializeGame(initializationData);
 		final Planet homeworld = getHomeworld(game);
-		planetMineCount.setValue(homeworld, 100); // 100, because 100 mines will always do some mining (no matter how low the concentration is)
+		mineralTestDataAccessor.setPlanetMineCount(game, homeworld, 100); // 100, because 100 mines will always do some mining (no matter how low the concentration is)
 		final Map<CargoType, Integer> cargoBeforeMining = collectCargo(game, homeworld);
 
 		game = gameGenerator.generateGame(game);
@@ -120,8 +118,8 @@ public class MineralGenerationIntegrationTest {
 	}
 
 	private Planet getHomeworld(final Game game) {
-		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
-				.collect(Collectors.toList());
+		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game)
+				.filter(planet -> planet.getOwnerId().isPresent()).collect(Collectors.toList());
 		assertThat("There should only be one homeworld", allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();

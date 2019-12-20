@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
-import com.pim.stars.mineral.api.extensions.PlanetMineCount;
 import com.pim.stars.mineral.imp.effects.MineralConstants;
-import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
+import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
+import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.cost.ProductionCost;
@@ -23,7 +23,7 @@ public class MineProductionItemType implements ProductionItemType {
 	@Autowired
 	private MineralRaceRepository mineralRaceRepository;
 	@Autowired
-	private PlanetMineCount planetMineCount;
+	private MineralPlanetPersistenceInterface mineralPlanetPersistenceInterface;
 	@Autowired
 	private ReportCreator reportCreator;
 
@@ -38,10 +38,7 @@ public class MineProductionItemType implements ProductionItemType {
 
 	@Override
 	public void produce(final Game game, final Planet planet, final int numberOfItems) {
-		final var oldValue = planetMineCount.getValue(planet);
-		final var newValue = oldValue + numberOfItems;
-		planetMineCount.setValue(planet, newValue);
-
+		mineralPlanetPersistenceInterface.buildMines(game, planet, numberOfItems);
 		createReport(game, planet, numberOfItems);
 	}
 

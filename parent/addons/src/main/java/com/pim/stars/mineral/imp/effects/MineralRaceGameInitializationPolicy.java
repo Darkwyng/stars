@@ -11,8 +11,8 @@ import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
 import com.pim.stars.mineral.imp.MineralProperties;
 import com.pim.stars.mineral.imp.MineralProperties.RaceMiningSettings;
-import com.pim.stars.mineral.imp.persistence.MineralRaceEntity;
-import com.pim.stars.mineral.imp.persistence.MineralRaceRepository;
+import com.pim.stars.mineral.imp.persistence.race.MineralRaceEntity;
+import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.turn.api.Race;
 

@@ -23,6 +23,10 @@ public class ClonePlanetGameGenerationPolicy implements GameGenerationPolicy {
 		return 10;
 	}
 
+	/**
+	 * Copy all persistent entities to the current year, so that historic data remains untouched by the game generation,
+	 * that is starting, and so that loading items finds the data also for the current year.
+	 */
 	@Override
 	public void generateGame(final GameGenerationContext context) {
 		final Game previousYear = context.getPreviousYear();

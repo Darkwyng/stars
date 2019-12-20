@@ -24,10 +24,10 @@ import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.mineral.MineralConfiguration;
-import com.pim.stars.mineral.api.extensions.PlanetIsHomeworld;
-import com.pim.stars.mineral.api.extensions.PlanetMineCount;
 import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
+import com.pim.stars.mineral.testapi.MineralTestApiConfiguration;
+import com.pim.stars.mineral.testapi.MineralTestDataAccessor;
 import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
@@ -44,7 +44,7 @@ import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,
-		MineralConfiguration.Complete.class, PersistenceTestConfiguration.class })
+		MineralConfiguration.Complete.class, PersistenceTestConfiguration.class, MineralTestApiConfiguration.class })
 public class MineralProductionIntegrationTest {
 
 	@Autowired
@@ -59,11 +59,9 @@ public class MineralProductionIntegrationTest {
 	private GameGenerator gameGenerator;
 	@Autowired
 	private PlanetProvider planetProvider;
+	@Autowired
+	private MineralTestDataAccessor mineralTestDataAccessor;
 
-	@Autowired
-	private PlanetIsHomeworld planetIsHomeworld;
-	@Autowired
-	private PlanetMineCount planetMineCount;
 	@Autowired
 	private PlanetProductionQueueManager planetProductionQueueManager;
 	@Autowired
@@ -84,19 +82,19 @@ public class MineralProductionIntegrationTest {
 		Game game = gameInitializer.initializeGame(initializationData);
 		final Race newRace = raceProvider.getRacesByGame(game).findAny().get();
 		final Planet homeworld = getHomeworld(game);
-		final Integer minesBeforeBuilding = planetMineCount.getValue(homeworld);
+		final Integer minesBeforeBuilding = mineralTestDataAccessor.getPlanetMineCount(game, homeworld);
 		assertThat(minesBeforeBuilding, is(10));
 		assertReports(game, newRace, not(hasPlanetHasBuiltMinesReport()));
 
 		planetProductionQueueManager.addToQueue(homeworld, mineProductionItemType, 3);
 
 		game = gameGenerator.generateGame(game);
-		final Integer minesAfterBuildingOnce = planetMineCount.getValue(homeworld);
+		final Integer minesAfterBuildingOnce = mineralTestDataAccessor.getPlanetMineCount(game, homeworld);
 		assertThat(minesAfterBuildingOnce, is(12));
 		assertReports(game, newRace, hasPlanetHasBuiltMinesReport());
 
 		game = gameGenerator.generateGame(game);
-		final Integer minesAfterBuildingTwice = planetMineCount.getValue(homeworld);
+		final Integer minesAfterBuildingTwice = mineralTestDataAccessor.getPlanetMineCount(game, homeworld);
 		assertThat(minesAfterBuildingTwice, is(13));
 		assertReports(game, newRace, hasPlanetHasBuiltMinesReport());
 
@@ -118,8 +116,8 @@ public class MineralProductionIntegrationTest {
 	}
 
 	private Planet getHomeworld(final Game game) {
-		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game).filter(planetIsHomeworld::getValue)
-				.collect(Collectors.toList());
+		final List<Planet> allHomeworlds = planetProvider.getPlanetsByGame(game)
+				.filter(planet -> planet.getOwnerId().isPresent()).collect(Collectors.toList());
 		assertThat("There should only be one homeworld", allHomeworlds, hasSize(1));
 
 		return allHomeworlds.iterator().next();

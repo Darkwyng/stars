@@ -1,4 +1,4 @@
-package com.pim.stars.mineral.imp.persistence;
+package com.pim.stars.mineral.imp.persistence.race;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
