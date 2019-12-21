@@ -12,8 +12,9 @@
 		<!-- This is the Java version that is used. -->
 		<maven.compiler.release>12</maven.compiler.release>
 
-		<spring.boot.version>2.2.0.RELEASE</spring.boot.version>
+		<spring.boot.version>2.2.2.RELEASE</spring.boot.version>
 		<junit.version>5.6.0-M1</junit.version>
+		<mockito.version>3.2.4</mockito.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -63,7 +64,7 @@
 			</dependency>
 
 			<dependency>
-				<!-- This dependency comes with the above BOM already, but it is listed here explicitly, so that JUnit 4 can be excluded. -->
+				<!-- This dependency comes with the above BOM already, but it is listed here explicitly, so that JUnit 4 can be excluded and so that Mockito can be used in a more recent version. -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
 				<version>${spring.boot.version}</version>
@@ -76,6 +77,14 @@
 					<exclusion>
 						<groupId>org.junit.vintage</groupId>
 						<artifactId>junit-vintage-engine</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.mockito</groupId>
+						<artifactId>core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.mockito</groupId>
+						<artifactId>mockito-junit-jupiter</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -104,6 +113,19 @@
 				<version>${junit.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
 			</dependency>
 
 		</dependencies>
