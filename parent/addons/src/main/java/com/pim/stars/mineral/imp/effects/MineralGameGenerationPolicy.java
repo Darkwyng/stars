@@ -14,6 +14,7 @@ import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
 import com.pim.stars.mineral.api.effects.MiningPolicy;
+import com.pim.stars.mineral.api.effects.MiningPolicy.MiningPolicyResult;
 import com.pim.stars.mineral.imp.reports.PlanetHasMinedReport;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
@@ -42,7 +43,10 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 		planetProvider.getPlanetsByGame(game).forEach(planet -> {
 			final CargoHolder totalMinedCargo = effectCalculator.calculateEffect(game, MiningPolicy.class, planet,
 					cargoProcessor.createCargoHolder(), (policy, context, currentValue) -> {
-						final CargoHolder minedCargo = policy.calculateMining(game, planet);
+						final MiningPolicyResult miningResult = policy.calculateMining(game, planet);
+						miningResult.executeMining();
+
+						final CargoHolder minedCargo = miningResult.getMinedCargo();
 						return cargoProcessor.add(Arrays.asList(currentValue, minedCargo));
 					});
 

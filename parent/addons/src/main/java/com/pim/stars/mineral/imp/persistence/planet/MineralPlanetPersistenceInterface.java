@@ -1,7 +1,9 @@
 package com.pim.stars.mineral.imp.persistence.planet;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,8 +28,6 @@ public class MineralPlanetPersistenceInterface {
 	@Autowired
 	private MineralProperties mineralProperties;
 
-	private Map<String, MineralType> mineralTypeByIdMap = null;
-
 	public void createPlanetsWithConcentrations(final Game game, final Stream<Planet> planetStream,
 			final Function<MineralType, Double> concentrationSupplier) {
 		final List<MineralPlanetEntity> newEntities = planetStream.map(planet -> {
@@ -44,7 +44,7 @@ public class MineralPlanetPersistenceInterface {
 		mineralPlanetRepository.saveAll(newEntities);
 	}
 
-	public Map<MineralType, Double> initializeHomeworld(final Game game, final Planet planet, final int mineCount) {
+	public MineralPlanetForMining initializeHomeworld(final Game game, final Planet planet, final int mineCount) {
 		final MineralPlanetEntity entity = mineralPlanetRepository.findByGameIdAndYearAndName(game.getId(),
 				game.getYear(), planet.getName());
 
@@ -52,35 +52,20 @@ public class MineralPlanetPersistenceInterface {
 		entity.setMineCount(mineCount);
 		mineralPlanetRepository.save(entity);
 
-		return getConcentrationsByType(entity);
+		return new MineralPlanetForMining(entity);
 	}
 
-	private Map<MineralType, Double> getConcentrationsByType(final MineralPlanetEntity entity) {
-		if (mineralTypeByIdMap == null) {
-			mineralTypeByIdMap = mineralTypes.stream()
-					.collect(Collectors.toMap(MineralType::getId, Function.identity()));
-		}
-
-		return entity.getMineralConcentrations().stream()
-				.collect(Collectors.toMap(
-						typeWithQuantity -> mineralTypeByIdMap.get(typeWithQuantity.getMineralTypeId()),
-						typeWithQuantity -> getConcentrationQuantity(entity, typeWithQuantity)));
-	}
-
-	public Map<MineralType, Double> getConcentrationsByType(final Game game, final Planet planet) {
+	public MineralPlanetForMining getMineralPlanetForMining(final Game game, final Planet planet) {
 		final MineralPlanetEntity entity = mineralPlanetRepository.findByGameIdAndYearAndName(game.getId(),
 				game.getYear(), planet.getName());
 
-		return getConcentrationsByType(entity);
+		return new MineralPlanetForMining(entity);
 	}
 
-	private Double getConcentrationQuantity(final MineralPlanetEntity planet,
-			final MineralTypeWithQuantity typeWithQuantity) {
-		final Double quantity = typeWithQuantity.getQuantity();
-		if (planet.isHomeworld()) {
-			return Math.max(quantity, mineralProperties.getHomeWorldMinimumConcentration());
-		} else {
-			return quantity;
+	public void persistMineralPlanetForMining(final MineralPlanetForMining mineralPlanetForMining) {
+		if (mineralPlanetForMining.isModified()) {
+			final MineralPlanetEntity entity = mineralPlanetForMining.modifyEntity();
+			mineralPlanetRepository.save(entity);
 		}
 	}
 
@@ -115,5 +100,59 @@ public class MineralPlanetPersistenceInterface {
 				}).collect(Collectors.toList());
 
 		mineralPlanetRepository.saveAll(modifiedEntities); // will insert new entries, because the IDs have changed
+	}
+
+	public class MineralPlanetForMining {
+
+		private final MineralPlanetEntity entity;
+		private final Map<MineralType, Double> modifiedFractionalMinedQuantities = new HashMap<>();
+
+		public MineralPlanetForMining(final MineralPlanetEntity entity) {
+			this.entity = entity;
+		}
+
+		public double getConcentration(final MineralType mineralType) {
+			final Double quantity = entity.getMineralConcentrations().stream()
+					.filter(item -> item.getMineralTypeId().equals(mineralType.getId()))
+					.map(MineralTypeWithQuantity::getQuantity).findAny().get();
+
+			if (entity.isHomeworld()) {
+				return Math.max(quantity, mineralProperties.getHomeWorldMinimumConcentration());
+			} else {
+				return quantity;
+			}
+		}
+
+		public double getFractionalMinedQuantity(final MineralType mineralType) {
+			return entity.getFractionalMinedQuantities().stream()
+					.filter(item -> item.getMineralTypeId().equals(mineralType.getId()))
+					.map(MineralTypeWithQuantity::getQuantity).findAny().orElse(0.0);
+		}
+
+		public void setFractionalMinedQuantity(final MineralType mineralType, final double newQuantity) {
+			modifiedFractionalMinedQuantities.put(mineralType, newQuantity);
+		}
+
+		protected boolean isModified() {
+			return !modifiedFractionalMinedQuantities.isEmpty();
+		}
+
+		protected MineralPlanetEntity modifyEntity() {
+			modifiedFractionalMinedQuantities.entrySet().stream().forEach(newItem -> {
+				final MineralType mineralType = newItem.getKey();
+				final double newValue = newItem.getValue();
+				final Optional<MineralTypeWithQuantity> optionalItem = entity.getFractionalMinedQuantities().stream()
+						.filter(persistedItem -> persistedItem.getMineralTypeId().equals(mineralType.getId()))
+						.findAny();
+
+				if (optionalItem.isPresent()) {
+					optionalItem.get().setQuantity(newValue);
+				} else {
+					entity.getFractionalMinedQuantities()
+							.add(new MineralTypeWithQuantity(mineralType.getId(), newValue));
+				}
+			});
+			return entity;
+		}
 	}
 }

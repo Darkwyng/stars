@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.MiningCalculator;
+import com.pim.stars.mineral.api.effects.MiningPolicy.MiningPolicyResult;
 import com.pim.stars.planets.api.Planet;
 
 public class MineMiningPolicyTest {
@@ -36,7 +37,8 @@ public class MineMiningPolicyTest {
 
 	@Test
 	public void testThatPlanetWithoutOwnerDoesNotMine() {
-		testee.calculateMining(game, planet);
+		final MiningPolicyResult result = testee.calculateMining(game, planet);
+		result.getMinedCargo();
 		verify(cargoProcessor).createCargoHolder();
 		verifyNoMoreInteractions(miningCalculator);
 	}

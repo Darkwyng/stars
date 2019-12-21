@@ -7,6 +7,7 @@ import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.MiningCalculator;
+import com.pim.stars.mineral.api.MiningCalculator.MiningCalculatorResult;
 import com.pim.stars.mineral.api.effects.MiningPolicy;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceEntity;
@@ -33,7 +34,7 @@ public class MineMiningPolicy implements MiningPolicy {
 	private MiningCalculator miningCalculator;
 
 	@Override
-	public CargoHolder calculateMining(final Game game, final Planet planet) {
+	public MiningPolicyResult calculateMining(final Game game, final Planet planet) {
 
 		final boolean planetHasOwner = planet.getOwnerId().isPresent();
 		if (planetHasOwner) {
@@ -46,16 +47,42 @@ public class MineMiningPolicy implements MiningPolicy {
 				}
 			}
 		}
-		return cargoProcessor.createCargoHolder();
+		return new MiningPolicyResultImp(null);
 	}
 
-	private CargoHolder calculateMining(final Game game, final Planet planet, final String ownerId,
+	private MiningPolicyResult calculateMining(final Game game, final Planet planet, final String ownerId,
 			final Integer numberOfMines) {
 
 		final MineralRaceEntity owner = mineralRaceRepository.findByRaceId(ownerId); // TODO: findByGameIdAndYearAndRaceId
 		final double efficiency = owner.getMineEfficiency();
 		final double effectiveMines = numberOfMines * efficiency;
 
-		return miningCalculator.calculateMining(game, planet, effectiveMines);
+		final MiningCalculatorResult calculatorResult = miningCalculator.calculateMining(game, planet, effectiveMines);
+		return new MiningPolicyResultImp(calculatorResult);
+	}
+
+	private class MiningPolicyResultImp implements MiningPolicyResult {
+
+		private final MiningCalculatorResult calculatorResult;
+
+		public MiningPolicyResultImp(final MiningCalculatorResult calculatorResult) {
+			this.calculatorResult = calculatorResult;
+		}
+
+		@Override
+		public CargoHolder getMinedCargo() {
+			if (calculatorResult == null) {
+				return cargoProcessor.createCargoHolder(); // an empty cargo holder
+			} else {
+				return calculatorResult.getMinedCargo();
+			}
+		}
+
+		@Override
+		public void executeMining() {
+			if (calculatorResult != null) {
+				calculatorResult.executeMining();
+			}
+		}
 	}
 }

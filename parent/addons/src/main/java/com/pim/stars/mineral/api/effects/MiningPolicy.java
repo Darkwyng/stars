@@ -7,5 +7,12 @@ import com.pim.stars.planets.api.Planet;
 
 public interface MiningPolicy extends Effect {
 
-	public CargoHolder calculateMining(Game game, Planet planet);
+	public MiningPolicyResult calculateMining(Game game, Planet planet);
+
+	public interface MiningPolicyResult {
+
+		public CargoHolder getMinedCargo();
+
+		public void executeMining();
+	}
 }

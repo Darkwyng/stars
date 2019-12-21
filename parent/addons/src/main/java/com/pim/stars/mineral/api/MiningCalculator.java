@@ -6,6 +6,12 @@ import com.pim.stars.planets.api.Planet;
 
 public interface MiningCalculator {
 
-	public CargoHolder calculateMining(Game game, Planet planet, double effectiveMines);
+	public MiningCalculatorResult calculateMining(Game game, Planet planet, double effectiveMines);
 
+	public interface MiningCalculatorResult {
+
+		public CargoHolder getMinedCargo();
+
+		public void executeMining();
+	}
 }
