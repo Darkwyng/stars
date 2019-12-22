@@ -34,17 +34,18 @@ public class MineralRaceGameInitializationPolicy implements GameInitializationPo
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData initializationData) {
 
-		final List<MineralRaceEntity> newEntities = raceProvider.getRacesByGame(game).map(this::mapRaceToEntity)
-				.collect(Collectors.toList());
+		final List<MineralRaceEntity> newEntities = raceProvider.getRacesByGame(game)
+				.map(race -> mapRaceToEntity(game, race)).collect(Collectors.toList());
 
 		mineralRaceRepository.saveAll(newEntities);
 	}
 
-	private MineralRaceEntity mapRaceToEntity(final Race race) {
-		final RaceMiningSettings miningSettings = mineralProperties.getDefaultSettings(); // TODO: this should come from the races in initializationData
+	private MineralRaceEntity mapRaceToEntity(final Game game, final Race race) {
+		final RaceMiningSettings miningSettings = mineralProperties.getDefaultSettings(); // TODO 4: this should come from the races in initializationData
 
 		final MineralRaceEntity entity = new MineralRaceEntity();
-		entity.setRaceId(race.getId());
+		entity.getEntityId().setGameId(game.getId());
+		entity.getEntityId().setRaceId(race.getId());
 		entity.setMineEfficiency(miningSettings.getMineEfficiency());
 		entity.setMineProductionCost(miningSettings.getMineProductionCost());
 

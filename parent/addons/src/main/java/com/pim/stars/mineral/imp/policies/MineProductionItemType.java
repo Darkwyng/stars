@@ -30,7 +30,8 @@ public class MineProductionItemType implements ProductionItemType {
 	@Override
 	public ProductionCost getCostPerItem(final Game game, final Planet planet, final ProductionCostBuilder builder) {
 		final String ownerId = getOwnerId(planet);
-		final int mineProductionCost = mineralRaceRepository.findByRaceId(ownerId).getMineProductionCost();
+		final int mineProductionCost = mineralRaceRepository.findByGameIdAndRaceId(game.getId(), ownerId)
+				.getMineProductionCost();
 
 		return builder.add(resourceProductionCostTypeProvider.getResourceProductionCostType(), mineProductionCost)
 				.build();

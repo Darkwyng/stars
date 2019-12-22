@@ -23,6 +23,6 @@ public class PlanetProcessorImp implements PlanetProcessor {
 		entity.setOwnerId(raceId);
 		planetRepository.save(entity);
 
-		return new PlanetImp(game, planet.getName(), raceId); // TODO: modifying the parameter passed in would be more robust, because the caller does not need to switch objects.
+		return new PlanetImp(game, planet.getName(), raceId);
 	}
 }

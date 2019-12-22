@@ -53,7 +53,7 @@ public class MineMiningPolicy implements MiningPolicy {
 	private MiningPolicyResult calculateMining(final Game game, final Planet planet, final String ownerId,
 			final Integer numberOfMines) {
 
-		final MineralRaceEntity owner = mineralRaceRepository.findByRaceId(ownerId); // TODO: findByGameIdAndYearAndRaceId
+		final MineralRaceEntity owner = mineralRaceRepository.findByGameIdAndRaceId(game.getId(), ownerId);
 		final double efficiency = owner.getMineEfficiency();
 		final double effectiveMines = numberOfMines * efficiency;
 
