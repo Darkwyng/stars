@@ -1,58 +1,41 @@
 package com.pim.stars.planets.imp.effects;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
-import com.pim.stars.planets.PlanetTestConfiguration;
-import com.pim.stars.planets.api.Planet;
-import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
+import com.pim.stars.planets.imp.PlanetProperties;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PlanetTestConfiguration.WithPersistence.class)
 public class PlanetGameInitializationPolicyTest {
 
-	@Autowired
-	private PlanetGameInitializationPolicy testee;
-	@Autowired
-	private PlanetProvider planetProvider;
-
-	@MockBean
+	@Mock
 	private GameInitializationDataNumberOfPlanets gameInitializationDataNumberOfPlanets;
-	@MockBean
-	private DataExtender dataExtender;
+	@Mock
+	private PlanetProperties planetProperties;
+	@Mock
+	private GameInitializationData gameInitializationData;
+
+	@InjectMocks
+	private PlanetGameInitializationPolicy testee;
+
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
 
 	@Test
-	public void testThatPlanetsArePersistedDuringInitialization() {
-		final Game game = mock(Game.class);
-		when(game.getId()).thenReturn("theId");
-		when(game.getYear()).thenReturn(2501);
-
-		final GameInitializationData data = mock(GameInitializationData.class);
-
-		when(dataExtender.extendData(any())).thenAnswer(returnsFirstArg());
-		when(gameInitializationDataNumberOfPlanets.getValue(data)).thenReturn(3);
-
-		testee.initializeGame(game, data);
-
-		final List<Planet> persistedPlanets = planetProvider.getPlanetsByGame(game).collect(Collectors.toList());
-		assertThat(persistedPlanets, iterableWithSize(3));
+	public void testThatNotEnoughPlanetNamesIsRecognized() {
+		when(gameInitializationDataNumberOfPlanets.getValue(gameInitializationData)).thenReturn(5);
+		when(planetProperties.getNames()).thenReturn(Arrays.asList("1", "2", "3", "4"));
+		assertThrows(IllegalArgumentException.class, () -> testee.getAvailablePlanetNames(gameInitializationData));
 	}
 }

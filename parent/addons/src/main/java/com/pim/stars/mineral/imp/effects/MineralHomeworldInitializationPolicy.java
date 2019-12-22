@@ -63,7 +63,7 @@ public class MineralHomeworldInitializationPolicy implements HomeworldInitializa
 		builder.execute();
 	}
 
-	private int getMineCountForHomeworld(final Game game, final Planet planet) {
+	protected int getMineCountForHomeworld(final Game game, final Planet planet) {
 		return productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet, mineProductionItemType)
 				? mineralProperties.getNumberOfMinesToStartWith()
 				: 0;

@@ -54,7 +54,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 		persistPlanetCollection(game, newPlanetCollection);
 	}
 
-	private List<String> getAvailablePlanetNames(final GameInitializationData data) {
+	protected List<String> getAvailablePlanetNames(final GameInitializationData data) {
 		final List<String> names = new ArrayList<>(planetProperties.getNames());
 		Assert.isTrue(names.size() >= gameInitializationDataNumberOfPlanets.getValue(data),
 				"There must be at least as many planet names as planets.");
