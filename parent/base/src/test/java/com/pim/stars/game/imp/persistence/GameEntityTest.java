@@ -19,7 +19,7 @@ public class GameEntityTest {
 		entity.setEntityId(entity.getEntityId());
 		entity.setLatest(true);
 
-		assertAll(() -> assertThat(entity.getEntityId().getGameId(), is("47")), //
+		assertAll(entity.toString(), () -> assertThat(entity.getEntityId().getGameId(), is("47")), //
 				() -> assertThat(entity.getEntityId().getYear(), is(48)), //
 				() -> assertThat(entity.isLatest(), is(true)));
 	}
