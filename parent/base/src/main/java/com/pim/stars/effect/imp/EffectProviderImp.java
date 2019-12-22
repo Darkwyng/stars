@@ -34,7 +34,7 @@ public class EffectProviderImp implements EffectProvider {
 		// E.g. for a fleet find the race, all fleet components, ship designs and gadgets that might provide effects:
 		final Set<Object> allEffectHolders = getAllEffectHolders(game, firstEffectHolder);
 		// Collect the effects:
-		final Set<E> allEffects = getAllEffects(allEffectHolders, effectClass);
+		final Set<E> allEffects = getAllEffects(game, allEffectHolders, effectClass);
 		// Sort:
 		final Collection<E> sortedEffects = sortEffectStream(allEffects.stream());
 
@@ -71,12 +71,12 @@ public class EffectProviderImp implements EffectProvider {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // because objects are passed into policies using generics
-	private <E extends Effect> Set<E> getAllEffects(final Set<Object> allEffectHolders, final Class<E> effectClass) {
+	private <E extends Effect> Set<E> getAllEffects(Game game, final Set<Object> allEffectHolders, final Class<E> effectClass) {
 		final Set<E> allEffects = new HashSet<>();
 		for (final Object effectHolder : allEffectHolders) {
 			for (final EffectProviderPolicy policy : effectProviderPolicyCollection) {
 				if (policy.matchesEffectHolder(effectHolder)) {
-					allEffects.addAll(policy.getEffectCollectionFromEffectHolder(effectHolder, effectClass));
+					allEffects.addAll(policy.getEffectCollectionFromEffectHolder(game, effectHolder, effectClass));
 				}
 			}
 		}

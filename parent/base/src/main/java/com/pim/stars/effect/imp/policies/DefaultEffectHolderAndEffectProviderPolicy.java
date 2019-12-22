@@ -46,8 +46,8 @@ public class DefaultEffectHolderAndEffectProviderPolicy
 	}
 
 	@Override
-	public <E extends Effect> Collection<E> getEffectCollectionFromEffectHolder(final Object effectHolder,
-			final Class<E> effectClass) {
+	public <E extends Effect> Collection<E> getEffectCollectionFromEffectHolder(final Game game,
+			final Object effectHolder, final Class<E> effectClass) {
 		return getEffectCollectionByEffectClass(effectClass); // ... the effects will be loaded from the application context here.
 	}
 

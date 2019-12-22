@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
+import com.pim.stars.game.api.Game;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.imp.persistence.RaceRepository;
 import com.pim.stars.turn.api.Race;
@@ -26,8 +27,9 @@ public class SecondaryRacialTraitEffectProviderPolicy implements EffectCollectio
 	}
 
 	@Override
-	public Collection<Effect> getEffectCollectionFromEffectHolder(final Race effectHolder) {
-		return raceRepository.findByRaceId(effectHolder.getId()).getSecondaryRacialTraitIds().stream()
+	public Collection<Effect> getEffectCollectionFromEffectHolder(final Game game, final Race effectHolder) {
+		return raceRepository.findByGameIdAndRaceId(game.getId(), effectHolder.getId()).getSecondaryRacialTraitIds()
+				.stream()
 				.map(id -> raceTraitProvider.getSecondaryRacialTraitById(id)
 						.orElseThrow(() -> new IllegalArgumentException("No secondary trait found for ID " + id))
 						.getEffectCollection())

@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.effect.api.Effect;
+import com.pim.stars.game.api.Game;
 import com.pim.stars.race.RaceTestConfiguration;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
@@ -46,7 +47,7 @@ public class PrimaryRacialTraitEffectProviderPolicyTest {
 	public void testThatEffectsOfTraitAreReturned() {
 		final RaceEntity entity = new RaceEntity();
 		entity.setPrimaryRacialTraitId("HyperExpander");
-		when(raceRepository.findByRaceId("exampleRaceId")).thenReturn(entity);
+		when(raceRepository.findByGameIdAndRaceId("aGameId", "exampleRaceId")).thenReturn(entity);
 
 		final PrimaryRacialTrait trait = raceTraitProvider.getPrimaryRacialTraitById("HyperExpander").get();
 		assertThat(trait.getEffectCollection(), not(empty()));
@@ -54,8 +55,11 @@ public class PrimaryRacialTraitEffectProviderPolicyTest {
 		final Effect effect = trait.getEffectCollection().iterator().next();
 		final Class<? extends Effect> effectClass = effect.getClass();
 
-		final Collection<? extends Effect> effectCollection = testee
-				.getEffectCollectionFromEffectHolder(new RaceImp("exampleRaceId"), effectClass);
+		final Game game = mock(Game.class);
+		when(game.getId()).thenReturn("aGameId");
+
+		final Collection<? extends Effect> effectCollection = testee.getEffectCollectionFromEffectHolder(game,
+				new RaceImp("exampleRaceId"), effectClass);
 		assertThat(effectCollection, containsInAnyOrder(effect));
 	}
 }

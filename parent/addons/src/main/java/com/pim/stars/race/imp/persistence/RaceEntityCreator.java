@@ -15,8 +15,8 @@ public class RaceEntityCreator {
 	public RaceEntity mapRaceToEntity(final String gameId, final String raceId, final String primaryRacialTraitId,
 			final List<String> secondaryRacialTraitIds) {
 		final RaceEntity entity = new RaceEntity();
-		entity.setGameId(gameId);
-		entity.setRaceId(raceId);
+		entity.getEntityId().setGameId(gameId);
+		entity.getEntityId().setRaceId(raceId);
 		entity.setPrimaryRacialTraitId(primaryRacialTraitId);
 		entity.setSecondaryRacialTraitIds(secondaryRacialTraitIds);
 		return entity;

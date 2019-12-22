@@ -25,6 +25,7 @@ import com.pim.stars.colonization.api.ColonistCargoTypeProvider;
 import com.pim.stars.colonization.imp.ColonizationProperties;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectExecutor;
+import com.pim.stars.game.api.Game;
 import com.pim.stars.race.RaceTestConfiguration;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.traits.SecondaryRacialTrait;
@@ -54,7 +55,7 @@ public class SecondaryRacialTraitEffectProviderPolicyTest {
 	public void testThatEffectsOfTraitAreReturned() {
 		final RaceEntity entity = new RaceEntity();
 		entity.setSecondaryRacialTraitIds(Collections.singleton("LowStartingPopulation"));
-		when(raceRepository.findByRaceId("exampleRaceId")).thenReturn(entity);
+		when(raceRepository.findByGameIdAndRaceId("aGameId", "exampleRaceId")).thenReturn(entity);
 
 		final SecondaryRacialTrait trait = raceTraitProvider.getSecondaryRacialTraitById("LowStartingPopulation").get();
 		assertThat(trait.getEffectCollection(), not(empty()));
@@ -62,8 +63,11 @@ public class SecondaryRacialTraitEffectProviderPolicyTest {
 		final Effect effect = trait.getEffectCollection().iterator().next();
 		final Class<? extends Effect> effectClass = effect.getClass();
 
-		final Collection<? extends Effect> effectCollection = testee
-				.getEffectCollectionFromEffectHolder(new RaceImp("exampleRaceId"), effectClass);
+		final Game game = mock(Game.class);
+		when(game.getId()).thenReturn("aGameId");
+
+		final Collection<? extends Effect> effectCollection = testee.getEffectCollectionFromEffectHolder(game,
+				new RaceImp("exampleRaceId"), effectClass);
 		assertThat(effectCollection, containsInAnyOrder(effect));
 	}
 

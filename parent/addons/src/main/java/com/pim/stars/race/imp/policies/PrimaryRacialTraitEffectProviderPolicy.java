@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
+import com.pim.stars.game.api.Game;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.imp.persistence.RaceEntity;
 import com.pim.stars.race.imp.persistence.RaceRepository;
@@ -26,8 +27,8 @@ public class PrimaryRacialTraitEffectProviderPolicy implements EffectCollectionP
 	}
 
 	@Override
-	public Collection<Effect> getEffectCollectionFromEffectHolder(final Race effectHolder) {
-		final RaceEntity entity = raceRepository.findByRaceId(effectHolder.getId());
+	public Collection<Effect> getEffectCollectionFromEffectHolder(final Game game, final Race effectHolder) {
+		final RaceEntity entity = raceRepository.findByGameIdAndRaceId(game.getId(), effectHolder.getId());
 		final String id = entity.getPrimaryRacialTraitId();
 
 		return raceTraitProvider.getPrimaryRacialTraitById(id)
