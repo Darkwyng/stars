@@ -9,21 +9,45 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 class CargoEntity {
 
-	// TODO: use composite id
 	@Id
-	private String entityId;
-
-	private String gameId;
-	private int year;
+	private CargoEntityId entityId = new CargoEntityId();
 
 	private Collection<CargoEntityItem> items = new ArrayList<>();
 
-	public String getEntityId() {
+	public CargoEntityId getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId(final String entityId) {
+	public void setEntityId(final CargoEntityId entityId) {
 		this.entityId = entityId;
+	}
+
+	public Collection<CargoEntityItem> getItems() {
+		return items;
+	}
+
+	public void setItems(final Collection<CargoEntityItem> items) {
+		this.items = items;
+	}
+
+}
+
+class CargoEntityId {
+
+	private String gameId;
+	private int year;
+	private String cargoHolderType;
+	private String cargoHolderId;
+
+	public CargoEntityId() {
+	}
+
+	public CargoEntityId(final String gameId, final int year, final String cargoHolderType,
+			final String cargoHolderId) {
+		this.gameId = gameId;
+		this.year = year;
+		this.cargoHolderType = cargoHolderType;
+		this.cargoHolderId = cargoHolderId;
 	}
 
 	public String getGameId() {
@@ -42,14 +66,21 @@ class CargoEntity {
 		this.year = year;
 	}
 
-	public Collection<CargoEntityItem> getItems() {
-		return items;
+	public String getCargoHolderType() {
+		return cargoHolderType;
 	}
 
-	public void setItems(final Collection<CargoEntityItem> items) {
-		this.items = items;
+	public void setCargoHolderType(final String cargoHolderType) {
+		this.cargoHolderType = cargoHolderType;
 	}
 
+	public String getCargoHolderId() {
+		return cargoHolderId;
+	}
+
+	public void setCargoHolderId(final String cargoHolderId) {
+		this.cargoHolderId = cargoHolderId;
+	}
 }
 
 class CargoEntityItem {

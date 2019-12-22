@@ -44,7 +44,7 @@ public class CargoPersistenceInterface {
 
 	/** Read data from the database */
 	public Collection<CargoItem> loadItems(final Game game, final Object cargoHolder) {
-		final String entityId = createEntityId(game, cargoHolder);
+		final CargoEntityId entityId = createEntityId(game, cargoHolder);
 		final Optional<CargoEntity> optionalEntity = cargoRepository.findById(entityId);
 
 		return optionalEntity //
@@ -61,12 +61,7 @@ public class CargoPersistenceInterface {
 
 		final List<CargoEntity> modifiedEntities = cargoRepository
 				.findByGameIdAndYear(previousYear.getId(), previousYear.getYear()).stream().peek(entity -> {
-					final String entityId = updateEntityIdForCurrentYear(entity.getEntityId(), previousYear,
-							currentYear);
-					entity.setEntityId(entityId);
-
-					entity.setGameId(currentYear.getId());
-					entity.setYear(currentYear.getYear());
+					updateEntityIdForCurrentYear(entity, currentYear);
 				}).collect(Collectors.toList());
 
 		cargoRepository.saveAll(modifiedEntities); // will insert new entries, because the IDs have changed
@@ -77,12 +72,9 @@ public class CargoPersistenceInterface {
 	}
 
 	private CargoEntity initializeEntity(final Game game, final Object cargoHolder, final Collection<CargoItem> items) {
-		final String entityId = createEntityId(game, cargoHolder);
 		final CargoEntity entity = new CargoEntity();
+		final CargoEntityId entityId = createEntityId(game, cargoHolder);
 		entity.setEntityId(entityId);
-
-		entity.setGameId(game.getId());
-		entity.setYear(game.getYear());
 
 		items.stream().filter(item -> item.getQuantity() != 0) //
 				.map(item -> {
@@ -96,7 +88,7 @@ public class CargoPersistenceInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	private String createEntityId(final Game game, final Object cargoHolder) {
+	private CargoEntityId createEntityId(final Game game, final Object cargoHolder) {
 		final Optional<CargoHolderDefinition<?>> optionalDefinition = cargoHolderDefinitions.stream()
 				.filter(definition -> definition.matches(cargoHolder)).findAny();
 
@@ -108,21 +100,13 @@ public class CargoPersistenceInterface {
 		final String cargoHolderType = cargoHolderDefinition.getCargoHolderType();
 		final String cargoHolderId = cargoHolderDefinition.getCargoHolderId(cargoHolder);
 
-		return getEntityIdForGame(game).append('#') //
-				.append(cargoHolderType).append('#') //
-				.append(cargoHolderId).toString();
+		return new CargoEntityId(game.getId(), game.getYear(), cargoHolderType, cargoHolderId);
 	}
 
-	private StringBuilder getEntityIdForGame(final Game game) {
-		return new StringBuilder(game.getId()).append('#').append(game.getYear());
-	}
-
-	private String updateEntityIdForCurrentYear(final String entityId, final Game previousYear,
-			final Game currentYear) {
-		final int lengthOfPreviousYearId = getEntityIdForGame(previousYear).toString().length();
-		final String entityIdSuffix = entityId.substring(lengthOfPreviousYearId);
-
-		return getEntityIdForGame(currentYear).append(entityIdSuffix).toString();
+	private void updateEntityIdForCurrentYear(final CargoEntity entity, final Game currentYear) {
+		final CargoEntityId entityId = entity.getEntityId();
+		entityId.setGameId(currentYear.getId());
+		entityId.setYear(currentYear.getYear());
 	}
 
 	private CargoType getCargoTypeByEntity(final CargoEntityItem item) {
