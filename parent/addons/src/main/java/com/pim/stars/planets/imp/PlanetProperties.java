@@ -7,19 +7,16 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Component
 @EnableConfigurationProperties(PlanetProperties.class)
 @ConfigurationProperties(prefix = "planets")
 @PropertySource("classpath:com/pim/stars/planets/imp/planets.properties")
+@Getter
+@Setter
 public class PlanetProperties {
 
 	private List<String> names;
-
-	public List<String> getNames() {
-		return names;
-	}
-
-	public void setNames(final List<String> names) {
-		this.names = names;
-	}
 }
