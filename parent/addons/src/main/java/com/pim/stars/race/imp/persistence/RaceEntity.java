@@ -6,7 +6,14 @@ import java.util.Collection;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Document
+@Getter
+@Setter
+@ToString
 public class RaceEntity {
 
 	@Id
@@ -15,49 +22,12 @@ public class RaceEntity {
 	private String primaryRacialTraitId;
 	private Collection<String> secondaryRacialTraitIds = new ArrayList<>();
 
-	public RaceEntityId getEntityId() {
-		return entityId;
-	}
-
-	public void setEntityId(final RaceEntityId entityId) {
-		this.entityId = entityId;
-	}
-
-	public String getPrimaryRacialTraitId() {
-		return primaryRacialTraitId;
-	}
-
-	public void setPrimaryRacialTraitId(final String primaryRacialTraitId) {
-		this.primaryRacialTraitId = primaryRacialTraitId;
-	}
-
-	public Collection<String> getSecondaryRacialTraitIds() {
-		return secondaryRacialTraitIds;
-	}
-
-	public void setSecondaryRacialTraitIds(final Collection<String> secondaryRacialTraitIds) {
-		this.secondaryRacialTraitIds = secondaryRacialTraitIds;
-	}
-
+	@Getter
+	@Setter
+	@ToString
 	public static class RaceEntityId {
 
 		private String gameId;
 		private String raceId;
-
-		public String getGameId() {
-			return gameId;
-		}
-
-		public void setGameId(final String gameId) {
-			this.gameId = gameId;
-		}
-
-		public String getRaceId() {
-			return raceId;
-		}
-
-		public void setRaceId(final String raceId) {
-			this.raceId = raceId;
-		}
 	}
 }

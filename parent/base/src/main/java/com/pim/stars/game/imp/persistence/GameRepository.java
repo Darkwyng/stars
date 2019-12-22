@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.pim.stars.game.imp.persistence.GameEntity.GameEntityId;
-
 @Repository
 public interface GameRepository extends MongoRepository<GameEntity, GameEntityId> {
 

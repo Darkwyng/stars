@@ -15,6 +15,7 @@
 		<spring.boot.version>2.2.2.RELEASE</spring.boot.version>
 		<junit.version>5.6.0-M1</junit.version>
 		<mockito.version>3.2.4</mockito.version>
+		<lombok.version>1.18.10</lombok.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -64,7 +65,8 @@
 			</dependency>
 
 			<dependency>
-				<!-- This dependency comes with the above BOM already, but it is listed here explicitly, so that JUnit 4 can be excluded and so that Mockito can be used in a more recent version. -->
+				<!-- This dependency comes with the above BOM already, but it is listed here explicitly, so that JUnit 4 can be excluded 
+					and so that Mockito can be used in a more recent version. -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
 				<version>${spring.boot.version}</version>
@@ -128,6 +130,14 @@
 				<scope>test</scope>
 			</dependency>
 
+			<!-- Lombok is used with the provided scope, because it is only used in the build -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -180,6 +190,11 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 
 	</dependencies>

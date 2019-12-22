@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.mineral.imp.MineralProperties;
-import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetEntity.MineralTypeWithQuantity;
-import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetEntity.PlanetEntityId;
 import com.pim.stars.planets.api.Planet;
 
 @Component
