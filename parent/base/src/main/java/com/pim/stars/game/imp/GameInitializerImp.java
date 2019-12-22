@@ -33,7 +33,7 @@ public class GameInitializerImp implements GameInitializer {
 
 	@Override
 	public Game initializeGame(final GameInitializationData data) {
-		final Game game = dataExtender.extendData(new GameImp(idCreator.createId(), gameProperties.getStartingYear()));
+		final Game game = new GameImp(idCreator.createId(), gameProperties.getStartingYear());
 
 		effectProvider.getEffectCollection(game, null, GameInitializationPolicy.class).stream()
 				.forEach(policy -> policy.initializeGame(game, data));

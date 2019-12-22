@@ -24,7 +24,7 @@ public class GameGeneratorImp implements GameGenerator {
 	@Override
 	public Game generateGame(final Game game) {
 
-		final Game newGame = new GameImp(game.getId(), game.getYear() + 1, (GameImp) game);
+		final Game newGame = new GameImp(game.getId(), game.getYear() + 1);
 		doGameGeneration(game, newGame);
 		return newGame;
 	}

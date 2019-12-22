@@ -2,13 +2,13 @@ package com.pim.stars.game.imp;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -75,12 +75,10 @@ public class GameInitializerImpTest {
 		final GameInitializationData initializationData = gameInitializer.createNewGameInitializationData();
 		assertThat(gameInitializationPolicyCallCounter, is(0));
 		final Game game = gameInitializer.initializeGame(initializationData);
+		assertThat(game, notNullValue());
 
 		// Check gameInitializationPolicy was called:
 		assertThat(gameInitializationPolicyCallCounter, is(1));
-
-		// Check dataExtender was called:
-		verify(dataExtender).extendData(eq(game));
 	}
 
 	@Test
