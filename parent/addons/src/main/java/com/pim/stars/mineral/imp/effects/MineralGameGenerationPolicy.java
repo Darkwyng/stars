@@ -57,7 +57,7 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 		});
 	}
 
-	private void createReportIfNecessary(final Game game, final Planet planet, final CargoHolder totalMinedCargo) {
+	protected void createReportIfNecessary(final Game game, final Planet planet, final CargoHolder totalMinedCargo) {
 		final Optional<String> ownerId = planet.getOwnerId();
 		if (ownerId.isPresent()) {
 			final String raceId = ownerId.get();

@@ -33,7 +33,7 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 	@Autowired
 	private PlanetProcessor planetProcessor;
 
-	final Random random = new Random();
+	private final Random random = new Random();
 
 	@Override
 	public int getSequence() {
@@ -59,7 +59,8 @@ public class HomeworldGameInitializationPolicy implements GameInitializationPoli
 		});
 	}
 
-	private Planet selectNewHomeworld(final Collection<Planet> planetCollection, final Collection<Planet> homeworlds) {
+	protected Planet selectNewHomeworld(final Collection<Planet> planetCollection,
+			final Collection<Planet> homeworlds) {
 		Assert.isTrue(planetCollection.size() > homeworlds.size(), "There must be enough planets for all races.");
 
 		final List<Planet> planetList = new ArrayList<>(planetCollection);
