@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.effect.EffectConfiguration;
-import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.game.imp.persistence.GameRepository;
 import com.pim.stars.id.IdConfiguration;
 import com.pim.stars.id.api.IdCreator;
@@ -35,7 +35,7 @@ public interface GameConfiguration {
 
 		public DataExtender dataExtender();
 
-		public EffectProvider effectProvider();
+		public EffectExecutor effectExecutor();
 
 		public IdCreator idCreator();
 	}

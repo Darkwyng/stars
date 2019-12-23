@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.EffectCalculator;
-import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.game.api.Game;
 
 @Component

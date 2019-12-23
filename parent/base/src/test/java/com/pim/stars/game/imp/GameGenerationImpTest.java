@@ -4,15 +4,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
+import static org.mockito.Mockito.doAnswer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.effect.api.EffectExecutor;
+import com.pim.stars.effect.api.EffectExecutor.EffectFunction;
 import com.pim.stars.game.GameTestConfiguration;
 import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
@@ -34,15 +33,19 @@ public class GameGenerationImpTest {
 	@Autowired
 	private GameGenerationPolicy gameGenerationPolicy;
 	@Autowired
-	private EffectProvider effectProvider;
+	private EffectExecutor effectExecutor;
 
 	private static int gameGenerationPolicyCallCounter = 0;
 
+	@SuppressWarnings("unchecked")
 	@BeforeEach
 	public void setUp() {
 		gameGenerationPolicyCallCounter = 0;
-		when(effectProvider.getEffectCollection(Mockito.any(), Mockito.any(), eq(GameGenerationPolicy.class)))
-				.thenReturn(Arrays.asList(gameGenerationPolicy));
+		doAnswer(inv -> {
+			final EffectFunction<GameGenerationPolicy> function = inv.getArgument(3, EffectFunction.class);
+			function.execute(gameGenerationPolicy, null);
+			return null;
+		}).when(effectExecutor).executeEffect(any(), eq(GameGenerationPolicy.class), eq(null), any());
 	}
 
 	@Test

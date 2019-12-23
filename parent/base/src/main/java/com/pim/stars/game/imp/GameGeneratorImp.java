@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.effect.api.EffectExecutor;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
@@ -17,7 +17,7 @@ import com.pim.stars.game.imp.persistence.GamePersistenceInterface;
 public class GameGeneratorImp implements GameGenerator {
 
 	@Autowired
-	private EffectProvider effectProvider;
+	private EffectExecutor effectExecutor;
 	@Autowired
 	private GamePersistenceInterface gamePersistenceInterface;
 
@@ -32,8 +32,8 @@ public class GameGeneratorImp implements GameGenerator {
 	private void doGameGeneration(final Game previousYear, final Game currentYear) {
 		final GameGenerationContext context = new GameGenerationContextImp(previousYear, currentYear);
 
-		effectProvider.getEffectCollection(currentYear, null, GameGenerationPolicy.class).stream()
-				.forEach(policy -> policy.generateGame(context));
+		effectExecutor.executeEffect(currentYear, GameGenerationPolicy.class, null,
+				(policy, effectContext) -> policy.generateGame(context));
 
 		gamePersistenceInterface.generateGame(currentYear.getId(), currentYear.getYear());
 	}

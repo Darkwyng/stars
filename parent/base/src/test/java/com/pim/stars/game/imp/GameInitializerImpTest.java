@@ -9,9 +9,9 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,7 +26,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.effect.api.EffectProvider;
+import com.pim.stars.effect.api.EffectExecutor;
+import com.pim.stars.effect.api.EffectExecutor.EffectFunction;
 import com.pim.stars.game.GameTestConfiguration;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
@@ -45,17 +46,22 @@ public class GameInitializerImpTest {
 	@Autowired
 	private DataExtender dataExtender;
 	@Autowired
-	private EffectProvider effectProvider;
+	private EffectExecutor effectExecutor;
 	@Autowired
 	private GameProvider gameProvider;
 
 	private static int gameInitializationPolicyCallCounter = 0;
 
+	@SuppressWarnings("unchecked")
 	@BeforeEach
 	public void setUp() {
 		gameInitializationPolicyCallCounter = 0;
-		when(effectProvider.getEffectCollection(any(), any(), eq(GameInitializationPolicy.class)))
-				.thenReturn(Arrays.asList(gameInitializationPolicy));
+		doAnswer(inv -> {
+			final EffectFunction<GameInitializationPolicy> function = inv.getArgument(3, EffectFunction.class);
+			function.execute(gameInitializationPolicy, null);
+			return null;
+		}).when(effectExecutor).executeEffect(any(), eq(GameInitializationPolicy.class), eq(null), any());
+
 		when(dataExtender.extendData(any())).thenAnswer(returnsFirstArg());
 	}
 

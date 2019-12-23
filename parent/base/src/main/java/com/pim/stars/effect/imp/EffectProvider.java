@@ -14,20 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.effect.api.Effect;
-import com.pim.stars.effect.api.EffectProvider;
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.effect.api.policies.EffectProviderPolicy;
 import com.pim.stars.game.api.Game;
 
 @Component
-public class EffectProviderImp implements EffectProvider {
+public class EffectProvider {
 
 	@Autowired(required = false)
 	private final Collection<EffectHolderProviderPolicy<?>> effectHolderProviderPolicyCollection = new ArrayList<>();
 	@Autowired(required = false)
 	private final Collection<EffectProviderPolicy<?>> effectProviderPolicyCollection = new ArrayList<>();
 
-	@Override
 	public <E extends Effect> Collection<E> getEffectCollection(final Game game, final Object firstEffectHolder,
 			final Class<E> effectClass) {
 
@@ -71,7 +69,8 @@ public class EffectProviderImp implements EffectProvider {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // because objects are passed into policies using generics
-	private <E extends Effect> Set<E> getAllEffects(Game game, final Set<Object> allEffectHolders, final Class<E> effectClass) {
+	private <E extends Effect> Set<E> getAllEffects(final Game game, final Set<Object> allEffectHolders,
+			final Class<E> effectClass) {
 		final Set<E> allEffects = new HashSet<>();
 		for (final Object effectHolder : allEffectHolders) {
 			for (final EffectProviderPolicy policy : effectProviderPolicyCollection) {
