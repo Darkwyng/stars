@@ -1,7 +1,7 @@
 package com.pim.stars.report.api;
 
 import com.pim.stars.game.api.Game;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.race.api.Race;
 
 public interface ReportCreator {
 

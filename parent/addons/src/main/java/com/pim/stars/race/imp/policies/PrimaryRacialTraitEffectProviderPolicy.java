@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.effect.api.policies.EffectCollectionProviderPolicy;
 import com.pim.stars.game.api.Game;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.imp.persistence.RaceEntity;
 import com.pim.stars.race.imp.persistence.RaceRepository;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class PrimaryRacialTraitEffectProviderPolicy implements EffectCollectionProviderPolicy<Race> {

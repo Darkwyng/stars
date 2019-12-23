@@ -4,7 +4,7 @@ import com.pim.stars.effect.api.Effect;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.planets.api.Planet;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.race.api.Race;
 
 public interface HomeworldInitializationPolicy extends Effect {
 

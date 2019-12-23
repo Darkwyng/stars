@@ -19,12 +19,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.pim.stars.effect.api.Effect;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.race.RaceTestConfiguration;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceTraitProvider;
 import com.pim.stars.race.api.traits.PrimaryRacialTrait;
 import com.pim.stars.race.imp.RaceImp;
 import com.pim.stars.race.imp.persistence.RaceEntity;
 import com.pim.stars.race.imp.persistence.RaceRepository;
-import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { RaceTestConfiguration.class, RaceTestConfiguration.WithoutPersistence.class })

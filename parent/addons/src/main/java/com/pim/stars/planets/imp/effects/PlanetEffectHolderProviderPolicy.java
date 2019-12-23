@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import com.pim.stars.effect.api.policies.EffectHolderProviderPolicy;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceProvider;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class PlanetEffectHolderProviderPolicy implements EffectHolderProviderPolicy<Planet> {

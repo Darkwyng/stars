@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 import com.pim.stars.game.api.Game;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.race.api.Race;
 
 public interface ReportProvider {
 

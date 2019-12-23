@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class ReportCreatorImp implements ReportCreator {

@@ -1,4 +1,4 @@
-package com.pim.stars.turn.api;
+package com.pim.stars.race.api;
 
 public interface Race {
 

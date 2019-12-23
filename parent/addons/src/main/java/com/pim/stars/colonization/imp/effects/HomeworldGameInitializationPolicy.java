@@ -18,8 +18,8 @@ import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProcessor;
 import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceProvider;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class HomeworldGameInitializationPolicy implements GameInitializationPolicy {

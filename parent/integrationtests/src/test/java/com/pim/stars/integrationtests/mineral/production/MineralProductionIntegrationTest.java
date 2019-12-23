@@ -32,13 +32,13 @@ import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.PlanetProductionQueueManager;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceInitializationData;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 import com.pim.stars.race.testapi.RaceTestApiConfiguration;
 import com.pim.stars.race.testapi.RaceTestDataProvider;
 import com.pim.stars.report.api.ReportProvider;
-import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { GameConfiguration.Complete.class, RaceTestApiConfiguration.class,

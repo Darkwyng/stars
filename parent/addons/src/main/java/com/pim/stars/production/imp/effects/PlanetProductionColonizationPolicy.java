@@ -7,7 +7,7 @@ import com.pim.stars.colonization.api.effects.PlanetColonizationPolicy;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.imp.persistence.ProductionPersistenceInterface;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.race.api.Race;
 
 @Component
 public class PlanetProductionColonizationPolicy implements PlanetColonizationPolicy {

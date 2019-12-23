@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.imp.RaceImp;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class RaceProviderImp implements RaceProvider {

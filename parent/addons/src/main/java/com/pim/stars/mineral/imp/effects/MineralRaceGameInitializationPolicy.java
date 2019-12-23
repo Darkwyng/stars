@@ -13,8 +13,8 @@ import com.pim.stars.mineral.imp.MineralProperties;
 import com.pim.stars.mineral.imp.MineralProperties.RaceMiningSettings;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceEntity;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.race.api.RaceProvider;
-import com.pim.stars.turn.api.Race;
 
 @Component
 public class MineralRaceGameInitializationPolicy implements GameInitializationPolicy {

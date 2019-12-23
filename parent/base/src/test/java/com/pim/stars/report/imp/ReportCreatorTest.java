@@ -19,11 +19,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.game.api.Game;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.report.ReportTestConfiguration;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
-import com.pim.stars.turn.api.Race;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ReportTestConfiguration.class)

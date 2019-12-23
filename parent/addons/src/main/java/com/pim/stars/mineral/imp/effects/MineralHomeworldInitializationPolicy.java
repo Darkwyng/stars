@@ -18,7 +18,7 @@ import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInte
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
-import com.pim.stars.turn.api.Race;
+import com.pim.stars.race.api.Race;
 
 @Component
 public class MineralHomeworldInitializationPolicy implements HomeworldInitializationPolicy {

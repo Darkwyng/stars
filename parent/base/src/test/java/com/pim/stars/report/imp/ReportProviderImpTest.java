@@ -20,10 +20,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.pim.stars.game.api.Game;
+import com.pim.stars.race.api.Race;
 import com.pim.stars.report.api.ReportProvider.MessageReport;
 import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
-import com.pim.stars.turn.api.Race;
 
 public class ReportProviderImpTest {
 
