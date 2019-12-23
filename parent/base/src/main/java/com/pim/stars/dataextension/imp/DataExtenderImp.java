@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.dataextension.api.DataExtender;
-import com.pim.stars.dataextension.api.DataExtensionPolicyProvider;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 

@@ -10,19 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.pim.stars.dataextension.api.DataExtensionPolicyProvider;
 import com.pim.stars.dataextension.api.Entity;
 import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
 @Component
-public class DataExtensionPolicyProviderImp implements DataExtensionPolicyProvider {
+public class DataExtensionPolicyProvider {
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
 	private Map<Class<?>, List<DataExtensionPolicy<?, ?>>> policyMap = null;
 
-	@Override
 	public <E extends Entity<?>> Collection<DataExtensionPolicy<E, ?>> getDataExtensionPoliciesForEntity(
 			final E entity) {
 		return getPoliciesForEntityClass(entity.getEntityClass());
