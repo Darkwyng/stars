@@ -14,6 +14,8 @@ public interface ReportCreator {
 		public ReportBundleBuilder type(Class<?> reportClass);
 
 		public ReportBundleBuilder type(String reportClassName);
+
+		public ReportArgumentBuilder typeAndBundle(Class<?> reportClass);
 	}
 
 	public static interface ReportBundleBuilder {

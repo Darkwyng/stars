@@ -63,8 +63,7 @@ public class MineralGameGenerationPolicy implements GameGenerationPolicy {
 			final String raceId = ownerId.get();
 			final Integer totalQuantity = totalMinedCargo.getItems().stream()
 					.collect(Collectors.summingInt(CargoItem::getQuantity));
-			reportCreator.start(game, raceId).type(PlanetHasMinedReport.class)
-					.bundle(MineralConstants.REPORT_BUNDLE_NAME)
+			reportCreator.start(game, raceId).typeAndBundle(PlanetHasMinedReport.class)
 					.addArguments(planet.getName(), totalQuantity.toString()).create();
 		}
 	}

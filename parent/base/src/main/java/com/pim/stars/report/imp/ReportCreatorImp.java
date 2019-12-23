@@ -59,6 +59,11 @@ public class ReportCreatorImp implements ReportCreator {
 			report.setReportClassName(reportClassName);
 			return new ReportBundleBuilderImp(reportRepository, report);
 		}
+
+		@Override
+		public ReportArgumentBuilder typeAndBundle(final Class<?> reportClass) {
+			return type(reportClass.getName()).bundle(reportClass.getPackageName());
+		}
 	}
 
 	private static class ReportBundleBuilderImp implements ReportBundleBuilder {

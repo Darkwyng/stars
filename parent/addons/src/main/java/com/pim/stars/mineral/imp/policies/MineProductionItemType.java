@@ -3,7 +3,6 @@ package com.pim.stars.mineral.imp.policies;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pim.stars.game.api.Game;
-import com.pim.stars.mineral.imp.effects.MineralConstants;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
@@ -44,8 +43,7 @@ public class MineProductionItemType implements ProductionItemType {
 	private void createReport(final Game game, final Planet planet, final int numberOfItems) {
 		final String raceId = getOwnerId(planet);
 
-		reportCreator.start(game, raceId).type(PlanetHasBuiltMinesReport.class)
-				.bundle(MineralConstants.REPORT_BUNDLE_NAME)
+		reportCreator.start(game, raceId).typeAndBundle(PlanetHasBuiltMinesReport.class)
 				.addArguments(planet.getName(), String.valueOf(numberOfItems)).create();
 	}
 
