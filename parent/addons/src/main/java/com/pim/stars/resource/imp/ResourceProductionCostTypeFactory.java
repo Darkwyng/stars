@@ -3,6 +3,8 @@ package com.pim.stars.resource.imp;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
@@ -12,9 +14,13 @@ import com.pim.stars.production.api.policies.ProductionCostType.ProductionCostTy
 import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
 @Component
-public class ResourceProductionCostTypeFactory implements ProductionCostTypeFactory, ResourceProductionCostTypeProvider {
+public class ResourceProductionCostTypeFactory
+		implements ProductionCostTypeFactory, ResourceProductionCostTypeProvider {
 
-	private final ProductionCostType resourceProductionCostType = new ResourceProductionCostType();
+	private ProductionCostType resourceProductionCostType;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	@Override
 	public Collection<ProductionCostType> createProductionCostTypes() {
@@ -23,6 +29,11 @@ public class ResourceProductionCostTypeFactory implements ProductionCostTypeFact
 
 	@Override
 	public ProductionCostType getResourceProductionCostType() {
+		if (resourceProductionCostType == null) {
+			resourceProductionCostType = new ResourceProductionCostType();
+			applicationContext.getAutowireCapableBeanFactory().autowireBean(resourceProductionCostType);
+		}
+
 		return resourceProductionCostType;
 	}
 

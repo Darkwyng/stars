@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 import com.pim.stars.production.api.cost.ProductionCost;
 import com.pim.stars.production.api.policies.ProductionCostType;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 public class ProductionCostImp implements ProductionCost {
 
 	private final Collection<ProductionCostItem> items;
@@ -96,30 +100,13 @@ public class ProductionCostImp implements ProductionCost {
 		return "[" + items.stream().map(Object::toString).collect(Collectors.joining(",")) + "]";
 	}
 
+	@Getter
+	@AllArgsConstructor
+	@ToString
 	public static class ProductionCostItemImp implements ProductionCostItem {
 
 		private final ProductionCostType type;
 		private final int amount;
-
-		public ProductionCostItemImp(final ProductionCostType type, final int amount) {
-			this.type = type;
-			this.amount = amount;
-		}
-
-		@Override
-		public ProductionCostType getType() {
-			return type;
-		}
-
-		@Override
-		public int getAmount() {
-			return amount;
-		}
-
-		@Override
-		public String toString() {
-			return type.getId() + ":" + amount;
-		}
 	}
 
 	public static class ProductionCostBuilderImp implements ProductionCostBuilder {

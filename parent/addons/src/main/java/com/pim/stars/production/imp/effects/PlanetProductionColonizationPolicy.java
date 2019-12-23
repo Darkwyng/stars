@@ -18,6 +18,6 @@ public class PlanetProductionColonizationPolicy implements PlanetColonizationPol
 
 	@Override
 	public void colonizePlanet(final Game game, final Planet planet, final Race race) {
-		planetProductionQueue.setValue(planet, new ProductionQueue());
+		planetProductionQueue.setValue(planet, new ProductionQueue(planet.getName()));
 	}
 }

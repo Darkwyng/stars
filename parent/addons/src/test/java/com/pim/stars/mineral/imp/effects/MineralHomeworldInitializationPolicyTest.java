@@ -2,6 +2,8 @@ package com.pim.stars.mineral.imp.effects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.pim.stars.game.api.Game;
+import com.pim.stars.mineral.api.MineProductionItemTypeProvider;
 import com.pim.stars.mineral.imp.MineralProperties;
-import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 
@@ -21,7 +23,7 @@ public class MineralHomeworldInitializationPolicyTest {
 	@Mock
 	private ProductionAvailabilityCalculator productionAvailabilityCalculator;
 	@Mock
-	private MineProductionItemType mineProductionItemType;
+	private MineProductionItemTypeProvider mineProductionItemTypeProvider;
 	@Mock
 	private MineralProperties mineralProperties;
 
@@ -40,7 +42,7 @@ public class MineralHomeworldInitializationPolicyTest {
 
 	@Test
 	public void testThatNoMinesAreBuiltForRacesWithoutMines() {
-		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet, mineProductionItemType))
+		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(eq(game), eq(planet), any()))
 				.thenReturn(false);
 
 		final int mineCount = testee.getMineCountForHomeworld(game, planet);
@@ -49,7 +51,7 @@ public class MineralHomeworldInitializationPolicyTest {
 
 	@Test
 	public void testThatMinesAreBuiltForRacesWithMines() {
-		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet, mineProductionItemType))
+		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(eq(game), eq(planet), any()))
 				.thenReturn(true);
 
 		final int mineCount = testee.getMineCountForHomeworld(game, planet);

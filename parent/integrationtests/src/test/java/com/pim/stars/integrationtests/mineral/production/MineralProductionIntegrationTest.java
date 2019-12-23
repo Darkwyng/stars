@@ -24,7 +24,7 @@ import com.pim.stars.game.api.GameGenerator;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.mineral.MineralConfiguration;
-import com.pim.stars.mineral.imp.policies.MineProductionItemType;
+import com.pim.stars.mineral.api.MineProductionItemTypeProvider;
 import com.pim.stars.mineral.imp.reports.PlanetHasBuiltMinesReport;
 import com.pim.stars.mineral.testapi.MineralTestApiConfiguration;
 import com.pim.stars.mineral.testapi.MineralTestDataAccessor;
@@ -67,7 +67,7 @@ public class MineralProductionIntegrationTest {
 	@Autowired
 	private PlanetProductionQueue planetProductionQueue;
 	@Autowired
-	private MineProductionItemType mineProductionItemType;
+	private MineProductionItemTypeProvider mineProductionItemTypeProvider;
 	@Autowired
 	private ReportProvider reportProvider;
 
@@ -86,7 +86,8 @@ public class MineralProductionIntegrationTest {
 		assertThat(minesBeforeBuilding, is(10));
 		assertReports(game, newRace, not(hasPlanetHasBuiltMinesReport()));
 
-		planetProductionQueueManager.addToQueue(homeworld, mineProductionItemType, 3);
+		planetProductionQueueManager.addToQueue(homeworld, mineProductionItemTypeProvider.getMineProductionItemType(),
+				3);
 
 		game = gameGenerator.generateGame(game);
 		final Integer minesAfterBuildingOnce = mineralTestDataAccessor.getPlanetMineCount(game, homeworld);

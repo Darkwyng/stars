@@ -1,7 +1,6 @@
 package com.pim.stars.mineral.imp.policies;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.mineral.imp.effects.MineralConstants;
@@ -15,7 +14,6 @@ import com.pim.stars.production.api.policies.ProductionItemType;
 import com.pim.stars.report.api.ReportCreator;
 import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
-@Component
 public class MineProductionItemType implements ProductionItemType {
 
 	@Autowired

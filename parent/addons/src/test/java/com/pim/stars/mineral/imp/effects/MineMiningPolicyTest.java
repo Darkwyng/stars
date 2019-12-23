@@ -1,5 +1,7 @@
 package com.pim.stars.mineral.imp.effects;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -14,10 +16,10 @@ import org.mockito.MockitoAnnotations;
 
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
+import com.pim.stars.mineral.api.MineProductionItemTypeProvider;
 import com.pim.stars.mineral.api.MiningCalculator;
 import com.pim.stars.mineral.api.effects.MiningPolicy.MiningPolicyResult;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
-import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 
@@ -33,7 +35,7 @@ public class MineMiningPolicyTest {
 	@Mock
 	private ProductionAvailabilityCalculator productionAvailabilityCalculator;
 	@Mock
-	private MineProductionItemType mineProductionItemType;
+	private MineProductionItemTypeProvider mineProductionItemTypeProvider;
 	@Mock
 	private MiningCalculator miningCalculator;
 	@Mock
@@ -66,7 +68,7 @@ public class MineMiningPolicyTest {
 	public void testThatOwnerWithoutMiningRightsDoesNotMine() {
 		when(planet.getOwnerId()).thenReturn(Optional.of("aRaceId"));
 		when(mineralPlanetPersistenceInterface.getMineCount(game, planet)).thenReturn(7);
-		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet, mineProductionItemType))
+		when(productionAvailabilityCalculator.isProductionItemTypeAvailable(eq(game), eq(planet), any()))
 				.thenReturn(false);
 
 		verifyNoMiningIsDone();

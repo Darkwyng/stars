@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
@@ -17,6 +18,9 @@ import com.pim.stars.planets.PlanetConfiguration;
 import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.policies.ProductionCostType;
 import com.pim.stars.production.api.policies.ProductionCostType.ProductionCostTypeFactory;
+import com.pim.stars.production.api.policies.ProductionItemType;
+import com.pim.stars.production.api.policies.ProductionItemType.ProductionItemTypeFactory;
+import com.pim.stars.production.imp.persistence.ProductionRepository;
 import com.pim.stars.resource.ResourceConfiguration;
 import com.pim.stars.resource.api.ResourceCalculator;
 
@@ -25,12 +29,19 @@ public interface ProductionConfiguration {
 	@Configuration
 	@ComponentScan(excludeFilters = {
 			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
+	@EnableMongoRepositories(basePackageClasses = { ProductionRepository.class })
 	public static class Provided {
 
 		@Bean
 		public List<ProductionCostType> productionCostTypes(final Collection<ProductionCostTypeFactory> factories) {
 			return factories.stream().map(ProductionCostTypeFactory::createProductionCostTypes)
 					.flatMap(Collection<ProductionCostType>::stream).collect(toList());
+		}
+
+		@Bean
+		public List<ProductionItemType> productionItemTypes(final Collection<ProductionItemTypeFactory> factories) {
+			return factories.stream().map(ProductionItemTypeFactory::createProductionItemTypes)
+					.flatMap(Collection<ProductionItemType>::stream).collect(toList());
 		}
 	}
 

@@ -10,11 +10,11 @@ import com.pim.stars.cargo.api.CargoHolder.CargoTransferBuilder;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
+import com.pim.stars.mineral.api.MineProductionItemTypeProvider;
 import com.pim.stars.mineral.api.policies.MineralType;
 import com.pim.stars.mineral.imp.MineralProperties;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface.MineralPlanetForMining;
-import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.effects.HomeworldInitializationPolicy;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
@@ -36,7 +36,7 @@ public class MineralHomeworldInitializationPolicy implements HomeworldInitializa
 	@Autowired
 	private ProductionAvailabilityCalculator productionAvailabilityCalculator;
 	@Autowired
-	private MineProductionItemType mineProductionItemType;
+	private MineProductionItemTypeProvider mineProductionItemTypeProvider;
 	@Autowired
 	private MineralProperties mineralProperties;
 
@@ -64,8 +64,9 @@ public class MineralHomeworldInitializationPolicy implements HomeworldInitializa
 	}
 
 	protected int getMineCountForHomeworld(final Game game, final Planet planet) {
-		return productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet, mineProductionItemType)
-				? mineralProperties.getNumberOfMinesToStartWith()
-				: 0;
+		return productionAvailabilityCalculator.isProductionItemTypeAvailable(game, planet,
+				mineProductionItemTypeProvider.getMineProductionItemType())
+						? mineralProperties.getNumberOfMinesToStartWith()
+						: 0;
 	}
 }

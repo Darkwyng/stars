@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.game.api.Game;
+import com.pim.stars.mineral.api.MineProductionItemTypeProvider;
 import com.pim.stars.mineral.api.MiningCalculator;
 import com.pim.stars.mineral.api.MiningCalculator.MiningCalculatorResult;
 import com.pim.stars.mineral.api.effects.MiningPolicy;
 import com.pim.stars.mineral.imp.persistence.planet.MineralPlanetPersistenceInterface;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceEntity;
 import com.pim.stars.mineral.imp.persistence.race.MineralRaceRepository;
-import com.pim.stars.mineral.imp.policies.MineProductionItemType;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.production.api.ProductionAvailabilityCalculator;
 
@@ -29,7 +29,7 @@ public class MineMiningPolicy implements MiningPolicy {
 	@Autowired
 	private ProductionAvailabilityCalculator productionAvailabilityCalculator;
 	@Autowired
-	private MineProductionItemType mineProductionItemType;
+	private MineProductionItemTypeProvider mineProductionItemTypeProvider;
 	@Autowired
 	private MiningCalculator miningCalculator;
 
@@ -41,7 +41,7 @@ public class MineMiningPolicy implements MiningPolicy {
 			final int numberOfMines = mineralPlanetPersistenceInterface.getMineCount(game, planet);
 			if (numberOfMines > 0) {
 				final boolean minesAreAvailable = productionAvailabilityCalculator.isProductionItemTypeAvailable(game,
-						planet, mineProductionItemType);
+						planet, mineProductionItemTypeProvider.getMineProductionItemType());
 				if (minesAreAvailable) {
 					return calculateMining(game, planet, planet.getOwnerId().get(), numberOfMines);
 				}

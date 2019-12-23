@@ -9,6 +9,16 @@ import java.util.stream.Collectors;
 public class ProductionQueue implements Iterable<ProductionQueueEntry> {
 
 	private final List<ProductionQueueEntry> entries = new ArrayList<>();
+	private final String planetName;
+
+	public ProductionQueue(final String planetName) {
+		super();
+		this.planetName = planetName;
+	}
+
+	public String getPlanetName() {
+		return planetName;
+	}
 
 	@Override
 	public Iterator<ProductionQueueEntry> iterator() {
@@ -31,6 +41,6 @@ public class ProductionQueue implements Iterable<ProductionQueueEntry> {
 
 	@Override
 	public String toString() {
-		return "[" + entries.stream().map(Object::toString).collect(Collectors.joining(",")) + "]";
+		return planetName + " [" + entries.stream().map(Object::toString).collect(Collectors.joining(",")) + "]";
 	}
 }

@@ -52,7 +52,7 @@ public class ProductionExecutorTest {
 
 	@Test
 	public void testEmptyQueue() {
-		final ProductionQueue queue = new ProductionQueue();
+		final ProductionQueue queue = new ProductionQueue("myPlanetName");
 
 		final PlanetProductionResult result = callTestee(queue, createCost(1, 0));
 		assertThat(result.getProducedItems(), empty());
@@ -65,7 +65,7 @@ public class ProductionExecutorTest {
 
 	@Test
 	public void testOneItemIsInvestedIn() {
-		final ProductionQueue queue = new ProductionQueue();
+		final ProductionQueue queue = new ProductionQueue("myPlanetName");
 		final ProductionItemTypeForTest itemType = new ProductionItemTypeForTest(createCost(10, 0));
 		addToQueue(queue, itemType, 1);
 
@@ -83,7 +83,7 @@ public class ProductionExecutorTest {
 
 	@Test
 	public void testOneItemIsBuilt() {
-		final ProductionQueue queue = new ProductionQueue();
+		final ProductionQueue queue = new ProductionQueue("myPlanetName");
 		final ProductionItemTypeForTest itemType = new ProductionItemTypeForTest(createCost(10, 0));
 		addToQueue(queue, itemType, 1);
 
@@ -103,7 +103,7 @@ public class ProductionExecutorTest {
 
 	@Test
 	public void testItemsOfOneEntryAreBuiltWithInvestment() {
-		final ProductionQueue queue = new ProductionQueue();
+		final ProductionQueue queue = new ProductionQueue("myPlanetName");
 		final ProductionItemTypeForTest itemType = new ProductionItemTypeForTest(createCost(10, 0));
 		addToQueue(queue, itemType, 5);
 
@@ -126,7 +126,7 @@ public class ProductionExecutorTest {
 
 	@Test
 	public void testMultipleItemsWithInvestmentForMultiple() {
-		final ProductionQueue queue = new ProductionQueue();
+		final ProductionQueue queue = new ProductionQueue("myPlanetName");
 		final ProductionItemTypeForTest firstItemType = new ProductionItemTypeForTest(createCost(10, 1));
 		final ProductionItemTypeForTest secondItemType = new ProductionItemTypeForTest(createCost(1, 1));
 		final ProductionItemTypeForTest thirdItemType = new ProductionItemTypeForTest(createCost(0, 1));
@@ -231,12 +231,13 @@ public class ProductionExecutorTest {
 		}
 
 		@Override
-		public ProductionCost getCostPerItem(Game game, Planet planet, ProductionCostBuilder builder) {
+		public ProductionCost getCostPerItem(final Game game, final Planet planet,
+				final ProductionCostBuilder builder) {
 			return cost;
 		}
 
 		@Override
-		public void produce(Game game, Planet planet, final int numberOfItems) {
+		public void produce(final Game game, final Planet planet, final int numberOfItems) {
 			producedItems.add(numberOfItems);
 		}
 
