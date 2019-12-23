@@ -2,8 +2,6 @@ package com.pim.stars.planets.imp.effects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.planets.PlanetTestConfiguration;
@@ -36,8 +33,6 @@ public class PlanetGameInitializationPolicyComponentTest {
 
 	@MockBean
 	private GameInitializationDataNumberOfPlanets gameInitializationDataNumberOfPlanets;
-	@MockBean
-	private DataExtender dataExtender;
 
 	@Test
 	public void testThatPlanetsArePersistedDuringInitialization() {
@@ -47,7 +42,6 @@ public class PlanetGameInitializationPolicyComponentTest {
 
 		final GameInitializationData data = mock(GameInitializationData.class);
 
-		when(dataExtender.extendData(any())).thenAnswer(returnsFirstArg());
 		when(gameInitializationDataNumberOfPlanets.getValue(data)).thenReturn(3);
 
 		testee.initializeGame(game, data);

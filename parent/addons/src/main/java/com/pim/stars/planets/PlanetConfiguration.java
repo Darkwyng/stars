@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.pim.stars.dataextension.DataExtensionConfiguration;
-import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
 import com.pim.stars.race.RaceConfiguration;
@@ -30,8 +29,6 @@ public interface PlanetConfiguration {
 	}
 
 	public static interface Required {
-
-		public DataExtender dataExtender();
 
 		public IdCreator idCreator();
 

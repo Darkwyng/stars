@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.effects.GameGenerationPolicy;
-import com.pim.stars.planets.imp.PlanetImp;
 import com.pim.stars.planets.imp.persistence.PlanetEntity;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
 
@@ -44,7 +43,5 @@ public class ClonePlanetGameGenerationPolicy implements GameGenerationPolicy {
 				}).collect(Collectors.toList());
 
 		planetRepository.saveAll(newEntities);
-
-		PlanetImp.generateGame(previousYear, currentYear);
 	}
 }

@@ -9,18 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
 import com.pim.stars.race.api.RaceProvider;
 
 public class PlanetTestConfiguration implements PlanetConfiguration.Required {
-
-	@Bean
-	@Override
-	public DataExtender dataExtender() {
-		return mock(DataExtender.class);
-	}
 
 	@Bean
 	@Override

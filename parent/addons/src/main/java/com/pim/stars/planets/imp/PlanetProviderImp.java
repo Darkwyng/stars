@@ -24,7 +24,7 @@ public class PlanetProviderImp implements PlanetProvider {
 	}
 
 	private Planet mapEntityToPlanet(final PlanetEntity entity, final Game game) {
-		return new PlanetImp(game, entity.getEntityId().getName(), entity.getOwnerId());
+		return new PlanetImp(entity.getEntityId().getName(), entity.getOwnerId());
 	}
 
 	@Override

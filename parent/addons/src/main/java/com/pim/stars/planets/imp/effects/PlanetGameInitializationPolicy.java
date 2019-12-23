@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.pim.stars.dataextension.api.DataExtender;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
@@ -26,8 +25,6 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 
 	@Autowired
 	private GameInitializationDataNumberOfPlanets gameInitializationDataNumberOfPlanets;
-	@Autowired
-	private DataExtender dataExtender;
 	@Autowired
 	private PlanetProperties planetProperties;
 	@Autowired
@@ -47,7 +44,7 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 		final Collection<Planet> newPlanetCollection = new ArrayList<>();
 		for (int i = 0; i < gameInitializationDataNumberOfPlanets.getValue(data); i++) {
 			final String name = selectNewPlanetName(availableNames);
-			final Planet newPlanet = dataExtender.extendData(new PlanetImp(game, name, null));
+			final Planet newPlanet = new PlanetImp(name, null);
 
 			newPlanetCollection.add(newPlanet);
 		}
