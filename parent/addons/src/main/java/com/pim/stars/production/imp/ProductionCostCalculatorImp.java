@@ -21,9 +21,10 @@ public class ProductionCostCalculatorImp implements ProductionCostCalculator {
 	public ProductionCost getProductionInputForPlanet(final Game game, final Planet planet) {
 
 		final ProductionCostBuilderImp builder = new ProductionCostBuilderImp();
-		effectExecutor.executeEffect(game, ProductionInputCalculator.class, planet,
-				(policy, context) -> policy.calculateProductionInput(game, planet, builder));
-
+		if (planet.getOwnerId().isPresent()) {
+			effectExecutor.executeEffect(game, ProductionInputCalculator.class, planet,
+					(policy, context) -> policy.calculateProductionInput(game, planet, builder));
+		}
 		return builder.build();
 	}
 }

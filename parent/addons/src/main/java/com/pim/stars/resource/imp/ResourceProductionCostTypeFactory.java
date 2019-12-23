@@ -24,7 +24,7 @@ public class ResourceProductionCostTypeFactory
 
 	@Override
 	public Collection<ProductionCostType> createProductionCostTypes() {
-		return Arrays.asList(resourceProductionCostType);
+		return Arrays.asList(getResourceProductionCostType());
 	}
 
 	@Override

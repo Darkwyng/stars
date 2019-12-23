@@ -7,4 +7,6 @@ import com.pim.stars.game.api.Game;
 public interface PlanetProvider {
 
 	public Stream<Planet> getPlanetsByGame(Game game);
+
+	public Planet getPlanet(Game game, String planetName);
 }

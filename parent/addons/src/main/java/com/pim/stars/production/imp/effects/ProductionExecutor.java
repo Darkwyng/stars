@@ -25,7 +25,7 @@ public class ProductionExecutor {
 		this.remainingResources = initialResources;
 	}
 
-	public void execute(final ProductionResultBuilder builder) {
+	public ProductionQueue execute(final ProductionResultBuilder builder) {
 
 		final PlanetProductionResultBuilder planetResultBuilder = builder.startPlanet(planet);
 
@@ -57,6 +57,8 @@ public class ProductionExecutor {
 		queue.cleanUp();
 
 		planetResultBuilder.finishPlanet(remainingResources);
+
+		return queue;
 	}
 
 	private int getNumberToBuildNow(final ProductionQueueEntry entry, final ProductionCost costPerItem,
