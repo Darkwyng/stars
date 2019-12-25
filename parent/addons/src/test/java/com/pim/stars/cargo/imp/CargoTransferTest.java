@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -37,6 +38,7 @@ import com.pim.stars.game.api.Game;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = CargoTransferTest.TestConfiguration.class)
+@ActiveProfiles("WithPersistence")
 public class CargoTransferTest {
 
 	@Autowired

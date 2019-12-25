@@ -7,13 +7,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.dataextension.DataExtensionTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = DataExtensionTestConfiguration.class)
+@ContextConfiguration(classes = DataExtensionTestConfiguration.WithoutPersistence.class)
+@ActiveProfiles("WithoutPersistence")
 public class DataExtensionConfigurationTest {
 
 	@Autowired

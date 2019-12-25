@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.effect.api.EffectExecutor;
@@ -43,6 +44,7 @@ public class ProductionTestConfiguration implements ProductionConfiguration.Requ
 
 	@Configuration
 	@Import({ ProductionTestConfiguration.class, ProductionConfiguration.Provided.class })
+	@Profile("WithoutPersistence")
 	public class WithoutPersistence {
 
 		@MockBean
@@ -53,6 +55,7 @@ public class ProductionTestConfiguration implements ProductionConfiguration.Requ
 	@EnableAutoConfiguration // Required by @DataMongoTest
 	@DataMongoTest
 	@Import({ ProductionTestConfiguration.class, ProductionConfiguration.Provided.class })
+	@Profile("WithPersistence")
 	public class WithPersistence {
 
 	}

@@ -19,6 +19,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -29,6 +31,7 @@ import com.pim.stars.dataextension.api.policies.DataExtensionPolicy;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DataExtenderImpTest.TestConfiguration.class)
+@ActiveProfiles("WithoutPersistence")
 public class DataExtenderImpTest {
 
 	@Autowired
@@ -122,7 +125,8 @@ public class DataExtenderImpTest {
 	}
 
 	@Configuration
-	protected static class TestConfiguration extends DataExtensionTestConfiguration {
+	@Import(DataExtensionTestConfiguration.WithoutPersistence.class)
+	protected static class TestConfiguration {
 
 		@Bean
 		public DataExtensionPolicy<?, ?> simpleDataType() {

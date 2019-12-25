@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.effect.api.EffectCalculator;
@@ -15,8 +16,6 @@ import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.race.api.RaceProvider;
 import com.pim.stars.race.api.extensions.GameInitializationDataRaceCollection;
 
-@Configuration
-@Import({ ColonizationConfiguration.Provided.class })
 public class ColonizationTestConfiguration implements ColonizationConfiguration.Required {
 
 	@Bean
@@ -65,5 +64,12 @@ public class ColonizationTestConfiguration implements ColonizationConfiguration.
 	@Bean
 	public PlanetProcessor planetProcessor() {
 		return mock(PlanetProcessor.class);
+	}
+
+	@Configuration
+	@Import({ ColonizationTestConfiguration.class, ColonizationConfiguration.Provided.class })
+	@Profile("WithoutPersistence")
+	public class WithoutPersistence {
+
 	}
 }

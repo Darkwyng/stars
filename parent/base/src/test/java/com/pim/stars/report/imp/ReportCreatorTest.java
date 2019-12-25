@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -26,7 +27,8 @@ import com.pim.stars.report.imp.persistence.ReportEntity;
 import com.pim.stars.report.imp.persistence.ReportRepository;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ReportTestConfiguration.class)
+@ContextConfiguration(classes = ReportTestConfiguration.WithPersistence.class)
+@ActiveProfiles("WithPersistence")
 public class ReportCreatorTest {
 
 	private static final String BUNDLE_NAME = "com.pim.stars.report.imp.messages";

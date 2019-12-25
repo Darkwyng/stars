@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,6 +22,7 @@ import com.pim.stars.planets.PlanetTestConfiguration;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = PlanetTestConfiguration.WithoutPersistence.class)
+@ActiveProfiles("WithoutPersistence")
 public class PlanetPropertiesTest {
 
 	@Autowired

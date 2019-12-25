@@ -41,11 +41,5 @@ public class MineralProperties {
 		private int mineProductionCost;
 		@NonNull
 		private double mineEfficiency;
-
-		public RaceMiningSettings(final RaceMiningSettings defaultSettings) {
-			this();
-			this.mineProductionCost = defaultSettings.mineProductionCost;
-			this.mineEfficiency = defaultSettings.mineEfficiency;
-		}
 	}
 }

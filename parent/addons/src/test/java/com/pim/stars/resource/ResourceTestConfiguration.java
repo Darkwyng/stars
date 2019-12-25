@@ -14,8 +14,6 @@ import com.pim.stars.effect.api.EffectCalculator;
 import com.pim.stars.production.api.policies.ProductionCostType;
 import com.pim.stars.production.api.policies.ProductionCostType.ProductionCostTypeFactory;
 
-@Configuration
-@Import({ ResourceConfiguration.Provided.class })
 public class ResourceTestConfiguration implements ResourceConfiguration.Required {
 
 	/** To test that the resource production cost type can be autowired after the creation by its factory. */
@@ -29,5 +27,11 @@ public class ResourceTestConfiguration implements ResourceConfiguration.Required
 	@Bean
 	public EffectCalculator effectCalculator() {
 		return mock(EffectCalculator.class);
+	}
+
+	@Configuration
+	@Import({ ResourceTestConfiguration.class, ResourceConfiguration.Provided.class })
+	public class WithoutPersistence {
+
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -36,6 +37,7 @@ import com.pim.stars.race.imp.persistence.RaceRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SecondaryRacialTraitEffectProviderPolicyTest.TestConfiguration.class)
+@ActiveProfiles("WithoutPersistence")
 public class SecondaryRacialTraitEffectProviderPolicyTest {
 
 	@Autowired

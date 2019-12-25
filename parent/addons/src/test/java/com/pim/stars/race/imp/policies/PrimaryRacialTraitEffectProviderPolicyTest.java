@@ -13,6 +13,7 @@ import java.util.Collection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -27,7 +28,8 @@ import com.pim.stars.race.imp.persistence.RaceEntity;
 import com.pim.stars.race.imp.persistence.RaceRepository;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { RaceTestConfiguration.class, RaceTestConfiguration.WithoutPersistence.class })
+@ContextConfiguration(classes = { RaceTestConfiguration.WithoutPersistence.class })
+@ActiveProfiles("WithoutPersistence")
 public class PrimaryRacialTraitEffectProviderPolicyTest {
 
 	@Autowired

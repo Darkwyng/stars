@@ -14,7 +14,7 @@ import com.pim.stars.resource.api.ResourceCalculator;
 import com.pim.stars.resource.api.ResourceProductionCostTypeProvider;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ResourceTestConfiguration.class)
+@ContextConfiguration(classes = ResourceTestConfiguration.WithoutPersistence.class)
 public class ResourceConfigurationTest {
 
 	@Autowired

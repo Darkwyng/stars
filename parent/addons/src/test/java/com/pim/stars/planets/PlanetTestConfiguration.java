@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.pim.stars.id.api.IdCreator;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
@@ -29,6 +30,7 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 
 	@Configuration
 	@Import({ PlanetTestConfiguration.class, PlanetConfiguration.Provided.class })
+	@Profile("WithoutPersistence")
 	public class WithoutPersistence {
 
 		@MockBean
@@ -39,6 +41,7 @@ public class PlanetTestConfiguration implements PlanetConfiguration.Required {
 	@EnableAutoConfiguration // Required by @DataMongoTest
 	@DataMongoTest
 	@Import({ PlanetTestConfiguration.class, PlanetConfiguration.Provided.class })
+	@Profile("WithPersistence")
 	public class WithPersistence {
 
 	}

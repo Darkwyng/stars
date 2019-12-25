@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -26,6 +27,7 @@ import com.pim.stars.game.api.effects.GameGenerationPolicy;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = GameGenerationImpTest.TestConfiguration.class)
+@ActiveProfiles("WithoutPersistence")
 public class GameGenerationImpTest {
 
 	@Autowired
@@ -59,7 +61,7 @@ public class GameGenerationImpTest {
 	}
 
 	@Configuration
-	@Import({ GameTestConfiguration.class })
+	@Import({ GameTestConfiguration.WithoutPersistence.class })
 	protected static class TestConfiguration {
 
 		@Bean

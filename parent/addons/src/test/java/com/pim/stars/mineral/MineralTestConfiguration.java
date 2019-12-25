@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import com.pim.stars.cargo.api.CargoProcessor;
 import com.pim.stars.cargo.api.policies.CargoType;
@@ -107,6 +108,7 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 
 	@Configuration
 	@Import({ MineralTestConfiguration.class, MineralConfiguration.Provided.class })
+	@Profile("WithoutPersistence")
 	public class WithoutPersistence {
 
 		@MockBean
@@ -119,6 +121,7 @@ public class MineralTestConfiguration implements MineralConfiguration.Required {
 	@EnableAutoConfiguration // Required by @DataMongoTest
 	@DataMongoTest
 	@Import({ MineralTestConfiguration.class, MineralConfiguration.Provided.class })
+	@Profile("WithPersistence")
 	public class WithPersistence {
 
 	}

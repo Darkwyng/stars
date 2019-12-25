@@ -15,5 +15,4 @@ public class GamePropertiesTest {
 		testee.setStartingYear(2501);
 		assertThat(testee.getStartingYear(), is(2501));
 	}
-
 }

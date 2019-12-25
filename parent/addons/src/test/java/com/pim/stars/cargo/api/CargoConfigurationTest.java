@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -26,6 +27,7 @@ import com.pim.stars.cargo.api.policies.CargoType.CargoTypeFactory;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { CargoTestConfiguration.WithoutPersistence.class, FirstCargoTestConfiguration.class,
 		SecondCargoTestConfiguration.class })
+@ActiveProfiles("WithoutPersistence")
 public class CargoConfigurationTest {
 
 	@Autowired(required = false)

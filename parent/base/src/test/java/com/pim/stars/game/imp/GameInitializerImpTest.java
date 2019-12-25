@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -34,9 +35,12 @@ import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.GameInitializer;
 import com.pim.stars.game.api.GameProvider;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
+import com.pim.stars.game.imp.persistence.GameRepository;
+import com.pim.stars.id.api.IdCreator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = GameInitializerImpTest.TestConfiguration.class)
+@ActiveProfiles("WithPersistence")
 public class GameInitializerImpTest {
 
 	@Autowired
@@ -49,12 +53,19 @@ public class GameInitializerImpTest {
 	private EffectExecutor effectExecutor;
 	@Autowired
 	private GameProvider gameProvider;
+	@Autowired
+	private GameRepository gameRepository;
+	@Autowired
+	private IdCreator idCreator;
 
 	private static int gameInitializationPolicyCallCounter = 0;
 
 	@SuppressWarnings("unchecked")
 	@BeforeEach
 	public void setUp() {
+		gameRepository.deleteAll();
+		when(idCreator.createId()).thenReturn("id1", "id2", "id3");
+
 		gameInitializationPolicyCallCounter = 0;
 		doAnswer(inv -> {
 			final EffectFunction<GameInitializationPolicy> function = inv.getArgument(3, EffectFunction.class);
@@ -101,7 +112,7 @@ public class GameInitializerImpTest {
 	}
 
 	@Configuration
-	@Import({ GameTestConfiguration.class })
+	@Import({ GameTestConfiguration.WithPersistence.class })
 	protected static class TestConfiguration {
 
 		@Bean
