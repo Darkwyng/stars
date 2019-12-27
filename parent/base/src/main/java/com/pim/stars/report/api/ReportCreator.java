@@ -27,7 +27,7 @@ public interface ReportCreator {
 
 		public ReportArgumentBuilder addArguments(String... arguments);
 
-		public void create(); // TODO 3: add type last, so that it is not forgotten
+		public void create();
 
 	}
 }

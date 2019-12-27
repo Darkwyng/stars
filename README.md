@@ -11,7 +11,7 @@ Highlights of the game are in particular
 * You choose yourself how to interact with the other races. You don't need to shoot anything that moves, you can cooperate and make deals.
 
 ## This project
-This is a reimplementation of *Stars!* using Java and Spring. Probably NoSQL soon. So far no UI is planned, but that may change.
+This is a reimplementation of *Stars!* using Java, Spring and MongoDB. Maybe there will be a UI.
 
 The aim is currently to see whether the architecture I had in mind can work for this game. And to have some fun.
 
