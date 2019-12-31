@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<bean id="BatScanner" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Scanner"/>
+		<property name="effectCollection">
+			<!-- TODO 2: This gadget needs an example effect... -->
+			<list>
+				<bean class="com.pim.stars.colonization.imp.effects.FactorPlanetCapacityPolicy">
+					<property name="factor" value="0.5" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="RhinoScanner" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Scanner"/>		
+	</bean>
+	
+	<bean id="ColonizationModule" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Mechanical"/>		
+	</bean>
+	
+	<bean id="SettlersDelight" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Engine"/>		
+	</bean>
+	
+	<bean id="Tritanium" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Armor"/>		
+	</bean>
+	
+	<bean id="MoleSkinShield" class="com.pim.stars.gadget.imp.gadget.input.GadgetFromXml">
+		<property name="gadgetTypeId" value="Shield"/>		
+	</bean>
+
+</beans>

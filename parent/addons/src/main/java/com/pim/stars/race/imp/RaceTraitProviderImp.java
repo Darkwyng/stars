@@ -52,6 +52,16 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 		return secondaryRacialTraits;
 	}
 
+	@Override
+	public Optional<PrimaryRacialTrait> getPrimaryRacialTraitById(final String id) {
+		return getPrimaryRacialTraitCollection().stream().filter(trait -> trait.getId().equals(id)).findAny();
+	}
+
+	@Override
+	public Optional<SecondaryRacialTrait> getSecondaryRacialTraitById(final String id) {
+		return getSecondaryRacialTraitCollection().stream().filter(trait -> trait.getId().equals(id)).findAny();
+	}
+
 	/**
 	 * This method loads an application context that will create beans depending on XML files used as input. The
 	 * application context is closed again before the method returns, it is only used to instantiate objects.
@@ -63,7 +73,7 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 				locations.toArray(new String[] {}), usualApplicationContext)) {
 
 			return temporaryApplicationContext.getBeansOfType(type).entrySet().stream().peek(entry -> {
-				// Use the bean name as the trait ID, so that it does not have to be configured twice in the XML:
+				// Use the bean name as the ID, so that it does not have to be configured twice in the XML:
 				final String beanName = entry.getKey();
 				final AbstractRacialTrait bean = (AbstractRacialTrait) entry.getValue();
 				bean.setId(beanName);
@@ -77,8 +87,8 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 		}
 	}
 
-	private void autowireBeansForEffect(final AutowireCapableBeanFactory parentBeanFactory,
-			final String racialTraitName, final Effect effect) {
+	private void autowireBeansForEffect(final AutowireCapableBeanFactory parentBeanFactory, final String beanName,
+			final Effect effect) {
 		try {
 			parentBeanFactory.autowireBean(effect);
 		} catch (final UnsatisfiedDependencyException e) {
@@ -86,33 +96,23 @@ public class RaceTraitProviderImp implements RaceTraitProvider {
 				// Improve error message:
 				final NoSuchBeanDefinitionException cause = (NoSuchBeanDefinitionException) e.getCause();
 				final String missingBeanName = cause.getResolvableType().getType().getTypeName();
-				throw new UnsatisfiedEffectDependencyException(racialTraitName, effect.getClass(), missingBeanName, e);
+				throw new UnsatisfiedEffectDependencyException(beanName, effect.getClass(), missingBeanName, e);
 			} else {
 				throw e;
 			}
 		}
 	}
 
-	@Override
-	public Optional<PrimaryRacialTrait> getPrimaryRacialTraitById(final String id) {
-		return getPrimaryRacialTraitCollection().stream().filter(trait -> trait.getId().equals(id)).findAny();
-	}
-
-	@Override
-	public Optional<SecondaryRacialTrait> getSecondaryRacialTraitById(final String id) {
-		return getSecondaryRacialTraitCollection().stream().filter(trait -> trait.getId().equals(id)).findAny();
-	}
-
 	public static class UnsatisfiedEffectDependencyException extends BeanCreationException {
 
 		private static final long serialVersionUID = -2153000048273845074L;
 
-		public UnsatisfiedEffectDependencyException(final String racialTraitName, final Class<?> effectClass,
+		public UnsatisfiedEffectDependencyException(final String beanName, final Class<?> effectClass,
 				final String missingBeanName, final UnsatisfiedDependencyException cause) {
 			super(MessageFormat.format(
-					"The trait ''{0}'' contains the effect ''{1}''," + " which requires the bean ''{2}'',"
+					"''{0}'' contains the effect ''{1}''," + " which requires the bean ''{2}'',"
 							+ " which is missing in the application context.",
-					racialTraitName, effectClass.getName(), missingBeanName), cause);
+					beanName, effectClass.getName(), missingBeanName), cause);
 		}
 	}
 }
