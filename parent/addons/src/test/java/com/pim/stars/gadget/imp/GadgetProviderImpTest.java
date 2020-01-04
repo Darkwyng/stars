@@ -55,6 +55,11 @@ public class GadgetProviderImpTest {
 				allOf(containsString("Whrgl, Blubb"), containsString(slot.getAllowedGadgetTypeIds())));
 	}
 
+	@Test
+	public void testNullGadgetTypesAreRejected() {
+		testEmptyGadgetTypesAreRejected(null);
+	}
+
 	@ParameterizedTest()
 	@ValueSource(strings = { "", " ", "   " })
 	public void testEmptyGadgetTypesAreRejected(final String allowedGadgetTypeIds) {
@@ -64,7 +69,7 @@ public class GadgetProviderImpTest {
 		final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
 				() -> testee.getGadgetTypesOfSlot("hullId", slot));
 		assertThat(exception.getMessage(),
-				allOf(containsString("is empty"), containsString(slot.getAllowedGadgetTypeIds())));
+				allOf(containsString("is empty"), containsString(String.valueOf(slot.getAllowedGadgetTypeIds()))));
 	}
 
 	@ParameterizedTest()

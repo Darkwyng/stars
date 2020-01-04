@@ -134,7 +134,7 @@ public class GadgetProviderImp implements GadgetProvider {
 
 	protected Collection<GadgetType> getGadgetTypesOfSlot(final String hullId, final GadgetSlotFromXml slot) {
 		final String allowedGadgetTypeIds = slot.getAllowedGadgetTypeIds();
-		if (allowedGadgetTypeIds != null && Strings.isNullOrEmpty(allowedGadgetTypeIds.trim())) {
+		if (allowedGadgetTypeIds == null || Strings.isNullOrEmpty(allowedGadgetTypeIds.trim())) {
 			throw gadgetTypeParsingError(hullId, slot, "The list of types is empty.");
 		} else if (MARKER_FOR_VERY_FLEXIBLE_SLOT.equals(allowedGadgetTypeIds)) {
 			return getGadgetTypesForVeryFlexibleSlot();
