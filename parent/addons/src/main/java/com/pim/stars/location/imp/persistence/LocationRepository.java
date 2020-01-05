@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.CaseFormat;
@@ -22,12 +23,18 @@ public interface LocationRepository extends MongoRepository<LocationEntity, Loca
 	static final String COLLECTION_NAME = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL,
 			LocationEntity.class.getSimpleName());
 
+	@Query("{ 'entityId.gameId' : ?0 }")
+	public Collection<LocationEntity> findByGameId(String gameId);
+
+	@Query("{ 'entityId.gameId' : ?0, 'coordinates.x' : ?1, 'coordinates.y' : ?2 }")
+	public Collection<LocationEntity> findByGameIdAndCoordinates(String gameId, int x, int y);
+
 	public default Collection<LocationEntity> findAllInSameLocation(final MongoTemplate mongoTemplate,
 			final String gameId, final String holderTypeId, final String holderId) {
 
 		// Match the location with the given IDs:
-		final MatchOperation matchOperation = Aggregation.match(
-				Criteria.where(LocationEntity.ENTITY_ID).is(new LocationEntityId(gameId, holderTypeId, holderId)));
+		final LocationEntityId entityId = new LocationEntityId(gameId, holderTypeId, holderId);
+		final MatchOperation matchOperation = Aggregation.match(Criteria.where(LocationEntity.ENTITY_ID).is(entityId));
 		// Join the found location to all locations with the same coordinates:
 		final LookupOperation lookupOperation = LookupOperation.newLookup().from(COLLECTION_NAME)
 				.localField(LocationEntity.COORDINATES).foreignField(LocationEntity.COORDINATES)

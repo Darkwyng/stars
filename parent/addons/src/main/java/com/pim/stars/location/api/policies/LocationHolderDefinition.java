@@ -7,4 +7,6 @@ public interface LocationHolderDefinition<T> {
 	public String getLocationHolderType();
 
 	public String getLocationHolderId(T object);
+
+	public T toObject(String id);
 }

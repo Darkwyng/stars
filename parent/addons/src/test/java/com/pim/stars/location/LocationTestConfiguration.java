@@ -6,6 +6,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.pim.stars.location.imp.persistence.LocationRepository;
 
@@ -18,6 +19,8 @@ public class LocationTestConfiguration {
 
 		@MockBean
 		private LocationRepository locationRepository;
+		@MockBean
+		private MongoTemplate mongoTemplate;
 	}
 
 	@Configuration
