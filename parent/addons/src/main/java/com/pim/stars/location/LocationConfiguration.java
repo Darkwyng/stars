@@ -6,14 +6,15 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.pim.stars.location.imp.persistence.LocationRepository;
+import com.pim.stars.location.imp.persistence.location.LocationRepository;
+import com.pim.stars.location.imp.persistence.universe.UniverseRepository;
 
 public interface LocationConfiguration {
 
 	@Configuration
 	@ComponentScan(excludeFilters = {
 			@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Complete.class) })
-	@EnableMongoRepositories(basePackageClasses = { LocationRepository.class })
+	@EnableMongoRepositories(basePackageClasses = { LocationRepository.class, UniverseRepository.class })
 	public static class Provided {
 
 	}

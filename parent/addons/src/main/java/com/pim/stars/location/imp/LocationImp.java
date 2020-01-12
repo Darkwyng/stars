@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import com.pim.stars.game.api.Game;
 import com.pim.stars.location.api.Location;
 import com.pim.stars.location.api.policies.LocationHolderDefinition;
 
@@ -34,9 +35,9 @@ public class LocationImp implements Location {
 	}
 
 	@Override
-	public <T> Stream<T> getLocationHoldersByType(final LocationHolderDefinition<T> definition) {
+	public <T> Stream<T> getLocationHoldersByType(Game game, final LocationHolderDefinition<T> definition) {
 		return objects.getOrDefault(definition.getLocationHolderType(), Collections.emptyList()).stream()
-				.map(definition::toObject);
+				.map(id -> definition.toObject(game, id));
 	}
 
 	public static class Builder {

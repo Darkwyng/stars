@@ -17,7 +17,7 @@ public interface GadgetConfiguration {
 	}
 
 	@Configuration
-	@Import({ Provided.class, SpringConfiguration.class })
+	@Import({ Provided.class, SpringConfiguration.Complete.class })
 	public static class Complete {
 
 	}

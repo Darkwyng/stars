@@ -1,5 +1,7 @@
 package com.pim.stars.location.api.policies;
 
+import com.pim.stars.game.api.Game;
+
 public interface LocationHolderDefinition<T> {
 
 	public boolean matches(Object object);
@@ -8,5 +10,5 @@ public interface LocationHolderDefinition<T> {
 
 	public String getLocationHolderId(T object);
 
-	public T toObject(String id);
+	public T toObject(Game game, String id);
 }

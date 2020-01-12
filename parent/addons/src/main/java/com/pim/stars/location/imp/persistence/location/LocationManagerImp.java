@@ -1,4 +1,4 @@
-package com.pim.stars.location.imp.persistence;
+package com.pim.stars.location.imp.persistence.location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

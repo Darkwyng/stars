@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.pim.stars.dataextension.DataExtensionConfiguration;
-import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.location.LocationConfiguration;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
 import com.pim.stars.race.RaceConfiguration;
-import com.pim.stars.race.api.RaceProvider;
 
 public interface PlanetConfiguration {
 
@@ -23,15 +22,9 @@ public interface PlanetConfiguration {
 	}
 
 	@Configuration
-	@Import({ Provided.class, DataExtensionConfiguration.Complete.class, RaceConfiguration.Complete.class })
+	@Import({ Provided.class, DataExtensionConfiguration.Complete.class, RaceConfiguration.Complete.class,
+			LocationConfiguration.Complete.class })
 	public static class Complete {
 
-	}
-
-	public static interface Required {
-
-		public IdCreator idCreator();
-
-		public RaceProvider raceProvider();
 	}
 }

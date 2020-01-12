@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
+import com.google.common.base.Preconditions;
 import com.pim.stars.game.api.Game;
 import com.pim.stars.game.api.GameInitializationData;
 import com.pim.stars.game.api.effects.GameInitializationPolicy;
+import com.pim.stars.location.api.LocationInitializer;
 import com.pim.stars.planets.api.Planet;
 import com.pim.stars.planets.api.extensions.GameInitializationDataNumberOfPlanets;
 import com.pim.stars.planets.imp.PlanetImp;
@@ -29,6 +30,8 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	private PlanetProperties planetProperties;
 	@Autowired
 	private PlanetRepository planetRepository;
+	@Autowired
+	private LocationInitializer locationInitializer;
 
 	final Random random = new Random();
 
@@ -40,8 +43,8 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 	@Override
 	public void initializeGame(final Game game, final GameInitializationData data) {
 		final List<String> availableNames = getAvailablePlanetNames(data);
-
 		final Collection<Planet> newPlanetCollection = new ArrayList<>();
+
 		for (int i = 0; i < gameInitializationDataNumberOfPlanets.getValue(data); i++) {
 			final String name = selectNewPlanetName(availableNames);
 			final Planet newPlanet = new PlanetImp(name, null);
@@ -49,11 +52,12 @@ public class PlanetGameInitializationPolicy implements GameInitializationPolicy 
 			newPlanetCollection.add(newPlanet);
 		}
 		persistPlanetCollection(game, newPlanetCollection);
+		locationInitializer.initializeRandomLocations(game, newPlanetCollection);
 	}
 
 	protected List<String> getAvailablePlanetNames(final GameInitializationData data) {
 		final List<String> names = new ArrayList<>(planetProperties.getNames());
-		Assert.isTrue(names.size() >= gameInitializationDataNumberOfPlanets.getValue(data),
+		Preconditions.checkArgument(names.size() >= gameInitializationDataNumberOfPlanets.getValue(data),
 				"There must be at least as many planet names as planets.");
 		return names;
 	}

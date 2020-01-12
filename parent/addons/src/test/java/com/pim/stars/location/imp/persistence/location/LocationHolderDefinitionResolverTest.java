@@ -1,10 +1,10 @@
-package com.pim.stars.location.imp;
+package com.pim.stars.location.imp.persistence.location;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import com.pim.stars.location.imp.persistence.LocationHolderDefinitionResolver;
+import com.pim.stars.location.imp.persistence.location.LocationHolderDefinitionResolver;
 
 public class LocationHolderDefinitionResolverTest {
 

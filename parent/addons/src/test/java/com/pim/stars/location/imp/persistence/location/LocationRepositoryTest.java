@@ -1,4 +1,4 @@
-package com.pim.stars.location.imp.persistence;
+package com.pim.stars.location.imp.persistence.location;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.pim.stars.location.LocationTestConfiguration;
+import com.pim.stars.location.imp.persistence.location.LocationEntity;
+import com.pim.stars.location.imp.persistence.location.LocationRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { LocationTestConfiguration.WithPersistence.class })

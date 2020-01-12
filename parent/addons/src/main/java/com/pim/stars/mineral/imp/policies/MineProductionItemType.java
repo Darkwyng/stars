@@ -47,7 +47,7 @@ public class MineProductionItemType implements ProductionItemType {
 				.addArguments(planet.getName(), String.valueOf(numberOfItems)).create();
 	}
 
-	private String getOwnerId(final Planet planet) {
+	protected String getOwnerId(final Planet planet) {
 		return planet.getOwnerId()
 				.orElseThrow(() -> new IllegalStateException(planet.getName() + " must have an owner to build mines."));
 	}

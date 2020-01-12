@@ -1,4 +1,4 @@
-package com.pim.stars.location.imp.persistence;
+package com.pim.stars.location.imp.persistence.location;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +27,7 @@ import com.pim.stars.location.api.Location;
 import com.pim.stars.location.api.LocationManager;
 import com.pim.stars.location.api.LocationProvider;
 import com.pim.stars.location.api.policies.LocationHolderDefinition;
-import com.pim.stars.location.imp.persistence.LocationPersistenceComponentTest.TestConfiguration;
+import com.pim.stars.location.imp.persistence.location.LocationPersistenceComponentTest.TestConfiguration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -134,7 +134,7 @@ public class LocationPersistenceComponentTest {
 	private <T> void assertLocationHolders(final Location location, final LocationHolderDefinition<T> definition,
 			final String... expectedIds) {
 		final String expected = Arrays.stream(expectedIds).sorted().collect(Collectors.joining(", "));
-		final String actual = location.getLocationHoldersByType(definition).map(definition::getLocationHolderId)
+		final String actual = location.getLocationHoldersByType(game, definition).map(definition::getLocationHolderId)
 				.sorted().collect(Collectors.joining(", "));
 		assertThat(actual, is(expected));
 	}
@@ -163,7 +163,7 @@ public class LocationPersistenceComponentTest {
 				}
 
 				@Override
-				public FirstTestObject toObject(final String id) {
+				public FirstTestObject toObject(Game game, final String id) {
 					return new FirstTestObject(id);
 				}
 
@@ -190,7 +190,7 @@ public class LocationPersistenceComponentTest {
 				}
 
 				@Override
-				public SecondTestObject toObject(final String id) {
+				public SecondTestObject toObject(Game game, final String id) {
 					return new SecondTestObject(id);
 				}
 			};

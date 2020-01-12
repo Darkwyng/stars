@@ -48,7 +48,7 @@ public class PlanetProductionGameGenerationPolicy implements GameGenerationPolic
 		builder.finish();
 	}
 
-	private ProductionExecutor mapQueueToExecutor(final Game game, final ProductionQueue queue) {
+	protected ProductionExecutor mapQueueToExecutor(final Game game, final ProductionQueue queue) {
 		if (queue.isEmpty()) {
 			return null;
 		} else {

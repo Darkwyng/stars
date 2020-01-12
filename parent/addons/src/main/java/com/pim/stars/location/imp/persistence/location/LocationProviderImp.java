@@ -1,4 +1,4 @@
-package com.pim.stars.location.imp.persistence;
+package com.pim.stars.location.imp.persistence.location;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

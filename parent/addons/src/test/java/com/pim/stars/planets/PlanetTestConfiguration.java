@@ -11,21 +11,25 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 import com.pim.stars.id.api.IdCreator;
+import com.pim.stars.location.api.LocationInitializer;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
 import com.pim.stars.race.api.RaceProvider;
 
-public class PlanetTestConfiguration implements PlanetConfiguration.Required {
+public class PlanetTestConfiguration {
 
 	@Bean
-	@Override
 	public IdCreator idCreator() {
 		return mock(IdCreator.class);
 	}
 
 	@Bean
-	@Override
 	public RaceProvider raceProvider() {
 		return mock(RaceProvider.class);
+	}
+
+	@Bean
+	public LocationInitializer locationInitializer() {
+		return mock(LocationInitializer.class);
 	}
 
 	@Configuration
