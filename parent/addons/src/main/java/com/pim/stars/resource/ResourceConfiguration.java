@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import com.pim.stars.effect.EffectConfiguration;
 import com.pim.stars.effect.api.EffectCalculator;
+import com.pim.stars.planets.PlanetConfiguration;
 
 public interface ResourceConfiguration {
 
@@ -18,7 +19,7 @@ public interface ResourceConfiguration {
 	}
 
 	@Configuration
-	@Import({ Provided.class, EffectConfiguration.Complete.class })
+	@Import({ Provided.class, EffectConfiguration.Complete.class, PlanetConfiguration.Complete.class })
 	public static class Complete {
 
 	}

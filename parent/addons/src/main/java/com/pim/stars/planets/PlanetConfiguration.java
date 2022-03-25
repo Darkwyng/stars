@@ -6,6 +6,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.pim.stars.cargo.CargoConfiguration;
 import com.pim.stars.dataextension.DataExtensionConfiguration;
 import com.pim.stars.location.LocationConfiguration;
 import com.pim.stars.planets.imp.persistence.PlanetRepository;
@@ -23,7 +24,7 @@ public interface PlanetConfiguration {
 
 	@Configuration
 	@Import({ Provided.class, DataExtensionConfiguration.Complete.class, RaceConfiguration.Complete.class,
-			LocationConfiguration.Complete.class })
+			LocationConfiguration.Complete.class, CargoConfiguration.Complete.class })
 	public static class Complete {
 
 	}

@@ -11,10 +11,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pim.stars.persistence.testapi.PersistenceTestConfiguration;
 import com.pim.stars.resource.ResourceConfiguration;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = ResourceConfiguration.Complete.class)
+@ContextConfiguration(classes = { ResourceConfiguration.Complete.class, PersistenceTestConfiguration.class })
 public class ResourceCompleteConfigurationTest {
 
 	@Autowired

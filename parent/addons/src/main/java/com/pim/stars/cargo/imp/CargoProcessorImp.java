@@ -26,7 +26,7 @@ public class CargoProcessorImp implements CargoProcessor {
 
 	@Override
 	public CargoHolder createCargoHolder(final Game game, final Object entity) {
-		final Supplier<Collection<CargoItem>> supplier = () -> cargoPersistenceInterface.loadItems(game, entity);
+		final Supplier<Collection<CargoItem>> supplier = () -> cargoPersistenceInterface.loadItemsForObject(game, entity);
 		final Consumer<Collection<CargoItem>> consumer = items -> cargoPersistenceInterface.persist(game, entity,
 				items);
 		return new EntityWrappingCargoHolder(supplier, consumer);

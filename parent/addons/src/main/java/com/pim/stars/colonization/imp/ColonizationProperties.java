@@ -16,4 +16,5 @@ public class ColonizationProperties {
 
 	private int defaultPlanetCapacity = 10000;
 	private int defaultInitialPopulation = 250;
+	private int colonistsPerCargoUnit = 100;
 }

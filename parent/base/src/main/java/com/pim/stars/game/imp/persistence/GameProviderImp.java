@@ -18,6 +18,11 @@ public class GameProviderImp implements GameProvider {
 	private GameRepository gameRepository;
 
 	@Override
+	public Game getGame(final String gameId, final int year) {
+		return new GameImp(gameId, year);
+	}
+
+	@Override
 	public Stream<Game> getAllGames() {
 		return gameRepository.findByIsLatest(true).stream().map(this::mapEntityToGame);
 	}
@@ -32,4 +37,5 @@ public class GameProviderImp implements GameProvider {
 	private Game mapEntityToGame(final GameEntity entity) {
 		return new GameImp(entity.getEntityId().getGameId(), entity.getEntityId().getYear());
 	}
+
 }

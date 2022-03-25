@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.pim.stars.effect.api.EffectCalculator;
+import com.pim.stars.planets.api.PlanetProvider;
 import com.pim.stars.production.api.policies.ProductionCostType;
 import com.pim.stars.production.api.policies.ProductionCostType.ProductionCostTypeFactory;
 
@@ -27,6 +28,11 @@ public class ResourceTestConfiguration implements ResourceConfiguration.Required
 	@Bean
 	public EffectCalculator effectCalculator() {
 		return mock(EffectCalculator.class);
+	}
+
+	@Bean
+	public PlanetProvider planetProvider() {
+		return mock(PlanetProvider.class);
 	}
 
 	@Configuration

@@ -11,4 +11,7 @@ public interface CargoRepository extends MongoRepository<CargoEntity, CargoEntit
 
 	@Query("{ 'entityId.gameId' : ?0, 'entityId.year' : ?1 }")
 	public Collection<CargoEntity> findByGameIdAndYear(String gameId, int year);
+
+	@Query("{ 'entityId.gameId' : ?0, 'entityId.year' : ?1, 'entityId.cargoHolderType' : ?2 }")
+	public Collection<CargoEntity> findByGameIdAndYearAndType(String gameId, int year, String cargoHolderType);
 }

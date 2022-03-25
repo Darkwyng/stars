@@ -8,21 +8,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
+import com.pim.stars.cargo.api.CargoHolder;
 import com.pim.stars.cargo.api.CargoHolder.CargoItem;
+import com.pim.stars.cargo.api.CargoItemProvider;
 import com.pim.stars.cargo.api.policies.CargoHolderDefinition;
 import com.pim.stars.cargo.api.policies.CargoType;
 import com.pim.stars.cargo.imp.AbstractCargoHolder.CargoItemImp;
+import com.pim.stars.cargo.imp.EntityWrappingCargoHolder;
 import com.pim.stars.game.api.Game;
 
 @Component
-public class CargoPersistenceInterface {
+public class CargoPersistenceInterface implements CargoItemProvider {
 
 	@Autowired
 	private CargoRepository cargoRepository;
@@ -43,14 +48,32 @@ public class CargoPersistenceInterface {
 	}
 
 	/** Read data from the database */
-	public Collection<CargoItem> loadItems(final Game game, final Object cargoHolder) {
+	public Collection<CargoItem> loadItemsForObject(final Game game, final Object cargoHolder) {
 		final CargoEntityId entityId = createEntityId(game, cargoHolder);
 		final Optional<CargoEntity> optionalEntity = cargoRepository.findById(entityId);
 
-		return optionalEntity //
-				.map(entity -> entity.getItems().stream() //
-						.map(this::initializeCargoItem).collect(toList())) //
-				.orElse(Collections.emptyList());
+		return optionalEntity.map(this::mapEntityToItems).orElse(Collections.emptyList());
+	}
+
+	/** Read data from the database */
+	@Override
+	public Map<String, CargoHolder> getItemsForCargoHolderType(final Game game,
+			final CargoHolderDefinition<? extends Object> cargoHolderDefinition) {
+
+		return cargoRepository
+				.findByGameIdAndYearAndType(game.getId(), game.getYear(), cargoHolderDefinition.getCargoHolderType())
+				.stream() //
+				.collect(Collectors.toMap( //
+						entity -> entity.getEntityId().getCargoHolderId(), //
+						entity -> {
+							final Supplier<Collection<CargoItem>> supplier = () -> mapEntityToItems(entity);
+							final Consumer<Collection<CargoItem>> consumer = items -> persist(game, entity, items);
+							return new EntityWrappingCargoHolder(supplier, consumer);
+						}));
+	}
+
+	private List<CargoItem> mapEntityToItems(final CargoEntity entity) {
+		return entity.getItems().stream().map(this::initializeCargoItem).collect(toList());
 	}
 
 	/**
