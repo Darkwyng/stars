@@ -19,4 +19,6 @@ public class GadgetProperties {
 
 	private List<String> gadgetFilePaths = Arrays.asList("com/pim/stars/gadget/imp/gadgets.xml");
 	private List<String> hullFilePaths = Arrays.asList("com/pim/stars/gadget/imp/hulls.xml");
+
+	private String markerForVeryFlexibleSlot = "Any";
 }

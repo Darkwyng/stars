@@ -16,6 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import com.pim.stars.gadget.api.types.GadgetType;
 import com.pim.stars.gadget.imp.hull.input.GadgetSlotFromXml;
@@ -23,10 +26,15 @@ import com.pim.stars.gadget.imp.types.GadgetTypeImp;
 
 public class GadgetProviderImpTest {
 
-	private final GadgetProviderImp testee = new GadgetProviderImp();
+	@Spy
+	private GadgetProperties gadgetProperties;
+
+	@InjectMocks
+	private GadgetProviderImp testee;
 
 	@BeforeEach
 	private void setUp() {
+		MockitoAnnotations.initMocks(this);
 		testee.gadgetTypeByIdMap.put("Engine", new GadgetTypeImp("Engine"));
 		testee.gadgetTypeByIdMap.put("Scanner", new GadgetTypeImp("Scanner"));
 		testee.gadgetTypeByIdMap.put("Armor", new GadgetTypeImp("Armor"));

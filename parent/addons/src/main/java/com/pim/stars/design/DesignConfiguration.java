@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.pim.stars.design.imp.persistence.DesignRepository;
+import com.pim.stars.id.IdConfiguration;
+import com.pim.stars.id.api.IdCreator;
 
 public interface DesignConfiguration {
 
@@ -19,8 +21,13 @@ public interface DesignConfiguration {
 	}
 
 	@Configuration
-	@Import({ Provided.class })
+	@Import({ Provided.class, IdConfiguration.Complete.class })
 	public static class Complete {
 
+	}
+
+	public static interface Required {
+
+		public IdCreator idCreator();
 	}
 }

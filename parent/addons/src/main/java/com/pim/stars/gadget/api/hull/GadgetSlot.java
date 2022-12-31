@@ -6,7 +6,7 @@ import com.pim.stars.gadget.api.types.GadgetType;
 
 public interface GadgetSlot {
 
-	public String getId();
+	public String getSlotId();
 
 	public int getMinimumNumberOfGadgets();
 

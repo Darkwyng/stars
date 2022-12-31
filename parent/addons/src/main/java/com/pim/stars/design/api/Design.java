@@ -1,6 +1,6 @@
 package com.pim.stars.design.api;
 
-import com.pim.stars.design.api.types.DesignType;
+import com.pim.stars.gadget.api.types.HullType;
 
 public interface Design {
 
@@ -10,5 +10,5 @@ public interface Design {
 
 	public String getOwnerId();
 
-	public DesignType getDesignType();
+	public HullType getHullType();
 }

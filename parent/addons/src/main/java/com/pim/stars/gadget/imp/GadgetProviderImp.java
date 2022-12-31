@@ -31,8 +31,6 @@ import com.pim.stars.spring.api.BeanLoader;
 @Component
 public class GadgetProviderImp implements GadgetProvider {
 
-	private static final String MARKER_FOR_VERY_FLEXIBLE_SLOT = "Any";
-
 	private Collection<Gadget> gadgets = null;
 	private Collection<Hull> hulls = null;
 
@@ -136,7 +134,7 @@ public class GadgetProviderImp implements GadgetProvider {
 		final String allowedGadgetTypeIds = slot.getAllowedGadgetTypeIds();
 		if (allowedGadgetTypeIds == null || Strings.isNullOrEmpty(allowedGadgetTypeIds.trim())) {
 			throw gadgetTypeParsingError(hullId, slot, "The list of types is empty.");
-		} else if (MARKER_FOR_VERY_FLEXIBLE_SLOT.equals(allowedGadgetTypeIds)) {
+		} else if (gadgetProperties.getMarkerForVeryFlexibleSlot().equals(allowedGadgetTypeIds)) {
 			return getGadgetTypesForVeryFlexibleSlot();
 		} else {
 			final Collection<String> unknownTypeIds = new ArrayList<>();
@@ -159,7 +157,7 @@ public class GadgetProviderImp implements GadgetProvider {
 		}
 	}
 
-	private Collection<GadgetType> getGadgetTypesForVeryFlexibleSlot() {
+	protected Collection<GadgetType> getGadgetTypesForVeryFlexibleSlot() {
 		if (gadgetTypesForVeryFlexibleSlot == null) {
 			gadgetTypesForVeryFlexibleSlot = gadgetTypeByIdMap.values().stream()
 					.filter(type -> !type.getId().equals("Engine")).collect(Collectors.toUnmodifiableList());
@@ -172,7 +170,7 @@ public class GadgetProviderImp implements GadgetProvider {
 			final String errorMessage) {
 		return new IllegalArgumentException("The alllowedGadgetTypeIds '" + slot.getAllowedGadgetTypeIds()
 				+ "' of slot '" + slot.getId() + "' of hull '" + hullId + "' could not be parsed."
-				+ " It is expected to be either '" + MARKER_FOR_VERY_FLEXIBLE_SLOT
+				+ " It is expected to be either '" + gadgetProperties.getMarkerForVeryFlexibleSlot()
 				+ "' or a comma separated list of IDs of gadget types. " + errorMessage);
 	}
 

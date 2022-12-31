@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class GadgetSlotImp implements GadgetSlot {
 
-	private final String id;
+	private final String slotId;
 
 	private final int minimumNumberOfGadgets;
 	private final int maximumNumberOfGadgets;

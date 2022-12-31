@@ -97,9 +97,9 @@ public class GadgetProviderImpComponentTest {
 		assertThrows(IllegalArgumentException.class, () -> testee.getHullById("Whrgl"));
 
 		// Check slots:
-		assertThat(frigate.getGadgetSlots(), hasItems(withId("1"), withId("2"), withId("3")));
+		assertThat(frigate.getGadgetSlots(), hasItems(withSlotId("1"), withSlotId("2"), withSlotId("3")));
 		for (final GadgetSlot slot : frigate.getGadgetSlots()) {
-			switch (slot.getId()) {
+			switch (slot.getSlotId()) {
 			case "1":
 				assertThat(slot.getAllowedGadgetTypes(), containsInAnyOrder(withId("Engine")));
 				assertThat(slot.getMinimumNumberOfGadgets(), is(1));
@@ -123,12 +123,16 @@ public class GadgetProviderImpComponentTest {
 				assertThat(slot.getMaximumNumberOfGadgets(), is(2));
 				break;
 			default:
-				fail("Unexpected slot ID: " + slot.getId());
+				fail("Unexpected slot ID: " + slot.getSlotId());
 			}
 		}
 	}
 
 	private Matcher<Object> withId(final String id) {
 		return hasProperty("id", is(id));
+	}
+
+	private Matcher<Object> withSlotId(final String id) {
+		return hasProperty("slotId", is(id));
 	}
 }

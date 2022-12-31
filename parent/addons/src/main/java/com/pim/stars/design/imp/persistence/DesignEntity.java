@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,33 +18,38 @@ public class DesignEntity {
 	@Id
 	private DesignEntityId entityId;
 	private String ownerId;
-	private String designTypeId;
 
 	private String name;
 	private String status;
 
 	private String hullId;
+	private String hullTypeId;
 	private Collection<FilledGadgetSlot> filledGadgetSlots = new ArrayList<>();
-}
 
-@Getter
-@Setter
-class FilledGadgetSlot {
+	@Getter
+	@AllArgsConstructor
+	public static class FilledGadgetSlot {
 
-	private String slotId;
-	private String gadgetId;
-	private int numberOfGadgets;
-}
+		private final String slotId;
+		private final String gadgetId;
+		private final int numberOfGadgets;
+	}
 
-@Getter
-@Setter
-class DesignEntityId {
+	@Getter
+	@AllArgsConstructor
+	public static class DesignEntityId {
 
-	private String id;
-	private String gameId;
-	private int year;
-}
+		private final String id;
+		private final String gameId;
+		private final int year;
+	}
 
-enum DesignEntityStatus {
-	EDITABLE, ACTIVE, DELETED;
+	public static enum DesignEntityStatus {
+
+		EDITABLE, ACTIVE, DELETED;
+
+		public String getId() {
+			return name();
+		}
+	}
 }

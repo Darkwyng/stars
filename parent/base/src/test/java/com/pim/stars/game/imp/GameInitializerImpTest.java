@@ -83,6 +83,14 @@ public class GameInitializerImpTest {
 	}
 
 	@Test
+	public void testThatGameObjectIsCreated() {
+		final Game game = gameProvider.getGame("myId", 2525);
+		assertThat(game.getId(), is("myId"));
+		assertThat(game.getYear(), is(2525));
+
+	}
+
+	@Test
 	public void testThatNewGameInitializationDataIsCreated() {
 		assertThat(gameInitializer.createNewGameInitializationData(), not(nullValue()));
 	}
